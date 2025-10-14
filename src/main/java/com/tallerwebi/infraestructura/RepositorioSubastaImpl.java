@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository("repositorioSubasta")
 public class RepositorioSubastaImpl implements RepositorioSubasta {
     private SessionFactory sessionFactory;
+
+    public RepositorioSubastaImpl(){}
 
     @Autowired
     public RepositorioSubastaImpl(SessionFactory sessionFactory) {this.sessionFactory = sessionFactory;}
@@ -49,5 +52,10 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
+    @Override
+    public List<Subasta> buscarSubasta(String titulo) {
+        return List.of();
+    }
+
 
 }
