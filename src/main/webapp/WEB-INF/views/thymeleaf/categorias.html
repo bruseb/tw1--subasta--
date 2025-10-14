@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>Categorías</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
 
     <!-- Boostrap core css -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
@@ -15,36 +16,9 @@
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
 </head>
 
-
 <body class="bg-white">
     <!-- Header -->
-    <header class="border-bottom border-info mb-1">
-        <nav class="navbar navbar-expand-lg container py-2">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <img class="logo-img" th:src="@{/img/logo.png}" alt="Logo" />
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContenido"
-                    aria-controls="navContenido" aria-expanded="false" aria-label="Alternar navegación">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navContenido">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <form class="d-flex" role="search">
-                            <div class="input-group">
-                                <input class="form-control" type="search" placeholder="Buscar..." aria-label="Buscar">
-                                <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
-                            </div>
-                        </form>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#">Mi perfil</a></li>
-                </ul>
-            </div>
-
-        </nav>
-
-
-    </header>
+    <div th:replace="~{fragments/header :: userHeader}"></div>
 
     <!-- categorías desde SQL-->
     <nav class="navbar navbar-expand-lg container">
@@ -64,21 +38,19 @@
                 <li class="nav-item flex-fill " th:each="categoria : ${categorias}">
                     <div class="badge-wrapper">
                         <a th:href="@{'/categorias/' + ${categoria.nombreEnUrl}}"
-                           class="nav-link px-2 py-1 text-body small "
+                           class="nav-link px-2 py-1 text-body small"
                            th:text="${categoria.nombre}">
                             Nombre categoría
                         </a>
                         <div class="badge-info">
-                            <ul>
-                                <li th:text="${categoria.nombre}">categoria</li>
-                                <li>Subcategoría 1</li>
-                                <li>Subcategoría 2</li>
-                                <li>Subcategoría 3</li>
-                                <li>Subcategoría 4</li>
-                                <li>Subcategoría 5</li>
-                                <li>Subcategoría 6</li>
-                                <li>Subcategoría 7</li>
-                                <li>Subcategoría 8</li>
+                             <ul>
+                                <li th:each="subcat : ${categoria.subcategorias}"
+                                class="list-unstyled">
+                                    <a th:text="${subcat.nombre}"
+                                       th:href="@{'/categorias/' + ${categoria.nombreEnUrl} + '/'+ ${subcat.nombreEnUrl}}"
+                                       class="text-body small fs-6 fw-semibold text-decoration-none ">
+                                    </a>
+                                </li>
                             </ul>
                             <img th:src="@{|https://picsum.photos/seed/${categoria.nombreEnUrl}/100/60|}" alt="Imagen categoría">
                         </div>
@@ -86,7 +58,7 @@
                 </li>
             </ul>
         </div>
-</section>
+    </section>
 
     <!-- Carrusel de imágenes -->
     <section class="container my-4">
@@ -243,14 +215,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-light text-center text-lg-start border-top mt-5">
-        <div class="text-center p-3">
-            © 2025 SubastARG
-        </div>
-    </footer>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
-
 
 </html>

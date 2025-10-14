@@ -11,18 +11,26 @@
 
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- custom style -->
+
+    <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">UNLAM</a>
-</nav>
+<!-- Header -->
+<div th:replace="~{fragments/header :: userHeader}"></div>
 
 <main role="main" class="container">
     <div id="newSubastabox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <form action="#" th:action="@{/crearSubasta}" method="POST" th:object="${subasta}">
+        <form action="#" th:action="@{/crearSubasta}" method="POST" th:object="${subasta}" enctype="multipart/form-data">
             <h3 class="form-signin-heading">Crear subasta</h3>
             <hr class="colorgraph"><br>
 
@@ -33,8 +41,22 @@
             <textarea  th:field="*{descripcion}" id="descripcion" class="form-control" required></textarea>
 
             <label for="estadoProducto">Estado Producto</label>
-            <input th:field="*{estadoProducto}" id="estadoProducto" class="form-control" required/>
-            <!--    TODO: Cambiarlo a una lista de posibles valores    -->
+            <select th:field="*{estadoProducto}" id="estadoProducto" class="form-control" required >
+                <option value="Nuevo; En caja" selected>Nuevo; En caja</option>
+                <option value="Nuevo; Sin caja">Nuevo; Sin caja</option>
+                <option value="Usado; Como nuevo">Usado; Como nuevo</option>
+                <option value="Usado; Buen estado">Usado; Buen estado</option>
+                <option value="Usado">Usado</option>
+                <option value="Para repuestos">Para repuestos</option>
+            </select>
+            <!--    <input th:field="*{estadoProducto}" id="estadoProducto" class="form-control" required/> -->
+
+
+            <label for="categoria">Categoria</label>
+            <select th:field="*{categoria.id}" id="categoria" class="form-control" required>
+                <option th:each="cat : ${listaCategorias}" th:value="${cat.getId()}" th:text="${cat.getNombre()}"></option>
+            </select>
+            <!--    TODO: Luego de seleccionar categoría seleccionar correspondiente subcategoría   -->
 
             <label for="precioInicial">Monto inicial de Subasta</label>
             <input type="number" th:field="*{precioInicial}" id="precioInicial" class="form-control" required/>
@@ -49,6 +71,16 @@
                 <option value="3">Prolongado (7 dia)</option>
             </select>
 
+            <!--    TODO: Posibilidad de que pueda agregar mas fotos    -->
+            <div class="form-group">
+                <label for="imagenSubasta">Foto del Producto (Max. 1)</label>
+                <input type="file" class="form-control-file" id="imagenSubasta" name="imagenSubasta" accept="image/*" required>
+            </div>
+
+            <!-- Para la gente confundida, asi se llama la foto subida:
+            <img th:if="${subasta.imagen != null}" th:src="@{/{subastaID}/image(subastaID=${subasta.id})}" class="img-thumbnail" alt="">
+            -->
+
             <button id="btn-crearSubasta" class="btn btn-lg btn-primary btn-block" Type="Submit">Crear</button>
             <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
             </p>
@@ -56,6 +88,9 @@
     </div>
 </main>
 <!-- /.container -->
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>

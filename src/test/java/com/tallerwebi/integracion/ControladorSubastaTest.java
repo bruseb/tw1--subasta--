@@ -27,7 +27,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {SpringWebTestConfig.class, HibernateTestConfig.class})
-public class ControladorCategoriasTest {
+
+public class ControladorSubastaTest {
 
     @Autowired
     private WebApplicationContext wac;
@@ -40,22 +41,12 @@ public class ControladorCategoriasTest {
     }
 
     @Test
-    public void debeRetornarLaVistaCategoriasConElModelo() throws Exception {
-        // GET /categorias
-        MvcResult result = this.mockMvc.perform(get("/categorias"))
-                .andExpect(status().isOk())
-                .andReturn();
+    public void debeRetornarModelCrearSubastas() throws Exception {
+        MvcResult result = this.mockMvc.perform(get("/nuevaSubasta"))
+                                .andExpect(status().isOk())
+                                .andReturn();
 
         ModelAndView mv = result.getModelAndView();
-        assert mv != null;
-
-        assertThat(mv.getViewName(), equalToIgnoringCase("categorias"));
-        assertThat(mv.getModel().containsKey("categorias"), is(true));
-    }
-
-    @Test
-    public void debePermitirAccederDirectoALaRutaCategorias() throws Exception {
-        this.mockMvc.perform(get("/categorias"))
-                .andExpect(status().isOk());
+        assertThat(mv.getViewName(), equalToIgnoringCase("nuevaSubasta"));
     }
 }
