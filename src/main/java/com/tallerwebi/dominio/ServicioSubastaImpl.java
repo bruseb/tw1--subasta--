@@ -30,7 +30,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     }
 
     @Override
-    public void crearSubasta(Subasta subasta, String creador, MultipartFile imagen) throws IOException {
+    public void crearSubasta(Subasta subasta,MultipartFile imagen, String creador) throws IOException {
         if(creador == null || creador.isEmpty()){
             throw new RuntimeException("Usuario no definido.");
         }
@@ -39,18 +39,27 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Imagen no definida.");
         }
 
+        if (imagen.getContentType() == null || !imagen.getContentType().startsWith("image/")) {
+            throw new RuntimeException("El archivo debe ser una imagen.");
+        }
+
         if(     subasta.getEstadoSubasta() != 0 &&
                 subasta.getEstadoSubasta() != 1 &&
                 subasta.getEstadoSubasta() != 2 &&
                 subasta.getEstadoSubasta() != 3){
-            throw new RuntimeException("Categoria no definida.");
+            throw new RuntimeException("Estado de subasta no valido.");
+        }
+
+        Usuario usuario = repositorioUsuario.buscar(creador);
+        if (usuario == null) {
+            throw new RuntimeException("Usuario inexistente.");
         }
 
         subasta.setCreador(repositorioUsuario.buscar(creador));
         subasta.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
-        subasta.setEstadoSubasta(10);
+/*        subasta.setEstadoSubasta(10);*/ // Porque despues de validar el estado, lo seteamos?
         repositorioSubasta.guardar(subasta);
     }
 

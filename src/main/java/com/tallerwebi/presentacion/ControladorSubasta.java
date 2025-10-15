@@ -39,11 +39,10 @@ public class ControladorSubasta {
         ModelMap model = new ModelMap();
         String creadorEmail = (String) request.getSession().getAttribute("USUARIO");
         try{
-            servicioSubasta.crearSubasta(subasta, creadorEmail, imagenSubasta);
+            servicioSubasta.crearSubasta(subasta,imagenSubasta, creadorEmail );
         }catch (Exception e){
             model.put("error", e.getMessage());
-            List<Categoria> cat = servicioSubasta.listarCategoriasDisponibles();
-            model.put("listaCategorias", cat);
+            model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
             return new ModelAndView("nuevaSubasta", model);
         }
         return new ModelAndView("redirect:/confirmacion-subasta");
