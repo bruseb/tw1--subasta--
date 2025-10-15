@@ -37,15 +37,16 @@ public class ControladorSubasta {
     @RequestMapping(path = "/crearSubasta", method = RequestMethod.POST)
     public ModelAndView crearSubasta(@ModelAttribute("subasta") Subasta subasta, @RequestParam("imagenSubasta") MultipartFile imagenSubasta, HttpServletRequest request) {
         ModelMap model = new ModelMap();
-        String creadorEmail = (String) request.getSession().getAttribute("USUARIO");
         try{
+            String creadorEmail = (String) request.getSession().getAttribute("USUARIO");
             servicioSubasta.crearSubasta(subasta,imagenSubasta, creadorEmail );
+            return new ModelAndView("redirect:/confirmacion-subasta");
         }catch (Exception e){
             model.put("error", e.getMessage());
             model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
             return new ModelAndView("nuevaSubasta", model);
         }
-        return new ModelAndView("redirect:/confirmacion-subasta");
+
     }
 
     @RequestMapping(value = "/{subastaID}/imagen")

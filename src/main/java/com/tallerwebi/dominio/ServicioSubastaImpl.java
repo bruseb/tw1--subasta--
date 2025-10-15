@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.RepositorioSubasta;
 import com.tallerwebi.dominio.ServicioSubasta;
 import com.tallerwebi.dominio.Subasta;
 import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.exception.UsuarioNoDefinidoException;
 import com.tallerwebi.dominio.RepositorioSubasta;
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     @Override
     public void crearSubasta(Subasta subasta,MultipartFile imagen, String creador) throws IOException {
         if(creador == null || creador.isEmpty()){
-            throw new RuntimeException("Usuario no definido.");
+            throw new UsuarioNoDefinidoException("Usuario no definido.");
         }
 
         if(imagen == null || imagen.isEmpty()){
