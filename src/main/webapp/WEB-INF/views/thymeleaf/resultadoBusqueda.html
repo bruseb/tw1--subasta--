@@ -1,40 +1,25 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Buscar Producto</title>
+    <title>Producto Buscado</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
 
-  <!-- Boostrap core css -->
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-  <!-- custom style -->
-  <link rel="stylesheet" th:href="@{/css/main.css}"/>
-
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">DC Subastas</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" th:href="@{/home}">Inicio</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/nuevaSubasta}">Subastas</a></li>
-                <li class="nav-item"><a class="nav-link active" th:href="@{/ofertas/nueva}">Ofertar</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/categorias}">Ver categorias</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Mi Perfil</a></li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+<!-- Header -->
+<div th:replace="~{fragments/header :: userHeader}"></div>
 
 <h2>Resultados para: "<span th:text="${productoBuscado}"></span>"</h2>
 <div th:if="${resultados.isEmpty()}">
@@ -49,7 +34,6 @@
         </div>
     </div>
 </div>
-<!-- /.container -->
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>

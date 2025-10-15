@@ -1,11 +1,13 @@
 package com.tallerwebi.integracion;
 
+import com.tallerwebi.dominio.Categoria;
+import com.tallerwebi.dominio.ServicioCategorias;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import com.tallerwebi.integracion.config.SpringWebTestConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -21,8 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
@@ -31,7 +37,7 @@ public class ControladorCategoriaTest {
 
     @Autowired
     private WebApplicationContext wac;
-
+@Mock private ServicioCategorias servicioCategorias;
     private MockMvc mockMvc;
 
     @BeforeEach
