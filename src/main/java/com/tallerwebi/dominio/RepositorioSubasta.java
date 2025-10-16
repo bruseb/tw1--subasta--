@@ -7,5 +7,6 @@ public interface RepositorioSubasta {
     void guardar(Subasta subasta);
     LocalDateTime obtenerTiempoFin(Integer indicador);
     Subasta obtenerSubasta(Long id);
+    List<Subasta> buscarSubasta(String titulo);
     List<Subasta> buscarSubastasPorCreador(String emailCreador);
 }

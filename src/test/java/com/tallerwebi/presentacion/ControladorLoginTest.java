@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioLogin;
-import com.tallerwebi.dominio.ServicioSubasta;
 import com.tallerwebi.dominio.Usuario;
 import com.tallerwebi.dominio.UsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,11 +27,15 @@ public class ControladorLoginTest {
 	@BeforeEach
 	public void init(){
 		datosLoginMock = new DatosLogin("dami@unlam.com", "123");
-		usuarioMock = mock(Usuario.class);
-		when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");
+		usuarioMock = new Usuario();
+        usuarioMock.setEmail("dami@unlam.com");
+        usuarioMock.setRol("ADMIN");
+
+/*		when(usuarioMock.getEmail()).thenReturn("dami@unlam.com");*/
 		requestMock = mock(HttpServletRequest.class);
 		sessionMock = mock(HttpSession.class);
 		servicioLoginMock = mock(ServicioLogin.class);
+        controladorLogin = new ControladorLogin(servicioLoginMock);
 	}
 
 	@Test
@@ -52,18 +55,20 @@ public class ControladorLoginTest {
 	@Test
 	public void loginConUsuarioYPasswordCorrectosDeberiaLLevarAHome(){
 		// preparacion
-		Usuario usuarioEncontradoMock = mock(Usuario.class);
-		when(usuarioEncontradoMock.getRol()).thenReturn("ADMIN");
+        Usuario usuarioEncontrado = new Usuario();
+        usuarioEncontrado.setRol("ADMIN");
+        when(servicioLoginMock.consultarUsuario(anyString(), anyString()))
+                .thenReturn(usuarioEncontrado);
 
 		when(requestMock.getSession()).thenReturn(sessionMock);
-		when(servicioLoginMock.consultarUsuario(anyString(), anyString())).thenReturn(usuarioEncontradoMock);
+		when(servicioLoginMock.consultarUsuario(anyString(), anyString())).thenReturn(usuarioEncontrado);
 		
 		// ejecucion
 		ModelAndView modelAndView = controladorLogin.validarLogin(datosLoginMock, requestMock);
 		
 		// validacion
-		assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/home"));
-		verify(sessionMock, times(1)).setAttribute("ROL", usuarioEncontradoMock.getRol());
+		assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/categorias"));
+		verify(sessionMock, times(1)).setAttribute("ROL", usuarioEncontrado.getRol());
 	}
 
 	@Test
