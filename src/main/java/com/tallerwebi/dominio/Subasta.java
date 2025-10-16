@@ -35,7 +35,7 @@ public class Subasta {
     public void setCreador(Usuario creador) { this.creador = creador; }
 
     public String getTitulo() { return titulo; }
-    public void setTitulo(String titulo) { this.titulo = titulo; }
+    public void setTitulo(String titulo) { this.titulo = titulo.toLowerCase(); }
 
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }

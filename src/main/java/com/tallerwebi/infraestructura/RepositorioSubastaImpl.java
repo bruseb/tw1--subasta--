@@ -7,6 +7,7 @@ import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -55,7 +56,11 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
     }
     @Override
     public List<Subasta> buscarSubasta(String titulo) {
-        return List.of();
+
+        String hql = "FROM Subasta WHERE titulo LIKE :titulo";
+        Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        query.setParameter("titulo","%" + titulo.toLowerCase() + "%");
+        return query.getResultList();
     }
 
 
