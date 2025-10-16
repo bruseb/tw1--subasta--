@@ -17,6 +17,8 @@ import java.util.List;
 public class RepositorioSubastaImpl implements RepositorioSubasta {
     private SessionFactory sessionFactory;
 
+    public RepositorioSubastaImpl(){}
+
     @Autowired
     public RepositorioSubastaImpl(SessionFactory sessionFactory) {this.sessionFactory = sessionFactory;}
 
@@ -51,6 +53,11 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
+    @Override
+    public List<Subasta> buscarSubasta(String titulo) {
+        return List.of();
+    }
+
 
     @Override
     public List<Subasta> buscarSubastasPorCreador(String emailCreador) {

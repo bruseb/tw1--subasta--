@@ -8,4 +8,5 @@ public interface RepositorioSubasta {
     LocalDateTime obtenerTiempoFin(Integer indicador);
     Subasta obtenerSubasta(Long id);
     List<Subasta> buscarSubastasPorCreador(String emailCreador);
+    List<Subasta> buscarSubasta(String titulo);
 }

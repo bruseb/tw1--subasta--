@@ -11,6 +11,7 @@ public class ServicioProducto {
     private RepositorioProducto repositorioProducto;
 
     public List<Producto> buscarProductos(String nombre){
+
         return repositorioProducto.buscarProductoPorNombre(nombre);
     }
 }

@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container py-5">
+<h2 class="text-danger">Ocurrió un error</h2>
+<p th:text="${error}">Error desconocido.</p>
+<a th:href="@{/login}" class="btn btn-primary mt-3">Volver al login</a>
+</body>
+</html>
