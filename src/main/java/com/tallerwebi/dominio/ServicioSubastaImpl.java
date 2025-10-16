@@ -60,7 +60,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         subasta.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
-/*        subasta.setEstadoSubasta(10);*/ // Porque despues de validar el estado, lo seteamos?
+        subasta.setEstadoSubasta(10);
         repositorioSubasta.guardar(subasta);
     }
 
