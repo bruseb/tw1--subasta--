@@ -61,6 +61,13 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
+
+        boolean yaExiste = repositorioSubasta.existeLaSubasta(subasta.getTitulo(), subasta.getDescripcion(),subasta.getEstadoProducto(), subasta.getCategoria(),subasta.getPrecioInicial() ,subasta.getCreador());
+
+        if(yaExiste){
+            throw new RuntimeException("Ya exite una subasta con los mismos datos");
+        }
+
         repositorioSubasta.guardar(subasta);
     }
 
