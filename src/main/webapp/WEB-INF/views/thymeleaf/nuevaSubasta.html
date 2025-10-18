@@ -59,7 +59,7 @@
             <!--    TODO: Luego de seleccionar categoría seleccionar correspondiente subcategoría   -->
 
             <label for="precioInicial">Monto inicial de Subasta</label>
-            <input type="number" th:field="*{precioInicial}" id="precioInicial" class="form-control" required/>
+            <input type="number" th:field="*{precioInicial}" id="precioInicial" class="form-control" required min="0"/>
 
             <!--    TODO: Encontrar manera de no usar el estadoSubasta y usar una variable que llegue al controlador    -->
             <label for="select_fechaFin">Duracion Subasta</label>

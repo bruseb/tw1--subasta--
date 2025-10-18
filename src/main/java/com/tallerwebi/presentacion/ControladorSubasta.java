@@ -35,18 +35,35 @@ public class ControladorSubasta {
     }
 
     @RequestMapping(path = "/crearSubasta", method = RequestMethod.POST)
-    public ModelAndView crearSubasta(@ModelAttribute("subasta") Subasta subasta, @RequestParam("imagenSubasta") MultipartFile imagenSubasta, HttpServletRequest request) {
+    public ModelAndView crearSubasta(@ModelAttribute("subasta") Subasta subasta,
+                                     @RequestParam("imagenSubasta") MultipartFile imagenSubasta,
+                                     @RequestParam("precioInicial") Float precioInicial,
+                                     HttpServletRequest request) {
         ModelMap model = new ModelMap();
         try{
+            if(precioInicial < 0){
+                model.put("error","El monto inicial no puede ser negativo");
+                model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
+                return new ModelAndView("nuevaSubasta", model);
+            }
+            subasta.setPrecioInicial(precioInicial);
+
             String creadorEmail = (String) request.getSession().getAttribute("USUARIO");
+
             servicioSubasta.crearSubasta(subasta,imagenSubasta, creadorEmail );
+
             return new ModelAndView("redirect:/confirmacion-subasta");
-        }catch (Exception e){
+
+        }catch(NumberFormatException e){
+            model.put("error","El monto ingresado no es válido");
+            model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
+            return new ModelAndView("nuevaSubasta", model);
+
+        }catch(Exception e){
             model.put("error", e.getMessage());
             model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
             return new ModelAndView("nuevaSubasta", model);
         }
-
     }
 
     @RequestMapping(value = "/{subastaID}/imagen")
