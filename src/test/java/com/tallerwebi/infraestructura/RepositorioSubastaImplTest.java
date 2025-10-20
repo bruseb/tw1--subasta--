@@ -1,4 +1,4 @@
-/*package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.RepositorioSubasta;
 import com.tallerwebi.dominio.Subasta;
@@ -127,4 +127,4 @@ public class RepositorioSubastaImplTest {
 
 
     }
-}*/
+}
