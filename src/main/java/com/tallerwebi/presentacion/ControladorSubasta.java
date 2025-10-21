@@ -36,7 +36,7 @@ public class ControladorSubasta {
 
     @RequestMapping(path = "/crearSubasta", method = RequestMethod.POST)
     public ModelAndView crearSubasta(@ModelAttribute("subasta") Subasta subasta,
-                                     @RequestParam("imagenSubasta") MultipartFile imagenSubasta,
+                                     @RequestParam("imagenSubasta") MultipartFile[] imagenSubasta,
                                      @RequestParam("precioInicial") Float precioInicial,
                                      HttpServletRequest request) {
         ModelMap model = new ModelMap();
@@ -66,17 +66,26 @@ public class ControladorSubasta {
         }
     }
 
-    @RequestMapping(value = "/{subastaID}/imagen")
-    public ResponseEntity<byte[]> getImagenSubasta(@PathVariable("subastaID") Long subastaID, HttpServletRequest request) {
-        Subasta s = servicioSubasta.buscarSubasta(subastaID);
-        if(s.getId() != null && s.getId().equals(subastaID)){
-            byte[] imagenBytes = java.util.Base64.getDecoder().decode(s.getImagen());
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.IMAGE_JPEG);
-            return new ResponseEntity<>(imagenBytes, headers, HttpStatus.OK);
+        @RequestMapping(value = "/imagen/{subastaID}/{orden}")
+        public ResponseEntity<byte[]> getImagenSubasta(@PathVariable("subastaID") Long subastaID,@PathVariable("orden") int orden, HttpServletRequest request){
+            try{
+                Subasta s = servicioSubasta.buscarSubasta(subastaID);
+                orden = orden - 1;
+                if(s.getId() != null && s.getId().equals(subastaID)) {   //CHECK QUE EXISTE LA SUBASTA
+                    List<Imagen> listaImagenes = s.getImagenes();
+                    Imagen temp = listaImagenes.get(orden);
+                    if(temp != null){
+                        byte[] imagenBytes =  java.util.Base64.getDecoder().decode(temp.getImagen());
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.IMAGE_JPEG);
+                        return new ResponseEntity<>(imagenBytes, headers, HttpStatus.OK);
+                    }
+                }
+                return new ResponseEntity<>(new byte[0], HttpStatus.NOT_FOUND );
+            }catch(Exception e){
+                return new ResponseEntity<>(new byte[0], HttpStatus.NOT_FOUND );
+            }
         }
-        return new ResponseEntity<>(new byte[0], HttpStatus.NOT_FOUND );
-    }
 
     @RequestMapping(path = "/confirmacion-subasta", method = RequestMethod.GET)
     public String confirmacionDeSubastaRealizada(Model model) {

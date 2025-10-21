@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -31,17 +32,15 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     }
 
     @Override
-    public void crearSubasta(Subasta subasta,MultipartFile imagen, String creador) throws IOException {
+    public void crearSubasta(Subasta subasta,MultipartFile[] imagenes, String creador) throws IOException {
+        List<Imagen> imagenesList  = new ArrayList<>();
+
         if(creador == null || creador.isEmpty()){
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         }
 
-        if(imagen == null || imagen.isEmpty()){
+        if(imagenes == null || imagenes.length == 0 || imagenes[0] == null || imagenes[0].isEmpty()){
             throw new RuntimeException("Imagen no definida.");
-        }
-
-        if (imagen.getContentType() == null || !imagen.getContentType().startsWith("image/")) {
-            throw new RuntimeException("El archivo debe ser una imagen.");
         }
 
         if(     subasta.getEstadoSubasta() != 0 &&
@@ -57,7 +56,6 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         }
 
         subasta.setCreador(repositorioUsuario.buscar(creador));
-        subasta.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
@@ -67,6 +65,13 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         if(yaExiste){
             throw new RuntimeException("Ya exite una subasta con los mismos datos");
         }
+        for (MultipartFile i : imagenes) {
+            Imagen temp = new Imagen();
+            temp.setImagen(Base64.getEncoder().encodeToString(i.getBytes()));
+            temp.setSubastas(subasta);
+            imagenesList.add(temp);
+        }
+        subasta.setImagenes(imagenesList);
 
         repositorioSubasta.guardar(subasta);
     }
@@ -86,5 +91,4 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         }
         return repositorioSubasta.buscarSubastasPorCreador(emailCreador);
     }
-
 }

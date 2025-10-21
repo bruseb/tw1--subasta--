@@ -52,13 +52,13 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
     }
 
     public Subasta obtenerSubasta(Long id){
-        return (Subasta) sessionFactory.getCurrentSession().createCriteria(Subasta.class)
+        final Session session = sessionFactory.getCurrentSession();
+        return (Subasta) session.createCriteria(Subasta.class)
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
     @Override
     public List<Subasta> buscarSubasta(String titulo) {
-
         String hql = "FROM Subasta WHERE titulo LIKE :titulo";
         Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
         query.setParameter("titulo","%" + titulo.toLowerCase() + "%");
@@ -74,6 +74,7 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .add(Restrictions.eq("u.email", emailCreador))
                 .list();
     }
+
     @Override
     public boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto ,Categoria categoria, Float precioInicial, Usuario creador) {
 
