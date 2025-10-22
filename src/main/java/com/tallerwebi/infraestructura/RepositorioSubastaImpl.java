@@ -53,6 +53,14 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
+
+    @Override
+    public List<Subasta> buscarTodas() {
+
+        String hql = "FROM Subasta";
+        return sessionFactory.getCurrentSession().createQuery(hql, Subasta.class).getResultList();
+    }
+
     @Override
     public List<Subasta> buscarSubasta(String titulo) {
 
