@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Resultado de búsqueda</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: userHeader}"></div>
+
+<h1>Resultado de búsqueda</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Imagen</th>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Precio Incial</th>
+            <th>Precio Actual</th>
+            <th>Creador</th>
+            <th>Inico</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="subasta : ${subastas}">
+            <td>
+                <img th:src="@{'/' + ${subasta.id} + '/imagen'}" alt="Imagen" width="100" height="100">
+            </td>
+            <td th:text="${subasta.titulo}"></td>
+            <td th:text="${subasta.descripcion}"></td>
+            <td th:text="${subasta.estadoProducto}"></td>
+            <td th:text="${subasta.precioInicial}"></td>
+            <td th:text="${subasta.precioActual}"></td>
+            <td th:text="${subasta.creador.email}"></td>
+            <td th:text="${subasta.fechaInicio}"></td>
+            <td th:text="${subasta.fechaFin}"></td>
+            <td th:text="${subasta.estadoSubasta == 10 ? 'En curso' : 'cerrada'}">
+            </td>
+            <form action="#">
+                <button type="submit">Subastar</button>
+            </form>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
