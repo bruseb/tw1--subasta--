@@ -87,7 +87,7 @@
             <img th:if="${subasta.imagen != null}" th:src="@{/{subastaID}/image(subastaID=${subasta.id})}" class="img-thumbnail" alt="">
             -->
 
-            <button id="btn-crearSubasta" class="btn btn-lg btn-primary btn-block" Type="Submit">Crear</button>
+            <button id="btn-crearSubasta" class="btn btn-lg btn-primary btn-block" type="submit">Crear</button>
             <p th:if="${error != null}" class="alert alert-danger" th:text="'Error ' + ${error}">
             </p>
         </form>
