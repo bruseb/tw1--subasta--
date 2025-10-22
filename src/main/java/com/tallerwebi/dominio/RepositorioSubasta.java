@@ -10,4 +10,6 @@ public interface RepositorioSubasta {
     Subasta obtenerSubasta(Long id);
     List<Subasta> buscarSubasta(String titulo);
     List<Subasta> buscarSubastasPorCreador(String emailCreador);
+    List<Subasta> buscarSubastasPorCategoriaId(Long idCategoria);
+    List<Subasta> buscarSubastasPorSubcategoriaId(Long idSubcategoria);
 }

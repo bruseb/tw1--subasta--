@@ -22,10 +22,12 @@ public class ControladorSubcategorias {
         this.servicioSubcategorias = servicioSubcategorias;
     }
 
-    @RequestMapping(path = "/categorias/{nombreDeCategoriaEnUrl}/{nombreDeSubcategoriaEnUrl}", method = RequestMethod.GET)
+    @RequestMapping(path = "/categorias/{nombreDeCategoriaEnUrl}/{idCategoria}/{nombreDeSubcategoriaEnUrl}/{idSubcategoria}", method = RequestMethod.GET)
 
     public String verSubcategorias(@PathVariable("nombreDeCategoriaEnUrl") String nombreDeCategoriaEnUrl,
+                                   @PathVariable("idCategoria") Long idCategoria,
                                    @PathVariable("nombreDeSubcategoriaEnUrl") String nombreDeSubcategoriaEnUrl,
+                                   @PathVariable("idSubcategoria") Long idSubcategoria,
                                    Model model) {
 
         Subcategoria subcategoria = servicioSubcategorias.buscarSubcategoriaPorNombreDeRuta(nombreDeCategoriaEnUrl,nombreDeSubcategoriaEnUrl);

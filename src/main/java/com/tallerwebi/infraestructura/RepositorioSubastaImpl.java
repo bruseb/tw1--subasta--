@@ -86,4 +86,20 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
         return count != null && count > 0;
     }
 
+    @Override
+    public List<Subasta> buscarSubastasPorCategoriaId(Long idCategoria) {
+        String hql = "FROM Subasta s WHERE s.subcategoria.categoria.id = :idCategoria";
+        Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        query.setParameter("idCategoria",idCategoria);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Subasta> buscarSubastasPorSubcategoriaId(Long idSubcategoria) {
+        String hql = "FROM Subasta s WHERE s.subcategoria.id = :idSubcategoria";
+        Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        query.setParameter("idSubcategoria",idSubcategoria);
+        return query.getResultList();
+    }
+
 }
