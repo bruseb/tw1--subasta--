@@ -1,9 +1,7 @@
 package com.tallerwebi.infraestructura;
 
 
-import com.tallerwebi.dominio.Subasta;
-import com.tallerwebi.dominio.RepositorioSubasta;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -16,6 +14,7 @@ import java.util.List;
 
 @Repository("repositorioSubasta")
 public class RepositorioSubastaImpl implements RepositorioSubasta {
+
     private SessionFactory sessionFactory;
 
     public RepositorioSubastaImpl(){}
@@ -71,6 +70,20 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .createAlias("creador", "u")
                 .add(Restrictions.eq("u.email", emailCreador))
                 .list();
+    }
+    @Override
+    public boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto , Subcategoria subcategoria, Float precioInicial, Usuario creador) {
+
+        String hql = "SELECT COUNT(s) FROM Subasta s WHERE s.titulo = :titulo AND s.descripcion = :descripcion AND s.estadoProducto = :estadoProducto AND s.subcategoria = :subcategoria AND s.precioInicial = :precioInicial AND s.creador = :creador";
+        Query<Long> query = sessionFactory.getCurrentSession().createQuery(hql,Long.class);
+        query.setParameter("titulo",titulo.toLowerCase());
+        query.setParameter("descripcion",descripcion);
+        query.setParameter("estadoProducto",estadoProducto);
+        query.setParameter("subcategoria",subcategoria);
+        query.setParameter("precioInicial",precioInicial);
+        query.setParameter("creador",creador);
+        Long count = query.uniqueResult();
+        return count != null && count > 0;
     }
 
 }
