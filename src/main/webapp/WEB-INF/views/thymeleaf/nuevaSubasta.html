@@ -49,14 +49,20 @@
                 <option value="Usado">Usado</option>
                 <option value="Para repuestos">Para repuestos</option>
             </select>
-            <!--    <input th:field="*{estadoProducto}" id="estadoProducto" class="form-control" required/> -->
 
-
-            <label for="categoria">Categoria</label>
-            <select th:field="*{categoria.id}" id="categoria" class="form-control" required>
-                <option th:each="cat : ${listaCategorias}" th:value="${cat.getId()}" th:text="${cat.getNombre()}"></option>
+            <!-- Categorías -->
+            <label for="selectDeCategoria">Categoría</label>
+            <select id="selectDeCategoria" class="form-control" required>
+                <option value="-1">Seleccione una categoría</option>
+                <option th:each="cat : ${listaCategorias}"
+                        th:value="${cat.id}"
+                        th:text="${cat.nombre}"></option>
             </select>
-            <!--    TODO: Luego de seleccionar categoría seleccionar correspondiente subcategoría   -->
+            <!-- Subcategorías -->
+            <label for="selectDeSubcategoria">Subcategoría</label>
+            <select th:field="*{subcategoria.id}" id="selectDeSubcategoria" class="form-control" required disabled>
+                <option value="-1" selected hidden>Seleccione una subcategoría</option>
+            </select>
 
             <label for="precioInicial">Monto inicial de Subasta</label>
             <input type="number" th:field="*{precioInicial}" id="precioInicial" class="form-control" required min="0"/>
@@ -94,5 +100,7 @@
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script type="module" th:src="@{js/mostrar-select-option-subcategorias.js}"></script>
+
 </body>
 </html>

@@ -3,7 +3,6 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Categoria;
 import com.tallerwebi.dominio.ServicioCategorias;
-import com.tallerwebi.dominio.ServicioSubcategorias;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +14,7 @@ public class ControladorCategorias {
 
     private final ServicioCategorias servicioCategorias;
 
-    public ControladorCategorias(ServicioCategorias servicioCategorias, ServicioSubcategorias servicioSubcategorias) {
+    public ControladorCategorias(ServicioCategorias servicioCategorias) {
         this.servicioCategorias = servicioCategorias;
     }
 

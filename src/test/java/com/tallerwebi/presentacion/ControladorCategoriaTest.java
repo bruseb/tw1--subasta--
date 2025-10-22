@@ -2,7 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Categoria;
 import com.tallerwebi.dominio.ServicioCategorias;
-import com.tallerwebi.dominio.ServicioSubcategorias;
+import com.tallerwebi.dominio.ServicioSubcategoriasImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
@@ -18,14 +18,14 @@ public class ControladorCategoriaTest {
 
     private ControladorCategorias controladorCategorias;
     private ServicioCategorias servicioCategoriasMock;
-    private ServicioSubcategorias servicioSubcategoriasMock;
+    private ServicioSubcategoriasImpl servicioSubcategoriasMock;
     private Model modelMock;
 
     @BeforeEach
     public void init() {
         servicioCategoriasMock = mock(ServicioCategorias.class);
         modelMock = mock(Model.class);
-        controladorCategorias = new ControladorCategorias(servicioCategoriasMock, servicioSubcategoriasMock);
+        controladorCategorias = new ControladorCategorias(servicioCategoriasMock);
     }
 
     @Test

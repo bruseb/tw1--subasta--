@@ -2,7 +2,6 @@ package com.tallerwebi.dominio;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "Subasta")
@@ -15,9 +14,11 @@ public class Subasta {
     private Usuario creador;
     private String titulo;
     private String descripcion;
-    @OneToOne
-    @JoinColumn(name = "categoria_id")
-    private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name="subcategoria_id", nullable=false)
+    private Subcategoria subcategoria;
+
     private String estadoProducto;
     private Float precioInicial;
     private Float precioActual; //Dependiendo de como aplicaramos el de subastar, esto se puede eliminar por un SELECT
@@ -40,8 +41,8 @@ public class Subasta {
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public Categoria getCategoria() {  return categoria; }
-    public void setCategoria(Categoria categoria) { this.categoria = categoria; }
+    public Subcategoria getSubcategoria() {  return subcategoria; }
+    public void setSubcategoria(Subcategoria subcategoria) { this.subcategoria = subcategoria; }
 
     public String getEstadoProducto() { return estadoProducto; }
     public void setEstadoProducto(String estadoProducto) { this.estadoProducto = estadoProducto; }

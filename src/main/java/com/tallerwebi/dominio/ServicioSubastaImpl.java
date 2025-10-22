@@ -18,13 +18,12 @@ import java.util.List;
 @Service("servicioSubasta")
 @Transactional
 public class ServicioSubastaImpl implements ServicioSubasta {
-
     private RepositorioSubasta repositorioSubasta;
     private RepositorioUsuario repositorioUsuario;
     private RepositorioCategorias repositorioCategorias;
 
     @Autowired
-    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta,  RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias) {
+    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta, RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias) {
         this.repositorioSubasta     = repositorioSubasta;
         this.repositorioUsuario     = repositorioUsuario;
         this.repositorioCategorias  = repositorioCategorias;
@@ -62,11 +61,6 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
         repositorioSubasta.guardar(subasta);
-    }
-
-    @Override
-    public List<Categoria> listarCategoriasDisponibles() {
-        return repositorioCategorias.listarCategorias();
     }
 
     @Override
