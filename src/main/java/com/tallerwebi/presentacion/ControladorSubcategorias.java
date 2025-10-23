@@ -1,6 +1,8 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioSubasta;
 import com.tallerwebi.dominio.ServicioSubcategorias;
+import com.tallerwebi.dominio.Subasta;
 import com.tallerwebi.dominio.Subcategoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,9 +18,11 @@ import java.util.List;
 public class ControladorSubcategorias {
 
     private final ServicioSubcategorias servicioSubcategorias;
+    private final ServicioSubasta servicioSubastas;
 
     @Autowired
-    public ControladorSubcategorias(ServicioSubcategorias servicioSubcategorias) {
+    public ControladorSubcategorias(ServicioSubcategorias servicioSubcategorias, ServicioSubasta servicioSubastas) {
+        this.servicioSubastas = servicioSubastas;
         this.servicioSubcategorias = servicioSubcategorias;
     }
 
@@ -31,7 +35,10 @@ public class ControladorSubcategorias {
                                    Model model) {
 
         Subcategoria subcategoria = servicioSubcategorias.buscarSubcategoriaPorNombreDeRuta(nombreDeCategoriaEnUrl,nombreDeSubcategoriaEnUrl);
+        List<Subasta> subastas = servicioSubastas.listarSubastasPorSubcategoriaId(idSubcategoria);
+
         model.addAttribute("subcategoria", subcategoria);
+        model.addAttribute("subastas", subastas);
 
         return "pagina-subcategoria-seleccionada";
     }

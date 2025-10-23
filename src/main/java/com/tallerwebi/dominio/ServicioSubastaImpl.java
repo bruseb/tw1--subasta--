@@ -25,7 +25,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     private PerspectiveApi perspectiveApi;
 
     @Autowired
-    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta, RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias) {
+    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta, RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias, PerspectiveApi perspectiveApi) {
         this.repositorioSubasta     = repositorioSubasta;
         this.repositorioUsuario     = repositorioUsuario;
         this.repositorioCategorias  = repositorioCategorias;
@@ -33,8 +33,9 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     }
 
     @Override
-    public void crearSubasta(Subasta subasta,MultipartFile imagen, String creador) throws IOException {
-        if(creador == null || creador.isEmpty()){
+    public void crearSubasta(Subasta subasta,MultipartFile imagen, String emailCreador) throws IOException {
+
+        if(emailCreador == null || emailCreador.isEmpty()){
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         }
 
@@ -53,22 +54,24 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Estado de subasta no valido.");
         }
 
-        Usuario usuario = repositorioUsuario.buscar(creador);
+        Usuario usuario = repositorioUsuario.buscar(emailCreador);
         if (usuario == null) {
             throw new RuntimeException("Usuario inexistente.");
         }
 
-        subasta.setCreador(repositorioUsuario.buscar(creador));
+        subasta.setCreador(usuario);
         subasta.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
 
+/*
         boolean yaExiste = repositorioSubasta.existeLaSubasta(subasta.getTitulo(), subasta.getDescripcion(),subasta.getEstadoProducto(), subasta.getSubcategoria(),subasta.getPrecioInicial() ,subasta.getCreador());
-
+*/
+/*
         if(yaExiste){
             throw new RuntimeException("Ya exite una subasta con los mismos datos");
-        }
+        }*/
 
         try{
             if(perspectiveApi.esTextoOfensivo(subasta.getTitulo()) || perspectiveApi.esTextoOfensivo(subasta.getDescripcion())){

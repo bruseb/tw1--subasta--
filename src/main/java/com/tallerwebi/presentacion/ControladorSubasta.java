@@ -73,7 +73,7 @@ public class ControladorSubasta {
         }
     }
 
-    @RequestMapping(value = "/{subastaID}/imagen")
+/*    @RequestMapping(value = "/{subastaID}/imagen")
     public ResponseEntity<byte[]> getImagenSubasta(@PathVariable("subastaID") Long subastaID, HttpServletRequest request) {
         Subasta s = servicioSubasta.buscarSubasta(subastaID);
         if(s.getId() != null && s.getId().equals(subastaID)){
@@ -83,6 +83,18 @@ public class ControladorSubasta {
             return new ResponseEntity<>(imagenBytes, headers, HttpStatus.OK);
         }
         return new ResponseEntity<>(new byte[0], HttpStatus.NOT_FOUND );
+    }*/
+    @GetMapping("/subastas/{subastaID:\\d+}/imagen")
+    public ResponseEntity<byte[]> getImagenSubasta(@PathVariable Long subastaID) {
+        Subasta s = servicioSubasta.buscarSubasta(subastaID);
+        if (s == null || s.getImagen() == null || s.getImagen().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        byte[] bytes = java.util.Base64.getDecoder().decode(s.getImagen());
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(bytes);
     }
 
     @RequestMapping(path = "/confirmacion-subasta", method = RequestMethod.GET)

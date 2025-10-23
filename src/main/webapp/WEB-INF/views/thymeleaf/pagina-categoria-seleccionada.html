@@ -25,9 +25,9 @@
 <!-- Main -->
 <main class="container my-4">
     <nav>
-        <div class="h4 pb-2 mb-4 border-bottom" th:text="${categoria.nombre}">
+        <h1 class="h4 pb-2 mb-4 border-bottom" th:text="${categoria.nombre}">
             Nombre de la categoría
-        </div>
+        </h1>
         <ul class="list-group list-group-horizontal">
             <li class="list-group-item" th:each="subcat : ${categoria.subcategorias}">
                 <a th:text="${subcat.nombre}"
@@ -40,7 +40,7 @@
     <div th:each="subasta : ${subastas}">
         <div class="card m-3" style="width: 18rem;">
 
-            <img th:src="@{'/' + ${subasta.id} + '/imagen'}" class="card-img-top" alt="Imagen de subasta">
+            <img th:src="@{'/subastas/'+ ${subasta.id}+'/imagen'}" class="card-img-top" alt="Imagen de subasta">
             <div class="card-body border-top">
             <h5 th:text="${subasta.titulo}" class="card-title text-uppercase">Título de la subasta</h5>
             <p th:text="${subasta.descripcion}" class="card-text">Descripción</p>
