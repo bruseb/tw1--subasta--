@@ -14,6 +14,7 @@
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+    <link rel="stylesheet" th:href="@{/css/listado.css}"/>
 </head>
 
 <body>
@@ -23,43 +24,19 @@
 
 <h1>Resultado de búsqueda</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>Imagen</th>
-            <th>Título</th>
-            <th>Descripción</th>
-            <th>Estado</th>
-            <th>Precio Incial</th>
-            <th>Precio Actual</th>
-            <th>Creador</th>
-            <th>Inico</th>
-            <th>Fin</th>
-            <th>Estado</th>
-            <th>Acción</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="subasta : ${subastas}">
-            <td>
-                <img th:src="@{'/' + ${subasta.id} + '/imagen'}" alt="Imagen" width="100" height="100">
-            </td>
-            <td th:text="${subasta.titulo}"></td>
-            <td th:text="${subasta.descripcion}"></td>
-            <td th:text="${subasta.estadoProducto}"></td>
-            <td th:text="${subasta.precioInicial}"></td>
-            <td th:text="${subasta.precioActual}"></td>
-            <td th:text="${subasta.creador.email}"></td>
-            <td th:text="${subasta.fechaInicio}"></td>
-            <td th:text="${subasta.fechaFin}"></td>
-            <td th:text="${subasta.estadoSubasta == 10 ? 'En curso' : 'cerrada'}">
-            </td>
-            <form action="#">
-                <button type="submit">Subastar</button>
-            </form>
-        </tr>
-    </tbody>
-</table>
+<div class="contenedor-tarjetas">
+    <form th:each="subasta : ${subastas}" th:action="@{'/subastar/' + ${subasta.id}}" method="post" class="tarjeta-form">
+        <div class="tarjeta" onclick="console.log('Subasta seleccionada');">
+            <img class="tarjeta-img" th:src="@{'/subastas/' + ${subasta.id} + '/imagen'}" alt="Imagen del producto" >
+            <div class="tarjeta-contenido">
+            <h3 th:text="${subasta.titulo}" >Título</h3>
+            <p th:text="${subasta.descripcion}">Descripción</p>
+            <p><strong>Precio:</strong><span th:text="${subasta.precioInicial}"></span></p>
+            <p><strong>Estado:</strong><span th:text="${subasta.estadoProducto}"></span></p>
+            </div>
+        </div>
+    </form>
+</div>
 
 
 <!-- Footer -->
