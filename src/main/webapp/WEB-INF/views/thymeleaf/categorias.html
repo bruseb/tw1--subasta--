@@ -48,7 +48,7 @@
                                 <li th:each="subcat : ${categoria.subcategorias}"
                                 class="list-unstyled">
                                     <a th:text="${subcat.nombre}"
-                                       th:href="@{'/categorias/' + ${categoria.nombreEnUrl} + '/' + ${categoria.id} + '/' + ${subcat.nombreEnUrl}}"
+                                       th:href="@{'/categorias/' + ${categoria.nombreEnUrl} + '/' + ${categoria.id} + '/' + ${subcat.nombreEnUrl} + '/' + ${subcat.id}}"
                                        class="text-body small fs-6 fw-semibold text-decoration-none ">
                                     </a>
                                 </li>
