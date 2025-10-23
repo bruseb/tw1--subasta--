@@ -42,6 +42,7 @@ services:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
+      CLOUDINARY_URL=cloudinary://935158844896551:nFThrKKE0XvB6YHMReTJ80upB3M@db0i8yqf2
 
 volumes:
   mysql_data:

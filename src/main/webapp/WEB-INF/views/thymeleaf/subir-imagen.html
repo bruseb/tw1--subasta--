@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <title>Subir imagen</title>
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+</head>
+<body class="container py-4">
+  <h1 class="mb-3">Subir imagen a Cloudinary</h1>
+
+  <form th:action="@{/imagen/subir}" method="post" enctype="multipart/form-data" class="row g-3">
+    <div class="col-12">
+      <input class="form-control" type="file" name="archivo" accept="image/*" required>
+    </div>
+    <div class="col-12">
+      <button class="btn btn-primary">Subir</button>
+    </div>
+  </form>
+</body>
+</html>

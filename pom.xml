@@ -20,6 +20,7 @@
         <hibernate.version>5.4.24.Final</hibernate.version>
         <playwright.version>1.36.0</playwright.version>
         <hsqldb.version>2.3.2</hsqldb.version>
+        <cloudinary.version>1.0.0</cloudinary.version>
     </properties>
 
     <dependencies>
@@ -162,6 +163,13 @@
             <scope>provided</scope>
         </dependency>
         -->
+
+        <dependency>
+            <groupId>com.cloudinary</groupId>
+            <artifactId>cloudinary-http44</artifactId>
+            <version>${cloudinary.version}</version>
+        </dependency>
+        
     </dependencies>
 
     <build>
