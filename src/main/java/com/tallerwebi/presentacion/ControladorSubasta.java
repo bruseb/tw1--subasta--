@@ -48,11 +48,7 @@ public class ControladorSubasta {
                                      HttpServletRequest request) {
         ModelMap model = new ModelMap();
         try{
-            if(precioInicial < 0){
-                model.put("error","El monto inicial no puede ser negativo");
-                model.put("listaCategorias", servicioCategorias.listarCategorias());
-                return new ModelAndView("nuevaSubasta", model);
-            }
+
             subasta.setPrecioInicial(precioInicial);
 
             String creadorEmail = (String) request.getSession().getAttribute("USUARIO");

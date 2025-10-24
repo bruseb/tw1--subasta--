@@ -58,6 +58,9 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         if (usuario == null) {
             throw new RuntimeException("Usuario inexistente.");
         }
+        if(subasta.getPrecioInicial()==null || subasta.getPrecioInicial() < 0){
+            throw new IllegalArgumentException ("El monto inicial no puede ser negativo.");
+        }
 
         subasta.setCreador(usuario);
         subasta.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
@@ -69,7 +72,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
 
 
         if(yaExiste){
-            throw new RuntimeException("Ya exite una subasta con los mismos datos");
+            throw new RuntimeException("Ya existe una subasta con los mismos datos.");
         }
 
         try{
@@ -78,7 +81,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             }
 
         } catch (IOException | InterruptedException e){
-            throw new RuntimeException("Error al analizar el contenido con Perspective API", e);
+            throw new RuntimeException("Error al analizar el contenido con Perspective API.", e);
         }
 
         repositorioSubasta.guardar(subasta);
