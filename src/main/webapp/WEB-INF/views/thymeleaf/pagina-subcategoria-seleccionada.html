@@ -25,8 +25,12 @@
     </h1>
 
     <!-- Subastas -->
-    <section  th:each="subasta : ${subastas}" class="container my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
-        <article th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></article>
+    <section class="container" >
+        <article  class="my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+            <div th:each="subasta : ${subastas}">
+                <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
+            </div>
+        </article>
     </section>
 
 </main>
