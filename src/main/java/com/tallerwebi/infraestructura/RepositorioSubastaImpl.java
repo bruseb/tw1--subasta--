@@ -64,7 +64,7 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
     @Override
     public List<Subasta> buscarSubasta(String titulo) {
 
-        String hql = "FROM Subasta WHERE titulo LIKE :titulo";
+        String hql = "FROM Subasta WHERE LOWER(titulo) LIKE :titulo";
         Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
         query.setParameter("titulo","%" + titulo.toLowerCase() + "%");
         return query.getResultList();
