@@ -65,7 +65,11 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         if(yaExiste){
             throw new RuntimeException("Ya exite una subasta con los mismos datos");
         }
+
         for (MultipartFile i : imagenes) {
+            if(i.getContentType() == null || !i.getContentType().startsWith("image/")){
+                throw new RuntimeException("El archivo debe ser una imagen.");
+            }
             Imagen temp = new Imagen();
             temp.setImagen(Base64.getEncoder().encodeToString(i.getBytes()));
             temp.setSubastas(subasta);
