@@ -24,24 +24,11 @@
         Nombre de la subcategoría
     </h1>
 
-    <div th:each="subasta : ${subastas}">
-        <div class="card m-3" style="width: 18rem;">
+    <!-- Subastas -->
+    <section  th:each="subasta : ${subastas}" class="container my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+        <article th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></article>
+    </section>
 
-            <img th:src="@{'/subastas/'+ ${subasta.id}+'/imagen'}" class="card-img-top" alt="Imagen de subasta">
-            <div class="card-body border-top">
-                <h5 th:text="${subasta.titulo}" class="card-title text-uppercase">Título de la subasta</h5>
-                <p th:text="${subasta.descripcion}" class="card-text">Descripción</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                    <p>Precio inicial: <span th:text="${subasta.precioInicial}"></span></p>
-                </li>
-                <li class="list-group-item">
-                    <p class="fw-bold"><span th:text="${subasta.estadoSubasta == 10 ? 'En curso' : 'Cerrada'}"></span></p>
-                </li>
-            </ul>
-        </div>
-    </div>
 </main>
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>

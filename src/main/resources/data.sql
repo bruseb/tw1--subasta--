@@ -111,8 +111,8 @@ INSERT INTO Subasta (
     estadoSubasta,
     imagen
 )
-VALUES (
-    (SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
+VALUES
+    ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
     'iPhone 13 128GB',
     'Equipo en excelente estado, con caja y cargador original.',
     (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
@@ -122,5 +122,28 @@ VALUES (
     '2025-10-22 09:00:00',
     DATE_ADD('2025-10-22 09:00:00', INTERVAL 72 HOUR),
     10,
-    NULL
-);
+    NULL),
+
+    ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
+     'Auriculares Sony WH-1000XM4',
+     'Auriculares inalámbricos con cancelación de ruido, excelente autonomía.',
+     (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-audio'),
+     'NUEVO', 250000.00, 250000.00, '2025-10-22 09:00:00', DATE_ADD('2025-10-22 09:00:00', INTERVAL 48 HOUR), 10, NULL),
+
+    ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
+     'Notebook Lenovo IdeaPad 3',
+     'Procesador Ryzen 5, 8GB RAM, SSD 512GB. Excelente estado.',
+     (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'ordenadores'),
+     'USADO', 320000.00, 320000.00, '2025-10-22 11:00:00', DATE_ADD('2025-10-22 11:00:00', INTERVAL 72 HOUR), 10, NULL),
+
+    ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
+     'Smart TV LG 55"',
+     'Smart TV 4K UHD con control por voz. Poco uso.',
+     (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-video'),
+     'USADO', 400000.00, 400000.00, '2025-10-22 12:00:00', DATE_ADD('2025-10-22 12:00:00', INTERVAL 72 HOUR), 10, NULL),
+
+    ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
+     'Tablet Samsung Galaxy Tab S7',
+     'Pantalla de 11", 6 GB RAM, ideal para estudiar o ver series.',
+     (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'tabletas'),
+     'USADO', 180000.00, 180000.00, '2025-10-22 10:00:00', DATE_ADD('2025-10-22 10:00:00', INTERVAL 72 HOUR), 10, NULL);

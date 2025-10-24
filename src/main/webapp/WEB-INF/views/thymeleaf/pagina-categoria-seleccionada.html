@@ -24,37 +24,25 @@
 
 <!-- Main -->
 <main class="container my-4">
-    <nav>
-        <h1 class="h4 pb-2 mb-4 border-bottom" th:text="${categoria.nombre}">
+    <!-- Navegación de subcategorías -->
+    <nav class="mb-4">
+        <h1 class="h4 pb-2 mb-3 border-bottom" th:text="${categoria.nombre}">
             Nombre de la categoría
         </h1>
-        <ul class="list-group list-group-horizontal">
+
+        <ul class="list-group list-group-horizontal flex-wrap gap-2 overflow-auto py-2 px-1">
             <li class="list-group-item" th:each="subcat : ${categoria.subcategorias}">
                 <a th:text="${subcat.nombre}"
                     th:href="@{'/categorias/' + ${categoria.nombreEnUrl} + '/' + ${categoria.id} + '/' + ${subcat.nombreEnUrl}+ '/' + ${subcat.id}}"
-                    class="text-body small fs-6 fw-semibold text-decoration-none ">Subcategoria</a>
+                    class="text-body small fs-6 fw-semibold text-decoration-none text-nowrap ">Subcategoria</a>
             </li>
         </ul>
     </nav>
 
-    <div th:each="subasta : ${subastas}">
-        <div class="card m-3" style="width: 18rem;">
-
-            <img th:src="@{'/subastas/'+ ${subasta.id}+'/imagen'}" class="card-img-top" alt="Imagen de subasta">
-            <div class="card-body border-top">
-            <h5 th:text="${subasta.titulo}" class="card-title text-uppercase">Título de la subasta</h5>
-            <p th:text="${subasta.descripcion}" class="card-text">Descripción</p>
-            </div>
-            <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <p>Precio inicial: <span th:text="${subasta.precioInicial}"></span></p>
-            </li>
-            <li class="list-group-item">
-                <p class="fw-bold"><span th:text="${subasta.estadoSubasta == 10 ? 'En curso' : 'Cerrada'}"></span></p>
-            </li>
-            </ul>
-        </div>
-    </div>
+    <!-- Subastas -->
+    <section  th:each="subasta : ${subastas}" class="container my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+        <article th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></article>
+    </section>
 </main>
 
 <!-- Footer -->
