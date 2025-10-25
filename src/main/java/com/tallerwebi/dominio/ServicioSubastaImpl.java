@@ -32,10 +32,10 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     }
 
     @Override
-    public void crearSubasta(Subasta subasta,MultipartFile[] imagenes, String creador) throws IOException {
+    public void crearSubasta(Subasta subasta,MultipartFile[] imagenes, String emailCreador) throws IOException {
         List<Imagen> imagenesList  = new ArrayList<>();
 
-        if(creador == null || creador.isEmpty()){
+        if(emailCreador == null || emailCreador.isEmpty()){
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         }
 
@@ -50,12 +50,12 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Estado de subasta no valido.");
         }
 
-        Usuario usuario = repositorioUsuario.buscar(creador);
+        Usuario usuario = repositorioUsuario.buscar(emailCreador);
         if (usuario == null) {
             throw new RuntimeException("Usuario inexistente.");
         }
 
-        subasta.setCreador(repositorioUsuario.buscar(creador));
+        subasta.setCreador(repositorioUsuario.buscar(emailCreador));
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
@@ -80,10 +80,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         repositorioSubasta.guardar(subasta);
     }
 
-    @Override
-    public List<Categoria> listarCategoriasDisponibles() {
-        return repositorioCategorias.listarCategorias();
-    }
+
 
     @Override
     public Subasta buscarSubasta(Long idSubasta) {return repositorioSubasta.obtenerSubasta(idSubasta);}

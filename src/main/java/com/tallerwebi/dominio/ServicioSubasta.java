@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface ServicioSubasta {
     void crearSubasta(Subasta subasta,MultipartFile[] imagen, String creador) throws IOException;
-    List<Categoria> listarCategoriasDisponibles();
     Subasta buscarSubasta(Long idSubasta);
     List<Subasta> listarSubastasDelUsuario(String emailCreador);
 }
