@@ -27,7 +27,7 @@
 <div class="contenedor-tarjetas">
     <form th:each="subasta : ${subastas}" th:action="@{'/subastar/' + ${subasta.id}}" method="post" class="tarjeta-form">
         <div class="tarjeta" onclick="console.log('Subasta seleccionada');">
-            <img class="tarjeta-img" th:src="@{'/subastas/' + ${subasta.id} + '/imagen'}" alt="Imagen del producto" >
+            <img class="tarjeta-img" th:src="@{'/imagen/' + ${subasta.id} + '/1'}" alt="Imagen del producto" >
             <div class="tarjeta-contenido">
             <h3 th:text="${subasta.titulo}" >Título</h3>
             <p th:text="${subasta.descripcion}">Descripción</p>

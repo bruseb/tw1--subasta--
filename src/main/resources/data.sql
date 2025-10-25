@@ -92,12 +92,13 @@ VALUES
     -- ======================
 -- Subastas
 -- ======================
-
+    /*
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE Subasta;  -- o subasta, según tu @Table(name = ...)
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- Inserción de ejemplo
+
 INSERT INTO Subasta (
     creador_id,
     titulo,
@@ -124,3 +125,4 @@ VALUES (
     10,
     NULL
 );
+*/

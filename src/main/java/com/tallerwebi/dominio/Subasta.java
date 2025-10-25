@@ -1,7 +1,12 @@
 package com.tallerwebi.dominio;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Subasta")
@@ -25,9 +30,10 @@ public class Subasta {
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin; //  Express -> Inicio + 12hr | Rapido -> Inicio + 24 hrs || Normal -> Inicio + 72 hrs || Prolongado -> Inicio + 168 hrs
     private Integer estadoSubasta;  //  10 = En curso | -1 = Cerrada
-    @Lob
-    @Column(columnDefinition = "MEDIUMBLOB")
-    private String imagen;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subasta",  fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    private List<Imagen> imagenes = new ArrayList<>();
+
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -62,7 +68,7 @@ public class Subasta {
     public Integer getEstadoSubasta() { return estadoSubasta; }
     public void setEstadoSubasta(Integer estadoSubasta) { this.estadoSubasta = estadoSubasta; }
 
-    public String getImagen() { return imagen; }
-    public void setImagen(String imagen) { this.imagen = imagen; }
+    public List<Imagen> getImagenes() { return imagenes; }
+    public void setImagenes(List<Imagen> imagenes) { this.imagenes = imagenes; }
 
 }
