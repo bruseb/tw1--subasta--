@@ -20,7 +20,7 @@ public class RepositorioSubcategoriasImpl implements RepositorioSubcategorias {
     }
 
     @Override
-    public List<Subcategoria> listarSubcategorias(){
+    public List<Subcategoria> listarTodasLasSubcategorias(){
         final var session = sessionFactory.getCurrentSession();
         return session.createQuery("from Subcategoria", Subcategoria.class).list();
     }
@@ -36,6 +36,21 @@ public class RepositorioSubcategoriasImpl implements RepositorioSubcategorias {
                 .setParameter("nombreSubcategoria", nombreDeSubcategoriaEnUrl)
                 .setParameter("nombreCategoria", nombreDeCategoriaEnUrl)
                 .uniqueResult();
+        }
+
+        @Override
+        public List<Subcategoria> listarSubcategoriasDeCategoriaSeleccionadaPorId
+                (Long idCategoria) {
+            final Session session = sessionFactory.getCurrentSession();
+            return session.createQuery(
+                            "select s from Subcategoria s " +
+                                    "join fetch s.categoria c " +
+                                    " where c.id = :idCategoria" +
+                            " order by s.nombre asc",
+
+                    Subcategoria.class)
+                    .setParameter("idCategoria", idCategoria)
+                    .list();
         }
 }
 

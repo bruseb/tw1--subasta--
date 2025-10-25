@@ -13,23 +13,30 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Controller
 public class ControladorSubasta {
 
+    private final ServicioSubcategorias servicioSubcategorias;
+    private final ServicioCategorias servicioCategorias;
     private ServicioSubasta servicioSubasta;
+    private RepositorioSubasta repositorioSubasta;
 
     @Autowired
-    public  ControladorSubasta(ServicioSubasta servicioSubasta) {
+    public  ControladorSubasta(ServicioSubasta servicioSubasta, ServicioSubcategorias servicioSubcategorias, ServicioCategorias servicioCategorias, RepositorioSubasta repositorioSubasta) {
         this.servicioSubasta = servicioSubasta;
+        this.servicioSubcategorias = servicioSubcategorias;
+        this.servicioCategorias = servicioCategorias;
+        this.repositorioSubasta = repositorioSubasta;
     }
 
     @RequestMapping(path = "/nuevaSubasta", method = RequestMethod.GET)
     public ModelAndView irANuevaSubasta() {
         ModelMap model = new ModelMap();
         model.put("subasta", new Subasta());
-        List<Categoria> cat = servicioSubasta.listarCategoriasDisponibles();
+        List<Categoria> cat = servicioCategorias.listarCategorias();
         model.put("listaCategorias", cat);
         return new ModelAndView("nuevaSubasta", model);
     }
@@ -43,7 +50,7 @@ public class ControladorSubasta {
         try{
             if(precioInicial < 0){
                 model.put("error","El monto inicial no puede ser negativo");
-                model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
+                model.put("listaCategorias", servicioCategorias.listarCategorias());
                 return new ModelAndView("nuevaSubasta", model);
             }
             subasta.setPrecioInicial(precioInicial);
@@ -56,12 +63,12 @@ public class ControladorSubasta {
 
         }catch(NumberFormatException e){
             model.put("error","El monto ingresado no es válido");
-            model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
+            model.put("listaCategorias", servicioCategorias.listarCategorias());
             return new ModelAndView("nuevaSubasta", model);
 
         }catch(Exception e){
             model.put("error", e.getMessage());
-            model.put("listaCategorias", servicioSubasta.listarCategoriasDisponibles());
+            model.put("listaCategorias", servicioCategorias.listarCategorias());
             return new ModelAndView("nuevaSubasta", model);
         }
     }
@@ -90,5 +97,19 @@ public class ControladorSubasta {
     @RequestMapping(path = "/confirmacion-subasta", method = RequestMethod.GET)
     public String confirmacionDeSubastaRealizada(Model model) {
         return "confirmacion-subasta";
+    }
+
+
+    @GetMapping ("/subastas")
+    public String listarSubastas(@RequestParam(value = "titulo", required = false) String titulo, Model model){
+        List<Subasta> subastas;
+
+        if(titulo != null && !titulo.trim().isEmpty()){
+            subastas = repositorioSubasta.buscarSubasta(titulo);
+        }else {
+            subastas = repositorioSubasta.buscarTodas();
+        }
+        model.addAttribute("subastas",subastas);
+        return "listado";
     }
 }

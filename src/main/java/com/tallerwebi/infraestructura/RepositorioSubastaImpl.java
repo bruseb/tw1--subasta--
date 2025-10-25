@@ -1,10 +1,7 @@
 package com.tallerwebi.infraestructura;
 
 
-import com.tallerwebi.dominio.Categoria;
-import com.tallerwebi.dominio.Subasta;
-import com.tallerwebi.dominio.RepositorioSubasta;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -57,9 +54,18 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
+
+    @Override
+    public List<Subasta> buscarTodas() {
+
+        String hql = "FROM Subasta";
+        return sessionFactory.getCurrentSession().createQuery(hql, Subasta.class).getResultList();
+    }
+
     @Override
     public List<Subasta> buscarSubasta(String titulo) {
-        String hql = "FROM Subasta WHERE titulo LIKE :titulo";
+
+        String hql = "FROM Subasta WHERE LOWER(titulo) LIKE :titulo";
         Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
         query.setParameter("titulo","%" + titulo.toLowerCase() + "%");
         return query.getResultList();
@@ -76,18 +82,34 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
     }
 
     @Override
-    public boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto ,Categoria categoria, Float precioInicial, Usuario creador) {
+    public boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto , Subcategoria subcategoria, Float precioInicial, Usuario creador) {
 
-        String hql = "SELECT COUNT(s) FROM Subasta s WHERE s.titulo = :titulo AND s.descripcion = :descripcion AND s.estadoProducto = :estadoProducto AND s.categoria = :categoria AND s.precioInicial = :precioInicial AND s.creador = :creador";
+        String hql = "SELECT COUNT(s) FROM Subasta s WHERE s.titulo = :titulo AND s.descripcion = :descripcion AND s.estadoProducto = :estadoProducto AND s.subcategoria = :subcategoria AND s.precioInicial = :precioInicial AND s.creador = :creador";
         Query<Long> query = sessionFactory.getCurrentSession().createQuery(hql,Long.class);
         query.setParameter("titulo",titulo.toLowerCase());
         query.setParameter("descripcion",descripcion);
         query.setParameter("estadoProducto",estadoProducto);
-        query.setParameter("categoria",categoria);
+        query.setParameter("subcategoria",subcategoria);
         query.setParameter("precioInicial",precioInicial);
         query.setParameter("creador",creador);
         Long count = query.uniqueResult();
         return count != null && count > 0;
+    }
+
+    @Override
+    public List<Subasta> buscarSubastasPorCategoriaId(Long idCategoria) {
+        String hql = "FROM Subasta s WHERE s.subcategoria.categoria.id = :idCategoria";
+        Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        query.setParameter("idCategoria",idCategoria);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Subasta> buscarSubastasPorSubcategoriaId(Long idSubcategoria) {
+        String hql = "FROM Subasta s WHERE s.subcategoria.id = :idSubcategoria";
+        Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        query.setParameter("idSubcategoria",idSubcategoria);
+        return query.getResultList();
     }
 
 }

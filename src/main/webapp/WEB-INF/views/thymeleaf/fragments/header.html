@@ -22,9 +22,9 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/nuevaSubasta}">Subastar</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/ofertar/nuevaOferta}">Ofertar</a></li>
                 <li class="nav-item">
-                    <form class="d-flex" role="search" th:action="@{/buscar}">
+                    <form class="d-flex" role="search" method="get" th:action="@{/subastas}">
                         <div class="input-group">
-                            <input  name="productoBuscado" class="form-control" type="search" placeholder="Buscar..." aria-label="Buscar">
+                            <input  name="titulo" class="form-control" type="search" placeholder="Buscar..." aria-label="Buscar">
                             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
                         </div>
                     </form>
