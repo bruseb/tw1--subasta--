@@ -49,7 +49,8 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
     }
 
     public Subasta obtenerSubasta(Long id){
-        return (Subasta) sessionFactory.getCurrentSession().createCriteria(Subasta.class)
+        final Session session = sessionFactory.getCurrentSession();
+        return (Subasta) session.createCriteria(Subasta.class)
                 .add(Restrictions.eq("id", id))
                 .uniqueResult();
     }
@@ -79,6 +80,7 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .add(Restrictions.eq("u.email", emailCreador))
                 .list();
     }
+
     @Override
     public boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto , Subcategoria subcategoria, Float precioInicial, Usuario creador) {
 

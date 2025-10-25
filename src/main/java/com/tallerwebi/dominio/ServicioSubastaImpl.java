@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -33,18 +34,15 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     }
 
     @Override
-    public void crearSubasta(Subasta subasta,MultipartFile imagen, String emailCreador) throws IOException {
+    public void crearSubasta(Subasta subasta,MultipartFile[] imagenes, String emailCreador) throws IOException {
+        List<Imagen> imagenesList  = new ArrayList<>();
 
         if(emailCreador == null || emailCreador.isEmpty()){
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         }
 
-        if(imagen == null || imagen.isEmpty()){
+        if(imagenes == null || imagenes.length == 0 || imagenes[0] == null || imagenes[0].isEmpty()){
             throw new RuntimeException("Imagen no definida.");
-        }
-
-        if (imagen.getContentType() == null || !imagen.getContentType().startsWith("image/")) {
-            throw new RuntimeException("El archivo debe ser una imagen.");
         }
 
         if(     subasta.getEstadoSubasta() != 0 &&
@@ -59,8 +57,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Usuario inexistente.");
         }
 
-        subasta.setCreador(usuario);
-        subasta.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
+        subasta.setCreador(repositorioUsuario.buscar(emailCreador));
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
@@ -71,6 +68,21 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         if(yaExiste){
             throw new RuntimeException("Ya exite una subasta con los mismos datos");
         }
+
+        for (MultipartFile i : imagenes) {
+            if(i.getContentType() == null || !i.getContentType().startsWith("image/")){
+                throw new RuntimeException("El archivo debe ser una imagen.");
+            }
+            Imagen temp = new Imagen();
+            temp.setImagen(Base64.getEncoder().encodeToString(i.getBytes()));
+            temp.setSubastas(subasta);
+            imagenesList.add(temp);
+        }
+        subasta.setImagenes(imagenesList);
+
+        repositorioSubasta.guardar(subasta);
+    }
+
 
         try{
             if(perspectiveApi.esTextoOfensivo(subasta.getTitulo()) || perspectiveApi.esTextoOfensivo(subasta.getDescripcion())){

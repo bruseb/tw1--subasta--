@@ -79,12 +79,12 @@
 
             <!--    TODO: Posibilidad de que pueda agregar mas fotos    -->
             <div class="form-group">
-                <label for="imagenSubasta">Foto del Producto (Max. 1)</label>
-                <input type="file" class="form-control-file" id="imagenSubasta" name="imagenSubasta" accept="image/*" required>
+                <label for="imagenSubasta">Foto del Producto (Max. 3)</label>
+                <input type="file" class="form-control-file" id="imagenSubasta" name="imagenSubasta" accept="image/*" multiple required>
             </div>
 
             <!-- Para la gente confundida, asi se llama la foto subida:
-            <img th:if="${subasta.imagen != null}" th:src="@{/{subastaID}/image(subastaID=${subasta.id})}" class="img-thumbnail" alt="">
+            <img th:if="${subasta.imagen != null}" th:src="@{/imagen/{subastaID}/{imagenID}(subastaID=${subasta.id})}" class="img-thumbnail" alt="">
             -->
 
             <button id="btn-crearSubasta" class="btn btn-lg btn-primary btn-block" type="submit">Crear</button>
@@ -100,6 +100,7 @@
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script type="module" th:src="@{js/subasta.js}"></script>
 <script type="module" th:src="@{js/mostrar-select-option-subcategorias.js}"></script>
 
 </body>
