@@ -69,6 +69,15 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Ya exite una subasta con los mismos datos");
         }
 
+        try{
+            if(perspectiveApi.esTextoOfensivo(subasta.getTitulo()) || perspectiveApi.esTextoOfensivo(subasta.getDescripcion())){
+                throw new RuntimeException("El título o la descripción contienen lenguaje ofensivo.");
+            }
+
+        } catch (IOException | InterruptedException e){
+            throw new RuntimeException("Error al analizar el contenido con Perspective API", e);
+        }
+
         for (MultipartFile i : imagenes) {
             if(i.getContentType() == null || !i.getContentType().startsWith("image/")){
                 throw new RuntimeException("El archivo debe ser una imagen.");
@@ -79,19 +88,6 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             imagenesList.add(temp);
         }
         subasta.setImagenes(imagenesList);
-
-        repositorioSubasta.guardar(subasta);
-    }
-
-
-        try{
-            if(perspectiveApi.esTextoOfensivo(subasta.getTitulo()) || perspectiveApi.esTextoOfensivo(subasta.getDescripcion())){
-                throw new RuntimeException("El título o la descripción contienen lenguaje ofensivo.");
-            }
-
-        } catch (IOException | InterruptedException e){
-            throw new RuntimeException("Error al analizar el contenido con Perspective API", e);
-        }
 
         repositorioSubasta.guardar(subasta);
     }
