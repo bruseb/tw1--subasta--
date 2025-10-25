@@ -22,14 +22,12 @@ public class ServicioSubastaImpl implements ServicioSubasta {
 
     private RepositorioSubasta repositorioSubasta;
     private RepositorioUsuario repositorioUsuario;
-    private RepositorioCategorias repositorioCategorias;
     private PerspectiveApi perspectiveApi;
 
     @Autowired
     public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta, RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias, PerspectiveApi perspectiveApi) {
         this.repositorioSubasta     = repositorioSubasta;
         this.repositorioUsuario     = repositorioUsuario;
-        this.repositorioCategorias  = repositorioCategorias;
         this.perspectiveApi = perspectiveApi;
     }
 
