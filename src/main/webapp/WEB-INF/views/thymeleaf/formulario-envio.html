@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Resultado de búsqueda</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/formulario-envio.css}"/>
+    <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: userHeader}"></div>
+
+<div class="container formulario-envio">
+    <h2>Simulador de Envío</h2>
+    <br>
+
+    <h5>Domicilio de entrega</h5>
+
+    <form th:action="@{/calcular-envio}" th:object="${envioPedido}" method="post">
+        <div>
+            <label>País:</label>
+            <select th:field="*{pais}" required>
+                <option value="" disabled>Seleccionar país</option>
+                <option value="Argentina">Argentina</option>
+                <option value="Brasil">Brasil</option>
+                <option value="Bolivia">Bolivia</option>
+                <option value="Chile">Chile</option>
+                <option value="Paraguay">Paraguay</option>
+                <option value="Uruguay">Uruguay</option>
+            </select>
+        </div>
+
+        <div>
+            <label>Provincia:</label>
+            <input th:field="*{provincia}">
+        </div>
+
+        <div>
+            <label>Ciudad:</label>
+            <input th:field="*{ciudad}" required>
+        </div>
+
+        <div>
+            <label>Código Postal:</label>
+            <input type="number" th:field="*{codigoPostal}" required>
+        </div>
+<br>
+        <h5>Datos del producto</h5>
+
+        <div>
+            <label>Peso(kg):</label>
+            <input type="number" step="0.1" th:field="*{peso}" required>
+        </div>
+
+        <div>
+            <label>Largo(cm):</label>
+            <input type="number" th:field="*{largo}" required>
+        </div>
+
+        <div>
+            <label>Ancho(cm):</label>
+            <input type="number" th:field="*{ancho}" required>
+        </div>
+
+        <div>
+            <label>Alto(cm):</label>
+            <input type="number" th:field="*{alto}" required>
+        </div>
+
+        <button type="submit">Calcular envío</button>
+    </form>
+
+
+    <hr>
+
+    <div th:if="${resultado}">
+        <h4>Resultado del Envío</h4>
+        <p>Tamaño del paquete: <strong th:text="${resultado.tamanio}"> </strong></p>
+        <p>Zona/pais destino: <strong th:text="${resultado.zonaDestino}"> </strong></p>
+        <p>Costo: <strong>$<span th:text="${resultado.costo}"> </span> </strong></p>
+        <p>Dias estimados de entrega: <strong> <span th:text="${resultado.diasDeEntrega}"> días</span></strong></p>
+    </div>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Boostrap core js -->
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>
