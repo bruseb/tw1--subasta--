@@ -39,13 +39,11 @@
         </ul>
     </nav>
 
-    <section th:each="subasta : ${subastas}">
-        <article class="card m-3" style="width: 18rem;">
-
-            <img th:src="@{'/subastas/'+ ${subasta.id}+'/imagen'}" class="card-img-top" alt="Imagen de subasta">
-            <div class="card-body border-top">
-            <h5 th:text="${subasta.titulo}" class="card-title text-uppercase">Título de la subasta</h5>
-            <p th:text="${subasta.descripcion}" class="card-text">Descripción</p>
+    <!-- Subastas -->
+    <section class="container" >
+        <article  class="my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+            <div th:each="subasta : ${subastas}">
+                <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
             </div>
         </article>
     </section>

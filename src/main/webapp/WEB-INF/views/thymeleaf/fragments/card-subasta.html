@@ -13,7 +13,7 @@
             <a href="#" class="text-body text-decoration-none">
                 <!-- Tiene imagen -->
                 <img th:if="${subasta.imagenes != null}"
-                     th:src="@{/imagen/${subasta.id}/1}"
+                     th:src="@{/imagen/{subastaID}/{orden}(subastaID=${subasta.id}, orden=1)}"
                      class="card-img-top img-cuadrada" alt="Imagen de subasta">
                 <!-- No tiene imagen -->
                 <img th:unless="${subasta.imagenes != null}"

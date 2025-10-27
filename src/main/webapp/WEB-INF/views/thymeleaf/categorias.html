@@ -115,7 +115,7 @@
                    class="d-block text-center text-decoration-none text-body">
 
                     <article class="cat-thumb mx-auto mb-2 rounded-circle overflow-hidden bg-red-gradient">
-                        <img th:src="@{/subastas/{id}/imagen(id=${subcatPopular.idSubastaAleatoria})}"
+                        <img th:src="@{/imagen/{id}/{orden}(id=${subcatPopular.idSubastaAleatoria}, orden=1)}"
                              src="https://picsum.photos/seed/1/100/100"
                              th:alt="${subcatPopular.nombre} + ' imagen'"
                              alt="Imagen de subcategoría popular" loading="lazy" class="w-100 h-100 object-fit-cover">
