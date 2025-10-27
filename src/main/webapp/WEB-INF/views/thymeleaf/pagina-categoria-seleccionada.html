@@ -39,8 +39,8 @@
         </ul>
     </nav>
 
-    <div th:each="subasta : ${subastas}">
-        <div class="card m-3" style="width: 18rem;">
+    <section th:each="subasta : ${subastas}">
+        <article class="card m-3" style="width: 18rem;">
 
             <img th:src="@{'/subastas/'+ ${subasta.id}+'/imagen'}" class="card-img-top" alt="Imagen de subasta">
             <div class="card-body border-top">

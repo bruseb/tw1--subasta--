@@ -12,11 +12,11 @@
         <div class="card">
             <a href="#" class="text-body text-decoration-none">
                 <!-- Tiene imagen -->
-                <img th:if="${subasta.imagen != null}"
-                     th:src="@{/subastas/{id}/imagen(id=${subasta.id})}"
+                <img th:if="${subasta.imagenes != null}"
+                     th:src="@{/imagen/${subasta.id}/1}"
                      class="card-img-top img-cuadrada" alt="Imagen de subasta">
                 <!-- No tiene imagen -->
-                <img th:unless="${subasta.imagen != null}"
+                <img th:unless="${subasta.imagenes != null}"
                      th:src="@{|https://picsum.photos/seed/${subasta.id}/60|}"
                      class="card-img-top" alt="Imagen genérica">
 
