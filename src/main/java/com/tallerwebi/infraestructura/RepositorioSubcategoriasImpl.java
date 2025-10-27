@@ -2,6 +2,7 @@ package com.tallerwebi.infraestructura;
 
 import com.tallerwebi.dominio.RepositorioSubcategorias;
 import com.tallerwebi.dominio.Subcategoria;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,18 +40,33 @@ public class RepositorioSubcategoriasImpl implements RepositorioSubcategorias {
         }
 
         @Override
-        public List<Subcategoria> listarSubcategoriasDeCategoriaSeleccionadaPorId
-                (Long idCategoria) {
+        public List<Subcategoria> listarSubcategoriasDeCategoriaSeleccionadaPorId(Long idCategoria) {
             final Session session = sessionFactory.getCurrentSession();
             return session.createQuery(
                             "select s from Subcategoria s " +
                                     "join fetch s.categoria c " +
                                     " where c.id = :idCategoria" +
-                            " order by s.nombre asc",
+                                    " order by s.nombre asc",
 
                     Subcategoria.class)
                     .setParameter("idCategoria", idCategoria)
                     .list();
+        }
+
+        @Override
+        public List<Subcategoria> listarSubcategoriasPopulares() {
+            final Session session = sessionFactory.getCurrentSession();
+            List<Subcategoria> lista =
+                    session.createQuery("select s " +
+                            "from Subcategoria s " +
+                            "join fetch s.categoria c " +
+                            "order by size(s.subastas) desc", Subcategoria.class)
+                    .setMaxResults(10)
+                    .getResultList();
+
+            // Inicializa la colección LAZY para evitar LazyInitializationException en la vista
+            lista.forEach(s -> Hibernate.initialize(s.getSubastas()));
+            return lista;
         }
 }
 
