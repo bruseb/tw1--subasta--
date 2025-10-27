@@ -68,4 +68,11 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
                 .list();
     }
 
+    @Override
+    public void actualizar(Subasta subasta) {
+
+        sessionFactory.getCurrentSession().merge(subasta);
+        ;
+    }
+
 }

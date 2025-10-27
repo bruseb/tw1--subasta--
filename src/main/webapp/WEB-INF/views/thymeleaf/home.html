@@ -31,42 +31,43 @@
 <!--                 <li class="nav-item"><a class="nav-link" th:href="@{/home}">Inicio</a></li>-->
                  <li class="nav-item"><a class="nav-link" th:href="@{/categorias}">Inicio</a></li>
                  <li class="nav-item"><a class="nav-link" th:href="@{/nuevaSubasta}">Subastas</a></li>
-                 <li class="nav-item"><a class="nav-link" th:href="@{/ofertar/nuevaOferta}">Ofertar</a></li>
-                 <li class="nav-item"><a class="nav-link" href="#">Mi Perfil</a></li>
-             </ul>
-         </div>
+                 <!--  <li class="nav-item"><a class="nav-link" th:href="@{/ofertar/nuevaOferta}">Ofertar</a></li>-->
+                 <li class="nav-item"><a class="nav-link" th:href="@{/buscarSubasta}">Ofertar</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#">Mi Perfil</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+ <main role="main" class="container">
+   <div class = "container">
+     <h1>Bienvenidos a Taller Web 1</h1>
+
+       <br><br>
+
+   </div>
+
+     <div class = "container">
+         <a href="nuevaSubasta.html" class="btn btn-lg btn-primary btn-block">Crear nueva Subasta</a>
      </div>
- </nav>
 
-<main role="main" class="container">
-  <div class = "container">
-    <h1>Bienvenidos a Taller Web 1</h1>
+     <br>
 
-      <br><br>
+   <div class = "container">
+       <a href="categorias.html" class="btn btn-lg btn-primary btn-block">Ver Categorias </a>
+   </div>
+     <br>
+     <div class = "container">
 
-  </div>
+         <a href="ofertar/nuevaOferta.html" class="btn btn-lg btn-primary btn-block">Ofertar </a>
+     </div>
 
-    <div class = "container">
-        <a href="nuevaSubasta.html" class="btn btn-lg btn-primary btn-block">Crear nueva Subasta</a>
-    </div>
+     <br>
 
-    <br>
+     <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
 
-  <div class = "container">
-      <a href="categorias.html" class="btn btn-lg btn-primary btn-block">Ver Categorias </a>
-  </div>
-    <br>
-    <div class = "container">
-
-        <a href="ofertar/nuevaOferta.html" class="btn btn-lg btn-primary btn-block">Ofertar </a>
-    </div>
-
-    <br>
-
-    <a href="login.html" class="btn btn-lg btn-primary btn-block">Volver</a>
-
-</main>
-<!-- /.container -->
+ </main>
+ <!-- /.container -->
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>

@@ -10,4 +10,5 @@ public interface ServicioSubasta {
     List<Categoria> listarCategoriasDisponibles();
     Subasta buscarSubasta(Long idSubasta);
     List<Subasta> listarSubastasDelUsuario(String emailCreador);
+
 }

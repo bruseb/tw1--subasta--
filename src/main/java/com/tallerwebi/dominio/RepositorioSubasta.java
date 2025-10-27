@@ -9,4 +9,6 @@ public interface RepositorioSubasta {
     Subasta obtenerSubasta(Long id);
     List<Subasta> buscarSubasta(String titulo);
     List<Subasta> buscarSubastasPorCreador(String emailCreador);
+
+    void actualizar(Subasta subasta);
 }

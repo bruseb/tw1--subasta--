@@ -14,8 +14,22 @@ public class Oferta {
         @OneToOne
         @JoinColumn(name = "usuario_id")
         private Usuario ofertadorID;
-        private String montoOfertado;
+        private Float montoOfertado;
         private LocalDateTime fechaOferta;
+
+    @ManyToOne(optional = false)  // varias ofertas pueden pertenecer a una subasta
+    @JoinColumn(name = "id_subasta")
+    private Subasta subasta;
+
+
+
+    public Subasta getSubasta() {
+        return subasta;
+    }
+
+    public void setSubasta(Subasta subasta) {
+        this.subasta = subasta;
+    }
 
     public Long getId() {
         return id;
@@ -41,11 +55,12 @@ public class Oferta {
         this.fechaOferta = fechaOferta;
     }
 
-    public String getMontoOfertado() {
+    public void setMontoOfertado(Float montoOfertado) {
+        this.montoOfertado = montoOfertado;
+    }
+    public Float getMontoOfertado() {
+
         return montoOfertado;
     }
 
-    public void setMontoOfertado(String montoOfertado) {
-        this.montoOfertado = montoOfertado;
-    }
 }
