@@ -35,7 +35,8 @@ public class HibernateTestConfig {
 
     @Bean
     public HibernateTransactionManager transactionManager() {
-        return new HibernateTransactionManager(sessionFactory(dataSource()).getObject());
+        HibernateTransactionManager hibernateTransactionManager = new HibernateTransactionManager(sessionFactory(dataSource()).getObject());
+        return hibernateTransactionManager;
     }
 
     private Properties hibernateProperties() {

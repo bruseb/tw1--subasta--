@@ -19,7 +19,30 @@
 <!-- Header -->
 <div th:replace="~{fragments/header :: userHeader}"></div>
 
+<main class="container my-4">
+    <h1 class="h4 pb-2 mb-4 border-bottom" th:text="${subcategoria.nombre}">
+        Nombre de la subcategoría
+    </h1>
 
+    <div th:each="subasta : ${subastas}">
+        <div class="card m-3" style="width: 18rem;">
+
+            <img th:src="@{'/imagen/' + ${subasta.id} + '/1'}" class="card-img-top" alt="Imagen de subasta">
+            <div class="card-body border-top">
+                <h5 th:text="${subasta.titulo}" class="card-title text-uppercase">Título de la subasta</h5>
+                <p th:text="${subasta.descripcion}" class="card-text">Descripción</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <p>Precio inicial: <span th:text="${subasta.precioInicial}"></span></p>
+                </li>
+                <li class="list-group-item">
+                    <p class="fw-bold"><span th:text="${subasta.estadoSubasta == 10 ? 'En curso' : 'Cerrada'}"></span></p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 

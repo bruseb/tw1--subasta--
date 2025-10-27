@@ -38,7 +38,7 @@
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item flex-fill " th:each="categoria : ${categorias}">
                     <div class="badge-wrapper">
-                        <a th:href="@{'/categorias/' + ${categoria.nombreEnUrl}}"
+                        <a th:href="@{'/categorias/' + ${categoria.nombreEnUrl} + '/' + ${categoria.id}}"
                            class="nav-link px-2 py-1 text-body small"
                            th:text="${categoria.nombre}">
                             Nombre categoría
@@ -48,7 +48,7 @@
                                 <li th:each="subcat : ${categoria.subcategorias}"
                                 class="list-unstyled">
                                     <a th:text="${subcat.nombre}"
-                                       th:href="@{'/categorias/' + ${categoria.nombreEnUrl} + '/'+ ${subcat.nombreEnUrl}}"
+                                       th:href="@{'/categorias/' + ${categoria.nombreEnUrl} + '/' + ${categoria.id} + '/' + ${subcat.nombreEnUrl} + '/' + ${subcat.id}}"
                                        class="text-body small fs-6 fw-semibold text-decoration-none ">
                                     </a>
                                 </li>

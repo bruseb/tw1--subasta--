@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -21,27 +22,25 @@ public class ServicioSubastaImpl implements ServicioSubasta {
 
     private RepositorioSubasta repositorioSubasta;
     private RepositorioUsuario repositorioUsuario;
-    private RepositorioCategorias repositorioCategorias;
+    private PerspectiveApi perspectiveApi;
 
     @Autowired
-    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta,  RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias) {
+    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta, RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias, PerspectiveApi perspectiveApi) {
         this.repositorioSubasta     = repositorioSubasta;
         this.repositorioUsuario     = repositorioUsuario;
-        this.repositorioCategorias  = repositorioCategorias;
+        this.perspectiveApi = perspectiveApi;
     }
 
     @Override
-    public void crearSubasta(Subasta subasta,MultipartFile imagen, String creador) throws IOException {
-        if(creador == null || creador.isEmpty()){
+    public void crearSubasta(Subasta subasta,MultipartFile[] imagenes, String emailCreador) throws IOException {
+        List<Imagen> imagenesList  = new ArrayList<>();
+
+        if(emailCreador == null || emailCreador.isEmpty()){
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         }
 
-        if(imagen == null || imagen.isEmpty()){
+        if(imagenes == null || imagenes.length == 0 || imagenes[0] == null || imagenes[0].isEmpty()){
             throw new RuntimeException("Imagen no definida.");
-        }
-
-        if (imagen.getContentType() == null || !imagen.getContentType().startsWith("image/")) {
-            throw new RuntimeException("El archivo debe ser una imagen.");
         }
 
         if(     subasta.getEstadoSubasta() != 0 &&
@@ -51,22 +50,47 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Estado de subasta no valido.");
         }
 
-        Usuario usuario = repositorioUsuario.buscar(creador);
+        Usuario usuario = repositorioUsuario.buscar(emailCreador);
         if (usuario == null) {
             throw new RuntimeException("Usuario inexistente.");
         }
+        if(subasta.getPrecioInicial()==null || subasta.getPrecioInicial() < 0){
+            throw new IllegalArgumentException ("El monto inicial no puede ser negativo.");
+        }
 
-        subasta.setCreador(repositorioUsuario.buscar(creador));
-        subasta.setImagen(Base64.getEncoder().encodeToString(imagen.getBytes()));
+        subasta.setCreador(repositorioUsuario.buscar(emailCreador));
         subasta.setFechaInicio();
         subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
-        repositorioSubasta.guardar(subasta);
-    }
 
-    @Override
-    public List<Categoria> listarCategoriasDisponibles() {
-        return repositorioCategorias.listarCategorias();
+        boolean yaExiste = repositorioSubasta.existeLaSubasta(subasta.getTitulo(), subasta.getDescripcion(),subasta.getEstadoProducto(), subasta.getSubcategoria(),subasta.getPrecioInicial() ,subasta.getCreador());
+
+
+        if(yaExiste){
+            throw new RuntimeException("Ya existe una subasta con los mismos datos.");
+        }
+
+        try{
+            if(perspectiveApi.esTextoOfensivo(subasta.getTitulo()) || perspectiveApi.esTextoOfensivo(subasta.getDescripcion())){
+                throw new RuntimeException("El título o la descripción contienen lenguaje ofensivo.");
+            }
+
+        } catch (IOException | InterruptedException e){
+            throw new RuntimeException("Error al analizar el contenido con Perspective API.", e);
+        }
+
+        for (MultipartFile i : imagenes) {
+            if(i.getContentType() == null || !i.getContentType().startsWith("image/")){
+                throw new RuntimeException("El archivo debe ser una imagen.");
+            }
+            Imagen temp = new Imagen();
+            temp.setImagen(Base64.getEncoder().encodeToString(i.getBytes()));
+            temp.setSubastas(subasta);
+            imagenesList.add(temp);
+        }
+        subasta.setImagenes(imagenesList);
+
+        repositorioSubasta.guardar(subasta);
     }
 
     @Override
@@ -81,5 +105,14 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     }
 
 
+    @Override
+    public List<Subasta> listarSubastasPorCategoriaId(Long idCategoria){
+        return repositorioSubasta.buscarSubastasPorCategoriaId(idCategoria);
+    }
+
+    @Override
+    public List<Subasta> listarSubastasPorSubcategoriaId(Long idSubcategoria){
+        return repositorioSubasta.buscarSubastasPorSubcategoriaId(idSubcategoria);
+    }
 
 }

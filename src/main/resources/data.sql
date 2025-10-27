@@ -37,7 +37,6 @@ VALUES
     (NULL, 'Electrodomésticos', 'electrodomesticos', 1),
     (NULL, 'Equipos de vídeo', 'equipos-de-video', 1),
     (NULL, 'Smartphones', 'smartphones', 1),
-    (NULL, 'Teléfonos móviles', 'telefonos-moviles', 1),
     (NULL, 'Otros', 'otros', 1),
 
     (NULL, 'Ropa', 'ropa', 2),
@@ -90,3 +89,40 @@ VALUES
     (NULL, 'Cuidado del cabello', 'cuidado-del-cabello', 9),
     (NULL, 'Maquillaje', 'maquillaje', 9),
     (NULL, 'Cuidado personal', 'cuidado-personal', 9);
+    -- ======================
+-- Subastas
+-- ======================
+    /*
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE Subasta;  -- o subasta, según tu @Table(name = ...)
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- Inserción de ejemplo
+
+INSERT INTO Subasta (
+    creador_id,
+    titulo,
+    descripcion,
+    subcategoria_id,
+    estadoProducto,
+    precioInicial,
+    precioActual,
+    fechaInicio,
+    fechaFin,
+    estadoSubasta,
+    imagen
+)
+VALUES (
+    (SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
+    'iPhone 13 128GB',
+    'Equipo en excelente estado, con caja y cargador original.',
+    (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
+    'USADO',
+    450000.00,
+    450000.00,
+    '2025-10-22 09:00:00',
+    DATE_ADD('2025-10-22 09:00:00', INTERVAL 72 HOUR),
+    10,
+    NULL
+);
+*/

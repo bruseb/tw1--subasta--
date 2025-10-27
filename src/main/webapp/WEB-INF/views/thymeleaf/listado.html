@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Producto Buscado</title>
+    <title>Resultado de búsqueda</title>
     <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
 
     <!-- Boostrap core css -->
@@ -14,6 +14,7 @@
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+    <link rel="stylesheet" th:href="@{/css/listado.css}"/>
 </head>
 
 <body>
@@ -21,19 +22,22 @@
 <!-- Header -->
 <div th:replace="~{fragments/header :: userHeader}"></div>
 
-<h2>Resultados para: "<span th:text="${productoBuscado}"></span>"</h2>
-<div th:if="${resultados.isEmpty()}">
-    <p>No se encontraron productos.</p>
-</div>
-<div th:each="producto : ${resultados}">
-    <div class="card mb-2">
-        <div class="card-body">
-            <h5 th:text="${producto.nombre}"></h5>
-            <p th:text="${producto.descripcion}"></p>
-            <p th:text="${producto.precio}"></p>
+<h1>Resultado de búsqueda</h1>
+
+<div class="contenedor-tarjetas">
+    <form th:each="subasta : ${subastas}" th:action="@{'/subastar/' + ${subasta.id}}" method="post" class="tarjeta-form">
+        <div class="tarjeta" onclick="console.log('Subasta seleccionada');">
+            <img class="tarjeta-img" th:src="@{'/imagen/' + ${subasta.id} + '/1'}" alt="Imagen del producto" >
+            <div class="tarjeta-contenido">
+            <h3 th:text="${subasta.titulo}" >Título</h3>
+            <p th:text="${subasta.descripcion}">Descripción</p>
+            <p><strong>Precio:</strong><span th:text="${subasta.precioInicial}"></span></p>
+            <p><strong>Estado:</strong><span th:text="${subasta.estadoProducto}"></span></p>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
+
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
