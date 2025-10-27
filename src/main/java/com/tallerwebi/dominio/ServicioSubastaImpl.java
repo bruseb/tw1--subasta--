@@ -104,6 +104,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         return repositorioSubasta.buscarSubastasPorCreador(emailCreador);
     }
 
+
     @Override
     public List<Subasta> listarSubastasPorCategoriaId(Long idCategoria){
         return repositorioSubasta.buscarSubastasPorCategoriaId(idCategoria);

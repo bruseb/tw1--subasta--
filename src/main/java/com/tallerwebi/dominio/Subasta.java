@@ -57,7 +57,9 @@ public class Subasta {
     public void setPrecioInicial(Float precioInicial) {this.precioInicial = precioInicial; }
 
     public Float getPrecioActual() { return precioActual; }
-    public void setPrecioActual(Float precioActual) {this.precioActual = precioActual; }
+    public void setPrecioActual(Float precioActual) {
+    this.precioActual=precioActual;
+    }
 
     public LocalDateTime getFechaInicio() { return fechaInicio; }
     public void setFechaInicio() {this.fechaInicio = LocalDateTime.now(); }

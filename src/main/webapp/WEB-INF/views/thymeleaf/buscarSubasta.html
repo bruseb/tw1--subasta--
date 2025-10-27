@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar subasta</title>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Buscar subasta por ID</h2>
+
+    <form th:action="@{/ofertar/buscarSubasta}" method="post">
+        <div class="mb-3">
+            <label for="idSubasta" class="form-label">ID de Subasta:</label>
+            <input type="number" class="form-control" id="idSubasta" name="idSubasta" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+
+    <div th:if="${error != null}" class="alert alert-danger mt-3" th:text="${error}"></div>
+</div>
+</body>
+</html>

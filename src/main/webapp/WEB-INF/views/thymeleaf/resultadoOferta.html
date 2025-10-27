@@ -3,36 +3,57 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Subasta confirmada</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="confirmacion.css" rel="stylesheet">
+    <title>Oferta confirmada</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
 </head>
 <body>
-<div class="confirm-card">
+
+<!-- Header -->
+    <div th:replace="~{fragments/header :: userHeader}"></div>
 
 
+<main class="d-flex flex-column justify-content-center align-items-center h-100 flex-grow-1">
+    <div class="card shadow-lg border-0 rounded-4 text-center p-4 w-75 w-md-50 w-lg-25 mx-auto">
+        <div class="card-body">
+            <div class="mb-3">
+                <i class="bi bi-check-circle-fill text-primary display-1"></i>
+            </div>
+            <h2 class="fw-bold text-primary mb-3">¡Oferta Confirmada!</h2>
+            <p class="text-muted mb-4">
+                Tu nueva subasta fue registrada correctamente en el sistema.<br>
 
-    <h1 class="fw-semibold">Subasta confirmada</h1>
-    <p class="lead">Tu oferta se registró correctamente y la subasta fue confirmada con éxito.</p>
+                Tu oferta se registró correctamente con en ID: <strong th:text="${ultimaOferta.id}"></strong>
+                para el producto <span th:text="${subastaDet.id}">.</span><br>
+                Te notificaremos si sos el ganador de la subasta! <br>
 
 
-    <div class="mb-3 text-muted small">ID de la subasta: <strong>#A-20250923-001</strong></div>
+            </p>
 
+            <div class="d-flex justify-content-center gap-3">
+                <a th:href="@{/categorias}" class="btn btn-primary px-4">
+                    Volver al Inicio
+                </a>
+                <a th:href="@{/nuevaSubasta}" class="btn btn-outline-primary px-4">
+                    Ver mis Subastas
+                </a>
 
-    <div class="d-flex justify-content-center gap-3">
-        <button type="button" class="btn btn-outline-secondary btn-volver" onclick="history.back()">Volver</button>
-        <a th:href="@{/home}" class="btn btn-success btn-volver">Ver mis subastas</a>
+            </div>
+        </div>
     </div>
-
-
-    <small class="d-block mt-3 text-muted">Si necesitas ayuda, contactá al soporte.</small>
-</div>
+</main>
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- Bootstrap JS (opcional) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
 </body>
 </html>

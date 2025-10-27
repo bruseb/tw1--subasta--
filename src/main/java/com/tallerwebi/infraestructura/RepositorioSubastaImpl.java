@@ -82,6 +82,10 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
     }
 
     @Override
+    public void actualizar(Subasta subasta) {
+
+        sessionFactory.getCurrentSession().merge(subasta);
+        ;
     public boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto , Subcategoria subcategoria, Float precioInicial, Usuario creador) {
 
         String hql = "SELECT COUNT(s) FROM Subasta s WHERE s.titulo = :titulo AND s.descripcion = :descripcion AND s.estadoProducto = :estadoProducto AND s.subcategoria = :subcategoria AND s.precioInicial = :precioInicial AND s.creador = :creador";
