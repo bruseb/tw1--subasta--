@@ -89,10 +89,11 @@ VALUES
     (NULL, 'Cuidado del cabello', 'cuidado-del-cabello', 9),
     (NULL, 'Maquillaje', 'maquillaje', 9),
     (NULL, 'Cuidado personal', 'cuidado-personal', 9);
-    -- ======================
+
+-- ======================
 -- Subastas
 -- ======================
-    /*
+
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE Subasta;  -- o subasta, según tu @Table(name = ...)
 SET FOREIGN_KEY_CHECKS = 1;
@@ -109,8 +110,7 @@ INSERT INTO Subasta (
     precioActual,
     fechaInicio,
     fechaFin,
-    estadoSubasta,
-    imagen
+    estadoSubasta
 )
 VALUES (
     (SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
@@ -122,7 +122,5 @@ VALUES (
     450000.00,
     '2025-10-22 09:00:00',
     DATE_ADD('2025-10-22 09:00:00', INTERVAL 72 HOUR),
-    10,
-    NULL
+    10
 );
-*/
