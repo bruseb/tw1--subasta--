@@ -14,7 +14,7 @@
                 <!-- Tiene imagen -->
                 <img th:if="${subasta.imagenes != null}"
                      th:src="@{/imagen/{subastaID}/{orden}(subastaID=${subasta.id}, orden=1)}"
-                     class="card-img-top img-cuadrada" alt="Imagen de subasta">
+                     class="card-img-top img-cuadrada" th:alt="'Imagen de ' + ${subasta.titulo}" alt="Imagen de subasta">
                 <!-- No tiene imagen -->
                 <img th:unless="${subasta.imagenes != null}"
                      th:src="@{|https://picsum.photos/seed/${subasta.id}/60|}"
