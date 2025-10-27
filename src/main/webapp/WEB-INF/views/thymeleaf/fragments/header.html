@@ -8,22 +8,17 @@
 
 <header th:fragment="userHeader" class="border-bottom border-info mb-1">
     <nav class="navbar navbar-expand-lg container py-2">
+
         <a class="navbar-brand d-flex align-items-center gap-2"  href="/categorias" th:href="@{/categorias}">
             <img class="logo-img" th:src="@{/img/logo.png}" alt="Logo" />
         </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContenido"
                 aria-controls="navContenido" aria-expanded="false" aria-label="Alternar navegación">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse " id="navContenido">
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/categorias}">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/nuevaSubasta}">Subastar</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/ofertar/buscarSubasta}">Ofertar</a></li>
-                </ul>
-            </div>
 
+        <section class="collapse navbar-collapse " id="navContenido">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link" th:href="@{/categorias}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/nuevaSubasta}">Subastar</a></li>
@@ -36,7 +31,6 @@
                             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
                         </div>
                     </form>
-
                 </li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/perfil}">Mi perfil</a></li>
                 <li class="nav-item" th:if="${session.email}">
@@ -45,7 +39,7 @@
                     </a>
                 </li>
             </ul>
-        </div>
+        </section>
 
     </nav>
 </header>
