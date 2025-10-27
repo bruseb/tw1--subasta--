@@ -24,6 +24,21 @@ public class Subcategoria {
     @com.fasterxml.jackson.annotation.JsonIgnore
     private List<Subasta> subastas = new ArrayList<>();
 
+    @Transient
+    public Subasta getSubastaAleatoria() {
+        if (subastas == null || subastas.isEmpty()) {
+            return null;
+        }
+        int indiceAleatorio = (int) (Math.random() * subastas.size());
+        return subastas.get(indiceAleatorio);
+    }
+
+    @Transient
+    public Long getIdSubastaAleatoria() {
+        Subasta aleatoria = getSubastaAleatoria();
+        return (aleatoria != null) ? aleatoria.getId() : null;
+    }
+
     public Long getId() {return id; }
     public void setId(Long id) {
         this.id = id;

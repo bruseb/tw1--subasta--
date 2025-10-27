@@ -1,10 +1,8 @@
 package com.tallerwebi.presentacion;
 
 import java.util.List;
-import com.tallerwebi.dominio.Subasta;
-import com.tallerwebi.dominio.Categoria;
-import com.tallerwebi.dominio.ServicioCategorias;
-import com.tallerwebi.dominio.ServicioSubasta;
+
+import com.tallerwebi.dominio.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,15 +14,21 @@ public class ControladorCategorias {
 
     private final ServicioCategorias servicioCategorias;
     private final ServicioSubasta servicioSubastas;
+    private final ServicioSubcategorias servicioSubcategorias;
 
-    public ControladorCategorias(ServicioCategorias servicioCategorias, ServicioSubasta servicioSubastas) {
+    public ControladorCategorias(ServicioCategorias servicioCategorias, ServicioSubasta servicioSubastas, ServicioSubcategorias servicioSubcategorias) {
         this.servicioCategorias = servicioCategorias;
         this.servicioSubastas = servicioSubastas;
+        this.servicioSubcategorias = servicioSubcategorias;
     }
 
     @RequestMapping(path = "/categorias", method = RequestMethod.GET)
     public String mostrarCategoriasExistentes(Model model) {
-        model.addAttribute("categorias", servicioCategorias.listarCategoriaConSubCategorias());
+        List<Subcategoria> subcategoriasPopulares = servicioSubcategorias.listarSubcategoriasPopulares();
+        List<Categoria> categorias = servicioCategorias.listarCategoriaConSubCategorias();
+
+        model.addAttribute("categorias", categorias);
+        model.addAttribute("subcategoriasPopulares", subcategoriasPopulares);
         return "categorias";
     }
 

@@ -31,4 +31,9 @@ public class ServicioSubcategoriasImpl implements ServicioSubcategorias {
     public List<Subcategoria> listarSubcategoriasSegunCategoriaId(Long idCategoria) {
         return repositorioSubcategorias.listarSubcategoriasDeCategoriaSeleccionadaPorId(idCategoria);
     }
+
+    @Override
+    public List<Subcategoria> listarSubcategoriasPopulares() {
+        return repositorioSubcategorias.listarSubcategoriasPopulares();
+    }
 }
