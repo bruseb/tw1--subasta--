@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +19,15 @@ public class Subcategoria {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "categoria_id")
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JsonIgnore
     private Categoria categoria;
 
     @OneToMany(mappedBy = "subcategoria", fetch = FetchType.LAZY)
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JsonIgnore
     private List<Subasta> subastas = new ArrayList<>();
 
     @Transient
+    @JsonIgnore
     public Subasta getSubastaAleatoria() {
         if (subastas == null || subastas.isEmpty()) {
             return null;

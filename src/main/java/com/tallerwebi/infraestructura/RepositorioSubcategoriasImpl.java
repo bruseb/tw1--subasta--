@@ -43,12 +43,13 @@ public class RepositorioSubcategoriasImpl implements RepositorioSubcategorias {
         public List<Subcategoria> listarSubcategoriasDeCategoriaSeleccionadaPorId(Long idCategoria) {
             final Session session = sessionFactory.getCurrentSession();
             return session.createQuery(
-                            "select s from Subcategoria s " +
-                                    "join fetch s.categoria c " +
-                                    " where c.id = :idCategoria" +
-                                    " order by s.nombre asc",
-
-                    Subcategoria.class)
+                            "select distinct s " +
+                                    "from Subcategoria s " +
+                                    "left join fetch s.subastas " +          // ← inicializa la colección
+                                    "where s.categoria.id = :idCategoria " + // ← no hace falta fetch a categoría
+                                    "order by s.nombre asc",
+                            Subcategoria.class
+                    )
                     .setParameter("idCategoria", idCategoria)
                     .list();
         }
