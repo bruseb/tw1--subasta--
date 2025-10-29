@@ -25,17 +25,19 @@
 <h1>Resultado de búsqueda</h1>
 
 <div class="contenedor-tarjetas">
-    <form th:each="subasta : ${subastas}" th:action="@{'/subastar/' + ${subasta.id}}" method="post" class="tarjeta-form">
-        <div class="tarjeta" onclick="console.log('Subasta seleccionada');">
+     <div th:each="subasta : ${subastas}"
+          th:onclick="|window.location.href='ofertar/nuevaOferta?idSubasta=${subasta.id}'|"
+          class="tarjeta-enlace">
+        <div class="tarjeta">
             <img class="tarjeta-img" th:src="@{'/imagen/' + ${subasta.id} + '/1'}" alt="Imagen del producto" >
             <div class="tarjeta-contenido">
-            <h3 th:text="${subasta.titulo}" >Título</h3>
-            <p th:text="${subasta.descripcion}">Descripción</p>
-            <p><strong>Precio:</strong><span th:text="${subasta.precioInicial}"></span></p>
-            <p><strong>Estado:</strong><span th:text="${subasta.estadoProducto}"></span></p>
+                <h3 th:text="${subasta.titulo}" >Título</h3>
+                <p th:text="${subasta.descripcion}">Descripción</p>
+                <p><strong>Precio:</strong><span th:text="${subasta.precioActual}"></span></p>
+                <p><strong>Estado:</strong><span th:text="${subasta.estadoProducto}"></span></p>
             </div>
         </div>
-    </form>
+     </div>
 </div>
 
 
