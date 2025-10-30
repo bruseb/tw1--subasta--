@@ -33,9 +33,10 @@ public class VistaSubcategorias extends VistaWeb{
             page.locator(selector).first().click();
         }
 
+        //Este método toma la URL actual del navegador, busca el número de subasta (idSubasta), y te devuelve ese número como texto.
         public String obtenerIdDeSubastaDesdeURL() throws java.net.URISyntaxException {
-            java.net.URI uri = new java.net.URI(page.url());
-            String query = uri.getQuery(); // ej: "idSubasta=2"
+            java.net.URI uri = new java.net.URI(page.url()); //Convierte ese texto en un objeto URI, que es una forma más cómoda de trabajar con las partes de una dirección
+            String query = uri.getQuery(); // devuelve "idSubasta=2"
 
             if (query != null && query.startsWith("idSubasta=")) {
                 return query.split("=")[1]; // devuelve "2"
