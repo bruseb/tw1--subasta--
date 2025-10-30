@@ -7,24 +7,41 @@ public class VistaSubcategorias extends VistaWeb{
 
     public VistaSubcategorias(Page page) {
     super(page);
-    page.navigate("localhost:8080/spring/subcategorias");
+    page.navigate("localhost:8080/spring/categorias/electronica/1/camaras/1");
+    }
+
+    public Page getPage() {
+        return page;
     }
 
     // Head
         public Locator tituloPagina() { return page.locator("head title"); }    
 
         // Subastas
-        public Locator cantidadDeCardsRenderizados() { return page.locator(".card-subcategoria");}
-        public Locator linksDeLasCardsDeSubcategorias() { return page.locator(".card-subcategoria a"); }
-        public Locator descripcionDeLasCardsDeSubcategorias() { return page.locator(".card-subcategoria .descripcion"); }
-        public Locator imagenesDeLasCardsDeSubcategorias() { return page.locator(".card-subcategoria img"); }      
-        public Locator formatoDePrecio() { return page.locator(".card-subcategoria .precio");   }
-        public Locator navegacionAlFormularioDeCrearSubasta() { return page.locator("text=Crear Subasta"); }
+        public Locator cantidadDeSubastasRenderizados() { return page.locator(".card-subcategoria");}
+        public Locator subastas() {return page.locator(".card.card-subcategoria");}
+        public Locator linksDeSubastas() {return page.locator(".card.card-subcategoria a");        }
+        public Locator descripcionDeSubastas() {return page.locator(".card.card-subcategoria p.descripcion-recortada");}
+        public Locator preciosDeSubastas() {return page.locator(".card.card-subcategoria h5.card-title");}
 
         public String pathActual() throws java.net.MalformedURLException {
-            return this.obtenerURLActual().getPath();
+        return this.obtenerURLActual().getPath();
         }
-        public String pathDePruebaSubcategoriaElectrodomestico() throws java.net.MalformedURLException {
-            return "/spring/categorias/electronica/1/electrodomesticos/6";
+
+        public void darClickEnLinkDeOfertarConId(int idSubasta) {
+            String selector = String.format(".card.card-subcategoria a[href='/spring/ofertar/nuevaOferta?idSubasta=%d']", idSubasta);
+            page.locator(selector).first().click();
         }
+
+        public String obtenerIdDeSubastaDesdeURL() throws java.net.URISyntaxException {
+            java.net.URI uri = new java.net.URI(page.url());
+            String query = uri.getQuery(); // ej: "idSubasta=2"
+
+            if (query != null && query.startsWith("idSubasta=")) {
+                return query.split("=")[1]; // devuelve "2"
+            }
+            return null;
+        }
+
+
     }
