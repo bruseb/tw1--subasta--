@@ -86,36 +86,13 @@
     <p>No tenés subastas creadas todavía.</p>
   </div>
 
-  <section  th:each="subasta : ${subastas}" class="container my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
-    <article th:fragment="subastaCard(subasta)" class="col">
-      <div class="card">
-        <a th:href="@{/ofertar/nuevaOferta(idSubasta=${subasta.id})}" class="text-body text-decoration-none">
-          <!-- Tiene imagen -->
-          <img th:if="${subasta.imagenes != null}"
-               th:src="@{/imagen/{subastaID}/{orden}(subastaID=${subasta.id}, orden=1)}"
-               class="card-img-top img-cuadrada" th:alt="'Imagen de ' + ${subasta.titulo}" alt="Imagen de subasta">
-          <!-- No tiene imagen -->
-          <img th:unless="${subasta.imagenes != null}"
-               th:src="@{|https://picsum.photos/seed/${subasta.id}/60|}"
-               class="card-img-top" alt="Imagen genérica">
-
-          <div class="card-body">
-            <p class="border-bottom">Ofertas: 0</p>
-
-            <h5 class="card-title" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioInicial, 2, 2)}">Precio Actual</h5>
-            <p  th:text="${subasta.descripcion}" class="card-text descripcion-recortada">Descripción de subasta</p>
-
-            <dl>
-              <dt>Precio Inicial</dt>
-              <dd class="card-text" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioInicial, 2, 2)}"></dd>
-              <dt>Precio de Compra</dt>
-              <dd class="card-text">$ 5000000,00</dd>
-            </dl>
-          </div>
-        </a>
-      </div>
-    </article>
-  </section>
+    <section class="container" >
+        <article  class="my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+            <div th:each="subasta : ${subastas}">
+                <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
+            </div>
+        </article>
+    </section>
 
 </main>
 <!-- /.container -->
