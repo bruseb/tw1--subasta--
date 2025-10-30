@@ -1,6 +1,7 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.infraestructura.RepositorioOfertaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 @RequestMapping("/ofertar")
@@ -20,15 +22,17 @@ public class ControladorOfertar {
     private final ServicioOferta servicioOferta;
     private final RepositorioUsuario repositorioUsuario;
     private final ServicioSubasta servicioSubasta;
+    private final RepositorioOfertaImpl repositorioOferta;
 
 
     @Autowired
     public ControladorOfertar(ServicioOferta servicioOferta,
                               RepositorioUsuario repositorioUsuario,
-                              ServicioSubasta servicioSubasta) {
+                              ServicioSubasta servicioSubasta, RepositorioOfertaImpl repositorioOferta) {
         this.servicioOferta = servicioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.servicioSubasta = servicioSubasta;
+        this.repositorioOferta = repositorioOferta;
     }
 
 
@@ -154,7 +158,27 @@ public class ControladorOfertar {
         model.addAttribute("oferta", new Oferta());
         return "resultadoOferta";
     }*/
-} }
+    }
+
+    @RequestMapping(value="/ultimaOferta/{idSubasta}", method = RequestMethod.GET)
+    public @ResponseBody Oferta obtenerUltimaOferta(@PathVariable Long idSubasta) {
+
+        Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
+        if (subastaDet == null) {
+            return null;
+        }
+        /*List<Oferta> listaOfertas = repositorioOferta.obtenerOfertaPorSubasta(idSubasta);
+        if(!listaOfertas.isEmpty()){
+            if(listaOfertas.size()==1){
+                return listaOfertas.get(0);
+            }else{
+                return listaOfertas.get(listaOfertas.size()-1);
+            }
+        }
+        return null;*/
+        return new Oferta();
+    }
+}
 
 
 
