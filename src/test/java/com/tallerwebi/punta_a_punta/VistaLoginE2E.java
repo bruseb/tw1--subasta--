@@ -79,10 +79,10 @@ public class VistaLoginE2E {
         entoncesDeberiaSerRedirigidoALaVistaDeCategorias();
     }
 
-    private void entoncesDeberiaVerUNLAMEnElNavbar() {
-        String texto = vistaLogin.obtenerTextoDeLaBarraDeNavegacion();
-        assertThat("UNLAM", equalToIgnoringCase(texto));
-    }
+    // private void entoncesDeberiaVerUNLAMEnElNavbar() {
+    //     String texto = vistaLogin.obtenerTextoDeLaBarraDeNavegacion();
+    //     assertThat("UNLAM", equalToIgnoringCase(texto));
+    // }
 
     private void dadoQueElUsuarioEstaEnLaVistaDeLogin() throws MalformedURLException {
         URL urlLogin = vistaLogin.obtenerURLActual();
