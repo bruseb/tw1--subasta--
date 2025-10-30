@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service("servicioOferta")
 @Transactional
@@ -66,5 +67,10 @@ public class ServicioOfertaImpl  implements ServicioOferta{
 
         return oferta;
 
+    }
+
+    @Override
+    public List<Oferta> listarOfertasSubasta(Long idSubasta){
+        return repositorioOferta.obtenerOfertaPorSubasta(idSubasta);
     }
 }
