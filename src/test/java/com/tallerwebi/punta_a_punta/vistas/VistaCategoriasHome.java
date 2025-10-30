@@ -10,6 +10,9 @@ public class VistaCategoriasHome extends VistaWeb{
         page.navigate("localhost:8080/spring/categorias");
     }
 
+    // Head
+    public Locator tituloPagina() { return page.locator("head title"); }
+
     // Navbar
     public Locator categoriasNavItems() { return page.locator("section.container-categorias .navbar-nav > li.nav-item"); }
     public Locator linksCategorias() { return page.locator("section.container-categorias .navbar-nav a.nav-link"); }

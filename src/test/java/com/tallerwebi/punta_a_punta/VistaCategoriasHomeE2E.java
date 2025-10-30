@@ -44,8 +44,6 @@ public class VistaCategoriasHomeE2E {
         context.close();
     }
 
-
-
     @Test
     void deberiaHaberAlMenosUnaCategoriasEnElNav() throws MalformedURLException {
         dadoQueElUsuarioEstaEnLaVistaDeCategorias();
