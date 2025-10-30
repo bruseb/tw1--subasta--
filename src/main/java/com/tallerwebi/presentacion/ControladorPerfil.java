@@ -51,6 +51,10 @@ public class ControladorPerfil {
 
         Usuario usuarioActual = servicioPerfil.obtenerPerfil(email);
         usuarioActual.setNombre(usuario.getNombre());
+        usuarioActual.setApellido(usuario.getApellido());
+        usuarioActual.setDireccion(usuario.getDireccion());
+        usuarioActual.setCp(usuario.getCp());
+        usuarioActual.setTelefono(usuario.getTelefono());
         servicioPerfil.actualizarPerfil(usuarioActual);
 
         return "redirect:/perfil";

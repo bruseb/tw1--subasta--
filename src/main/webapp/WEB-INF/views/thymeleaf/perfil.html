@@ -30,25 +30,55 @@
 
 <main role="main" class="container">
 
-  <h2>¡Bienvenido <span th:text="${usuario.nombre}"></span>!</h2>
+  <h2>¡Bienvenido <span th:text="${usuario.nombre}"></span> <span th:text="${usuario.apellido}"></span>!</h2>
   <p>Este es un resumen de tu perfil donde podrás ver tus datos e historial de subastas creadas.</p>
 
-  <h4>Modifica tus datos</h4>
+  <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
+    <div class="accordion-item border">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+          Modificá tus datos
+        </button>
+      </h2>
+      <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
 
-  <form th:action="@{/perfil}" th:object="${usuario}" method="post" class="p-3">
+        <form th:action="@{/perfil}" th:object="${usuario}" method="post" class="row g-3 p-3">
 
-    <div class="input-group flex-nowrap mb-3">
-      <span class="input-group-text" id="addon-wrapping-email">Email</span>
-      <input class="form-control" type="text" th:value="*{email}" aria-label="readonly input example" readonly>
+            <div class="col-md-6">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input th:field="*{nombre}" type="text" class="form-control" id="nombre">
+            </div>
+            <div class="col-md-6">
+              <label for="apellido" class="form-label">Apellido</label>
+              <input th:field="*{apellido}" type="text" class="form-control" id="apellido">
+            </div>
+            <div class="col-md-4">
+              <label for="direccion" class="form-label">Dirección</label>
+              <input th:field="*{direccion}" type="text" class="form-control" id="direccion" placeholder="Dirección">
+            </div>
+            <div class="col-md-4">
+              <label for="cp" class="form-label">Código Postal</label>
+              <input th:field="*{cp}" type="number" class="form-control" id="cp" placeholder="Código Postal">
+            </div>
+            <div class="col-md-4">
+              <label for="telefono" class="form-label">Teléfono</label>
+              <input th:field="*{telefono}" type="number" class="form-control" id="telefono" placeholder="Teléfono">
+            </div>
+            <div class="col-md-6">
+              <label for="email" class="form-label">Email</label>
+              <input th:value="*{email}" type="email" class="form-control" id="email" disabled readonly>
+            </div>
+            <div class="col-md-6">
+              <label for="dni" class="form-label">DNI</label>
+              <input th:field="*{dni}" type="number" class="form-control" id="dni" disabled readonly>
+            </div>
+
+          <button type="submit" class="btn btn-success">Guardar cambios</button>
+        </form>
+
+      </div>
     </div>
-
-    <div class="input-group flex-nowrap mb-3">
-      <span class="input-group-text" id="addon-wrapping">Nombre</span>
-      <input th:field="*{nombre}" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="addon-wrapping">
-    </div>
-
-    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-  </form>
+  </div>
 
   <h2>Historial de subastas</h2>
 
@@ -56,26 +86,36 @@
     <p>No tenés subastas creadas todavía.</p>
   </div>
 
-    <div th:each="subasta : ${subastas}">
-      <div class="card m-3" style="width: 18rem;">
-        <img th:src="@{'/imagen/' + ${subasta.id} + '/1'}" class="card-img-top" alt="Imagen de subasta">
-        <div class="card-body border-top">
-          <h5 th:text="${subasta.titulo}" class="card-title text-uppercase">Título de la subasta</h5>
-          <p th:text="${subasta.descripcion}" class="card-text">Descripción</p>
+  <section  th:each="subasta : ${subastas}" class="container my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+    <article th:fragment="subastaCard(subasta)" class="col">
+      <div class="card">
+        <a th:href="@{/ofertar/nuevaOferta(idSubasta=${subasta.id})}" class="text-body text-decoration-none">
+          <!-- Tiene imagen -->
+          <img th:if="${subasta.imagenes != null}"
+               th:src="@{/imagen/{subastaID}/{orden}(subastaID=${subasta.id}, orden=1)}"
+               class="card-img-top img-cuadrada" th:alt="'Imagen de ' + ${subasta.titulo}" alt="Imagen de subasta">
+          <!-- No tiene imagen -->
+          <img th:unless="${subasta.imagenes != null}"
+               th:src="@{|https://picsum.photos/seed/${subasta.id}/60|}"
+               class="card-img-top" alt="Imagen genérica">
 
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <p>Precio inicial: <span th:text="${subasta.precioInicial}"></span></p>
-          </li>
-          <li class="list-group-item">
-            <p class="fw-bold"><span th:text="${subasta.estadoSubasta == 10 ? 'En curso' : 'Cerrada'}"></span></p>
-          </li>
-        </ul>
+          <div class="card-body">
+            <p class="border-bottom">Ofertas: 0</p>
 
+            <h5 class="card-title" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioInicial, 2, 2)}">Precio Actual</h5>
+            <p  th:text="${subasta.descripcion}" class="card-text descripcion-recortada">Descripción de subasta</p>
+
+            <dl>
+              <dt>Precio Inicial</dt>
+              <dd class="card-text" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioInicial, 2, 2)}"></dd>
+              <dt>Precio de Compra</dt>
+              <dd class="card-text">$ 5000000,00</dd>
+            </dl>
+          </div>
+        </a>
       </div>
-
-    </div>
+    </article>
+  </section>
 
 </main>
 <!-- /.container -->
