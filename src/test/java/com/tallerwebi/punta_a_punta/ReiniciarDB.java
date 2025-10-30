@@ -3,7 +3,8 @@ package com.tallerwebi.punta_a_punta;
 import java.io.IOException;
 
 public class ReiniciarDB {
-    public static void limpiarBaseDeDatos() {
+    public static void limpiarBaseDeDatos()
+    {
         try {
             String dbHost = System.getenv("DB_HOST") != null ? System.getenv("DB_HOST") : "localhost";
             String dbPort = System.getenv("DB_PORT") != null ? System.getenv("DB_PORT") : "3306";

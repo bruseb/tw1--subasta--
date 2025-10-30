@@ -9,7 +9,7 @@
 <!-- Subastas -->
 <section  th:each="subasta : ${subastas}" class="container my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
     <article th:fragment="subastaCard(subasta)" class="col">
-        <div class="card">
+        <div class="card card-subcategoria">
             <a th:href="@{/ofertar/nuevaOferta(idSubasta=${subasta.id})}" class="text-body text-decoration-none">
                 <!-- Tiene imagen -->
                 <img th:if="${subasta.imagenes != null}"

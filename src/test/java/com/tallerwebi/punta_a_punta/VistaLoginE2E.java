@@ -48,11 +48,12 @@ public class VistaLoginE2E {
         context.close();
     }
 
+    /* El test ya no tiene sentido porque el navbar fue eliminado de la vista de login
     @Test
     void deberiaDecirUNLAMEnElNavbar() throws MalformedURLException {
         dadoQueElUsuarioEstaEnLaVistaDeLogin();
         entoncesDeberiaVerUNLAMEnElNavbar();
-    }
+    }*/
 
     @Test
     void deberiaDarUnErrorAlIntentarIniciarSesionConUnUsuarioQueNoExiste() {
@@ -65,23 +66,23 @@ public class VistaLoginE2E {
     void deberiaNavegarAlHomeSiElUsuarioExiste() throws MalformedURLException {
         dadoQueElUsuarioCargaSusDatosDeLoginCon("test@unlam.edu.ar", "test");
         cuandoElUsuarioTocaElBotonDeLogin();
-        entoncesDeberiaSerRedirigidoALaVistaDeHome();
+        entoncesDeberiaSerRedirigidoALaVistaDeCategorias();
     }
 
     @Test
     void deberiaRegistrarUnUsuarioEIniciarSesionExistosamente() throws MalformedURLException {
         dadoQueElUsuarioNavegaALaVistaDeRegistro();
-        dadoQueElUsuarioSeRegistraCon("juan@unlam.edu.ar", "123456");
+        dadoQueElUsuarioSeRegistraCon("dario@unlam.edu.ar", "123456");
         dadoQueElUsuarioEstaEnLaVistaDeLogin();
-        dadoQueElUsuarioCargaSusDatosDeLoginCon("juan@unlam.edu.ar", "123456");
+        dadoQueElUsuarioCargaSusDatosDeLoginCon("dario@unlam.edu.ar", "123456");
         cuandoElUsuarioTocaElBotonDeLogin();    
-        entoncesDeberiaSerRedirigidoALaVistaDeHome();
+        entoncesDeberiaSerRedirigidoALaVistaDeCategorias();
     }
 
-    private void entoncesDeberiaVerUNLAMEnElNavbar() {
-        String texto = vistaLogin.obtenerTextoDeLaBarraDeNavegacion();
-        assertThat("UNLAM", equalToIgnoringCase(texto));
-    }
+    // private void entoncesDeberiaVerUNLAMEnElNavbar() {
+    //     String texto = vistaLogin.obtenerTextoDeLaBarraDeNavegacion();
+    //     assertThat("UNLAM", equalToIgnoringCase(texto));
+    // }
 
     private void dadoQueElUsuarioEstaEnLaVistaDeLogin() throws MalformedURLException {
         URL urlLogin = vistaLogin.obtenerURLActual();
@@ -92,9 +93,9 @@ public class VistaLoginE2E {
         vistaLogin.darClickEnIniciarSesion();
     }
 
-    private void entoncesDeberiaSerRedirigidoALaVistaDeHome() throws MalformedURLException {
+    private void entoncesDeberiaSerRedirigidoALaVistaDeCategorias() throws MalformedURLException {
         URL url = vistaLogin.obtenerURLActual();
-        assertThat(url.getPath(), matchesPattern("^/spring/home(?:;jsessionid=[^/\\s]+)?$"));
+        assertThat(url.getPath(), matchesPattern("^/spring/categorias(?:;jsessionid=[^/\\s]+)?$"));
     }
 
     private void entoncesDeberiaVerUnMensajeDeError() {
