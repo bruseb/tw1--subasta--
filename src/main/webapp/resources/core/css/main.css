@@ -16,3 +16,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
 }
+#galeriaSubasta .carousel-item img {
+    object-fit: contain;   /* usa contain si preferís ver la imagen completa con bordes */
+    object-position: center;
+}

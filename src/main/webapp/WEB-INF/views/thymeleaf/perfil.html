@@ -57,7 +57,7 @@
   </div>
 
     <div th:each="subasta : ${subastas}">
-      <div class="card m-3" style="width: 18rem;">
+      <div class="card m-3" style="width: 18rem;" >
         <img th:src="@{'/imagen/' + ${subasta.id} + '/1'}" class="card-img-top" alt="Imagen de subasta">
         <div class="card-body border-top">
           <h5 th:text="${subasta.titulo}" class="card-title text-uppercase">Título de la subasta</h5>
