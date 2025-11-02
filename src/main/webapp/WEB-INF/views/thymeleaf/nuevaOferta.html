@@ -80,6 +80,7 @@
                 <form th:action="@{/ofertar/guardar}" th:object="${oferta}" method="post">
                     <!-- idSubasta para el @RequestParam Long idSubasta -->
                     <input type="hidden" name="idSubasta" id="idSubasta" th:value="${subastaDet.id}"/>
+                    <input type="hidden" name="fechaFin" id="fechaFin" th:value="${subastaDet.fechaFin}"/>
 
                     <div class="mb-3">
                         <small>Monto Actual de la subasta: $
@@ -141,16 +142,17 @@
     const inputMontoActual = document.querySelector("#montoActual");
     const valorIdSubasta = document.querySelector("#idSubasta");
     const valorTiempoSubasta = document.querySelector("#tiempoSubasta");
+    const valorFechaFin = document.querySelector("#fechaFin");
     const tableListaOfertas = document.querySelector("#listaOfertas");
 
     const importeMinimo = 1;
     const intervalActualizarOferta = 5000; //5 segundos
     const intervalActualizarTimer = 1000; //1 segundo
 
-    const temp = new Date();
-    const finSubasta = new Date(temp);
+    //const temp = new Date();
+    const finSubasta = new Date(valorFechaFin.value).getTime();
 
-    finSubasta.setDate(temp.getDate() + 1);
+    //finSubasta.setDate(temp.getDate() + 1);
 
     inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
 
@@ -226,10 +228,12 @@
         let ahora       = new Date().getTime();
         let diferencia  = finSubasta - ahora;
 
+        let subastaDia = Math.floor( ( diferencia / (1000 * 60 * 60 * 24) ) );
         let subastaHor = Math.floor( ( diferencia % (1000 * 60 * 60 * 24) )  / (1000 * 60 * 60) );
         let subastaMin = Math.floor( ( diferencia % (1000 * 60 * 60) )  / (1000 * 60) );
         let subastaSeg = Math.floor( ( diferencia % (1000 * 60) )  / (1000) );
 
+        subastaHor = subastaHor + (subastaDia * 24);
         valorTiempoSubasta.textContent = subastaHor + "Hrs " + subastaMin + "Min " + subastaSeg + "Seg";
         if(diferencia < 0){
             valorTiempoSubasta.textContent = "FINALIZADO";
