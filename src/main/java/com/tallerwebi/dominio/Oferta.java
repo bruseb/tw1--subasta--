@@ -1,5 +1,7 @@
 package com.tallerwebi.dominio;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -15,6 +17,7 @@ public class Oferta {
         @JoinColumn(name = "usuario_id")
         private Usuario ofertadorID;
         private Float montoOfertado;
+        @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
         private LocalDateTime fechaOferta;
 
     @ManyToOne(optional = false)  // varias ofertas pueden pertenecer a una subasta

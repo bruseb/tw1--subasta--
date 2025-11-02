@@ -11,7 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/ofertar")
@@ -161,22 +163,18 @@ public class ControladorOfertar {
     }
 
     @RequestMapping(value="/ultimaOferta/{idSubasta}", method = RequestMethod.GET)
-    public @ResponseBody Oferta obtenerUltimaOferta(@PathVariable Long idSubasta) {
+    public @ResponseBody Object obtenerUltimaOferta(@PathVariable Long idSubasta) {
 
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
         if (subastaDet == null) {
             return null;
         }
-        /*List<Oferta> listaOfertas = repositorioOferta.obtenerOfertaPorSubasta(idSubasta);
-        if(!listaOfertas.isEmpty()){
-            if(listaOfertas.size()==1){
-                return listaOfertas.get(0);
-            }else{
-                return listaOfertas.get(listaOfertas.size()-1);
-            }
-        }
-        return null;*/
-        return new Oferta();
+
+        Object[] listaOfertas = servicioOferta.listarOfertasSubasta(idSubasta);
+        Map<String, Object> responseReturn = new HashMap<>();
+        responseReturn.put("listaOfertas", listaOfertas);
+
+        return responseReturn;
     }
 }
 
