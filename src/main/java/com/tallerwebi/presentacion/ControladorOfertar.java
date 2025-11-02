@@ -162,14 +162,13 @@ public class ControladorOfertar {
     }*/
     }
 
-    @RequestMapping(value="/ultimaOferta/{idSubasta}", method = RequestMethod.GET)
-    public @ResponseBody Object obtenerUltimaOferta(@PathVariable Long idSubasta) {
+    @RequestMapping(value="/jsonOfertas/{idSubasta}", method = RequestMethod.GET)
+    public @ResponseBody Object obtenerOfertas(@PathVariable Long idSubasta) {
 
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
         if (subastaDet == null) {
             return null;
         }
-
         Object[] listaOfertas = servicioOferta.listarOfertasSubasta(idSubasta);
         Map<String, Object> responseReturn = new HashMap<>();
         responseReturn.put("listaOfertas", listaOfertas);
