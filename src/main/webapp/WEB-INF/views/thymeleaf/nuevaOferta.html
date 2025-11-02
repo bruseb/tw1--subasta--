@@ -149,12 +149,12 @@
     const intervalActualizarOferta = 5000; //5 segundos
     const intervalActualizarTimer = 1000; //1 segundo
 
-    //const temp = new Date();
     const finSubasta = new Date(valorFechaFin.value).getTime();
 
-    //finSubasta.setDate(temp.getDate() + 1);
-
     inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
+
+    //Llamada inicial, para que no tarde
+    callOfertas();
 
     setInterval(callOfertas, intervalActualizarOferta);
     setInterval(temporizador, intervalActualizarTimer);
@@ -234,7 +234,7 @@
         let subastaSeg = Math.floor( ( diferencia % (1000 * 60) )  / (1000) );
 
         subastaHor = subastaHor + (subastaDia * 24);
-        valorTiempoSubasta.textContent = subastaHor + "Hrs " + subastaMin + "Min " + subastaSeg + "Seg";
+        valorTiempoSubasta.textContent = subastaHor.toString().padStart(2,0) + "Hrs " + subastaMin.toString().padStart(2,0) + "Min " + subastaSeg.toString().padStart(2,0) + "Seg";
         if(diferencia < 0){
             valorTiempoSubasta.textContent = "FINALIZADO";
         }
