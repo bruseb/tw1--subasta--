@@ -28,7 +28,7 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
     }
 
     @Override
-    public Object[] obtenerOfertaPorSubasta(Long idSubasta) {
+    public Object[] obtenerOfertasPorSubastaJSON(Long idSubasta) {
         String hql = "SELECT o.id, o.fechaOferta, o.montoOfertado, o.ofertadorID.id, o.ofertadorID.nombre, o.ofertadorID.apellido " +
                      "FROM Oferta o " +
                      "WHERE o.subasta.id = :idSubasta";

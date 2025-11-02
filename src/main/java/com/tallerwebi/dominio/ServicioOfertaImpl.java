@@ -67,7 +67,7 @@ public class ServicioOfertaImpl  implements ServicioOferta{
     }
 
     @Override
-    public Object[] listarOfertasSubasta(Long idSubasta){
-        return repositorioOferta.obtenerOfertaPorSubasta(idSubasta);
+    public Object[] listarOfertasSubastaJSON(Long idSubasta){
+        return repositorioOferta.obtenerOfertasPorSubastaJSON(idSubasta);
     }
 }

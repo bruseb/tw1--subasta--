@@ -4,15 +4,11 @@ import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioOfertaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -163,13 +159,13 @@ public class ControladorOfertar {
     }
 
     @RequestMapping(value="/jsonOfertas/{idSubasta}", method = RequestMethod.GET)
-    public @ResponseBody Object obtenerOfertas(@PathVariable Long idSubasta) {
+    public @ResponseBody Object obtenerOfertasJSON(@PathVariable Long idSubasta) {
 
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
         if (subastaDet == null) {
             return null;
         }
-        Object[] listaOfertas = servicioOferta.listarOfertasSubasta(idSubasta);
+        Object[] listaOfertas = servicioOferta.listarOfertasSubastaJSON(idSubasta);
         Map<String, Object> responseReturn = new HashMap<>();
         responseReturn.put("listaOfertas", listaOfertas);
 
