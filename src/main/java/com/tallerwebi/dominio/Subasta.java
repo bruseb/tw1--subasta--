@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -27,7 +28,9 @@ public class Subasta {
     private String estadoProducto;
     private Float precioInicial;
     private Float precioActual; //Dependiendo de como aplicaramos el de subastar, esto se puede eliminar por un SELECT
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime fechaInicio;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime fechaFin; //  Express -> Inicio + 12hr | Rapido -> Inicio + 24 hrs || Normal -> Inicio + 72 hrs || Prolongado -> Inicio + 168 hrs
     private Integer estadoSubasta;  //  10 = En curso | -1 = Cerrada
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subasta",  fetch = FetchType.EAGER)
