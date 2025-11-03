@@ -8,7 +8,7 @@
 
 <!-- Subastas -->
 <section  th:each="subasta : ${subastas}" class="container my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
-    <article th:fragment="subastaCard(subasta)" class="col">
+    <article th:fragment="subastaCard(subasta)" class="col" >
         <div class="card card-subcategoria">
             <a th:href="@{/ofertar/nuevaOferta(idSubasta=${subasta.id})}" class="text-body text-decoration-none">
                 <!-- Tiene imagen -->
@@ -21,6 +21,7 @@
                      class="card-img-top" alt="Imagen genérica">
 
                 <div class="card-body">
+                    <input type="hidden" name="idSubasta" id="idSubasta" th:value="${subasta.id}"/>
                     <p class="border-bottom">Ofertas: 0</p>
 
                     <h5 class="card-title" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioInicial, 2, 2)}">Precio Actual</h5>
