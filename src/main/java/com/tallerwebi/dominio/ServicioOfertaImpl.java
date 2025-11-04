@@ -42,6 +42,7 @@ public class ServicioOfertaImpl  implements ServicioOferta{
 
         Subasta subasta = repositorioSubasta.obtenerSubasta(id); // unificá el nombre en el repo
         if (subasta == null) throw new RuntimeException("Subasta inexistente.");
+        if (subasta.getEstadoSubasta() == -1) throw new RuntimeException("Subasta cerrada.");
 
         // 3) Regla de negocio (Float)
         Float actual = subasta.getPrecioActual() != null ? subasta.getPrecioActual()
@@ -68,6 +69,21 @@ public class ServicioOfertaImpl  implements ServicioOferta{
 
     @Override
     public Object[] listarOfertasSubastaJSON(Long idSubasta){
-        return repositorioOferta.obtenerOfertasPorSubastaJSON(idSubasta);
+        Object[] returnJSON = repositorioOferta.obtenerOfertasPorSubastaJSON(idSubasta);
+        verificarFechasSubasta(idSubasta);
+        return returnJSON;
+    }
+
+    @Override
+    public void verificarFechasSubasta(Long idSubasta) {
+        Subasta subasta = repositorioSubasta.obtenerSubasta(idSubasta);
+        LocalDateTime fechaAhora =  LocalDateTime.now();
+
+        int comparacionFechas = fechaAhora.compareTo(subasta.getFechaFin());//Si es un numero negativo, fechaAhora es anterior a FechaFin
+        if(comparacionFechas >= 0){
+            //Cerrar Subasta
+            subasta.setEstadoSubasta(-1);
+            repositorioSubasta.actualizar(subasta);
+        }
     }
 }
