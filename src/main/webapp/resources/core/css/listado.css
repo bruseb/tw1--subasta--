@@ -1,4 +1,4 @@
-* {
+{
   box-sizing: border-box;
 }
 
@@ -12,8 +12,10 @@
   margin: 0 auto;
 }
 
-.tarjeta-enlace{
+body .contenedor-tarjetas .tarjeta-enlace{
 cursor:pointer;
+flex: 1 1 calc(25% - 20px) !important;
+max-width:calc(25% - 20px) !important;
 }
 
 .tarjeta {
@@ -60,4 +62,18 @@ cursor:pointer;
   line-height: 1.3em;
   overflow: hidden;
   max-height: 2.6em;
+}
+
+@media (max-width: 1024px) {
+  .tarjeta-enlace {
+    flex: 1 1 calc(50% - 20px);
+    max-width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 600px) {
+  .tarjeta-enlace {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
 }
