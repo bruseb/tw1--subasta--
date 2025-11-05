@@ -1,18 +1,21 @@
+
 const inputImporte = document.querySelector("#montoOfertado");
 const inputMontoActual = document.querySelector("#montoActual");
 const valorIdSubasta = document.querySelector("#idSubasta");
 const valorTiempoSubasta = document.querySelector("#tiempoSubasta");
 const valorFechaFin = document.querySelector("#fechaFin");
 const tableListaOfertas = document.querySelector("#listaOfertas");
-
+const ES_PROPIETARIO = /* [[${esPropietario}]] */ false;
 const importeMinimo = 1;
 const intervalActualizarOferta = 5000; //5 segundos
 const intervalActualizarTimer = 1000; //1 segundo
 
 const finSubasta = new Date(valorFechaFin.value).getTime();
 
-inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
-
+//inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
+if (!ES_PROPIETARIO && inputImporte && inputMontoActual) {
+    inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
+}
 //Llamada inicial, para que no tarde
 callOfertas();
 
