@@ -32,7 +32,7 @@ public class ServicioOfertaImpl  implements ServicioOferta{
         if (emailCreador == null || emailCreador.isBlank())
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         if (id == null)
-            throw new IllegalArgumentException("idSubasta es obligatorio.");
+           throw new IllegalArgumentException("idSubasta es obligatorio.");
         if (montoOfertado == null)
             throw new IllegalArgumentException("El monto ofertado es obligatorio.");
 
@@ -40,13 +40,21 @@ public class ServicioOfertaImpl  implements ServicioOferta{
         Usuario usuario = repositorioUsuario.buscar(emailCreador);
         if (usuario == null) throw new RuntimeException("Usuario inexistente.");
 
-        Subasta subasta = repositorioSubasta.obtenerSubasta(id); // unificá el nombre en el repo
+        Subasta subasta = repositorioSubasta.obtenerSubasta(id);
         if (subasta == null) throw new RuntimeException("Subasta inexistente.");
 
-        // 3) Regla de negocio (Float)
+        //Validacion antiofertante
+        Usuario creador = subasta.getCreador();
+        if(creador != null && creador.getEmail() !=null
+        && creador.getEmail().equalsIgnoreCase(emailCreador)){
+            throw new RuntimeException("No es posible que ofertes sobre una Subasta que creaste vos mismo!");
+        }
+
+
+        // Regla de negocio (Float)
         Float actual = subasta.getPrecioActual() != null ? subasta.getPrecioActual()
                 : subasta.getPrecioInicial();
-        if (actual == null) throw new RuntimeException("La subasta no tiene precio inicial configurado.");
+        if (actual == null) throw new RuntimeException("La subasta no tiene precio inicial.");
         if (Float.compare(montoOfertado, actual) <= 0)
             throw new RuntimeException("El monto ofertado debe ser mayor a " + actual);
 
@@ -60,7 +68,7 @@ public class ServicioOfertaImpl  implements ServicioOferta{
 
         // 5) Actualizar estado de la subasta
         subasta.setPrecioActual(montoOfertado);
-        repositorioSubasta.actualizar(subasta); // o confiar en @Transactional
+        repositorioSubasta.actualizar(subasta);
 
         return oferta;
 
