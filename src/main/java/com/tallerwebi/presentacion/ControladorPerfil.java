@@ -52,6 +52,9 @@ public class ControladorPerfil {
         Usuario usuarioActual = servicioPerfil.obtenerPerfil(email);
         usuarioActual.setNombre(usuario.getNombre());
         usuarioActual.setApellido(usuario.getApellido());
+        usuarioActual.setPais(usuario.getPais());
+        usuarioActual.setProvincia(usuario.getProvincia());
+        usuarioActual.setCiudad(usuario.getCiudad());
         usuarioActual.setDireccion(usuario.getDireccion());
         usuarioActual.setCp(usuario.getCp());
         usuarioActual.setTelefono(usuario.getTelefono());

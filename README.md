@@ -162,6 +162,7 @@ docker-compose up --build
 
 # Invoco a docker para que elimine los contenedores creados 
 docker-compose down
+docker-compose down --rmi local #Elimina la imagen del proyecto
 ```
 ## 11. Comandos de Maven
 Para ejecutar comandos de Maven, ya sea en el terminal integrado al IDE, o en otro terminal como el de Linux o Windows (CMD), se debe utilizar el comando principal `mvn` seguido del comando o fase del ciclo de vida a ejecutar. Ejemplo: `mvn clean`.

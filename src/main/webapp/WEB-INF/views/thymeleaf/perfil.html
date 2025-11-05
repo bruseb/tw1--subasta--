@@ -53,6 +53,26 @@
               <input th:field="*{apellido}" type="text" class="form-control" id="apellido">
             </div>
             <div class="col-md-4">
+                <label for="pais" class="form-label">País</label>
+                <select class="form-select mb-2" aria-label="Default select example" id="pais" th:field="*{pais}">
+                    <option selected th:value="*{pais}"></option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Brasil">Brasil</option>
+                    <option value="Bolivia">Bolivia</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Paraguay">Paraguay</option>
+                    <option value="Uruguay">Uruguay</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="provincia" class="form-label">Provincia</label>
+                <input th:field="*{provincia}" type="text" class="form-control" id="provincia" placeholder="Provincia">
+            </div>
+            <div class="col-md-4">
+                <label for="ciudad" class="form-label">Ciudad</label>
+                <input th:field="*{ciudad}" type="text" class="form-control" id="ciudad" placeholder="Ciudad">
+            </div>
+            <div class="col-md-4">
               <label for="direccion" class="form-label">Dirección</label>
               <input th:field="*{direccion}" type="text" class="form-control" id="direccion" placeholder="Dirección">
             </div>

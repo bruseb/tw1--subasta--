@@ -41,7 +41,7 @@
 
     <!-- Subastas -->
     <section class="container" >
-        <article  class="my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+        <article id="listaSubastas" class="my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
             <div th:each="subasta : ${subastas}">
                 <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
             </div>
@@ -54,6 +54,7 @@
 
 <!-- Bootstrap core JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script type="module" th:src="@{/js/busqueda.js}"></script>
 </body>
 
 

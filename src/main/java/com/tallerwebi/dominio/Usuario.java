@@ -18,9 +18,12 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String direccion;
-    private String cp;
+    private Integer cp;
     private String telefono;
     private String dni;
+    private String pais;
+    private String provincia;
+    private String ciudad;
 
     public Long getId() {
         return id;
@@ -66,10 +69,10 @@ public class Usuario {
     public void setTelefono(String telefono) { this.telefono = telefono; }
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
-    public String getCp() {
+    public Integer getCp() {
         return cp;
     }
-    public void setCp(String cp) {
+    public void setCp(Integer cp) {
         this.cp = cp;
     }
     public boolean activo() {
@@ -77,5 +80,23 @@ public class Usuario {
     }
     public void activar() {
         activo = true;
+    }
+    public String getPais() {
+        return pais;
+    }
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+    public String getProvincia() {
+        return provincia;
+    }
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+    public String getCiudad() {
+        return ciudad;
+    }
+    public void setCiudad(String ciudad) {
+        this.ciudad = ciudad;
     }
 }
