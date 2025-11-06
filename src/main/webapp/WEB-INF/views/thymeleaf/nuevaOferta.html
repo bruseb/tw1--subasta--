@@ -71,16 +71,15 @@
         <div class="col-md-6">
             <div class="card p-3">
 
-                <h3 ><span th:text="${subastaDet.titulo}">-</span> </h3>
+                <h3><span th:text="${subastaDet.titulo}">-</span> </h3>
                 <p>ID: <span th:text="${subastaDet.id}"></span></p>
                 <p>Descripcion: <span th:text="${subastaDet.descripcion}"></span></p>
                 <p>Precio inicial $ <span th:text="${subastaDet.precioInicial}"></span></p>
 
-                <div class="mb-3">
+                <div class="mb-3" style="display:none">
                     <small>Monto Actual de la subasta: $
                         <span th:text="${subastaDet.precioActual != null ? subastaDet.precioActual : subastaDet.precioInicial}" id="montoActual"> </span></small>
                 </div>
-
 
                 <form th:action="@{/ofertar/guardar}" th:object="${oferta}" method="post">
                     <!-- idSubasta para el @RequestParam Long idSubasta -->
@@ -93,25 +92,19 @@
                         </small>
                     </div>
 
-
-
-
-                        <div class="mb-3"  th:if="${!esPropietario}">
-                            <label for="montoOfertado" class="form-label">Monto a ofertar</label>
-                            <input type="number" th:field="*{montoOfertado}" id="montoOfertado" class="form-control" required  />
-                            <button type="submit" class="btn btn-primary w-100" >Ofertar</button>
-                        </div>
-
-
-
+                    <div class="mb-3"  th:if="${!esPropietario}">
+                        <label for="montoOfertado" class="form-label">Monto a ofertar</label>
+                        <input type="number" th:field="*{montoOfertado}" id="montoOfertado" class="form-control mb-3" required/>
+                        <button type="submit" class="btn btn-primary w-100" >Ofertar</button>
+                    </div>
 
                     <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
                     <div th:if="${mensaje}" class="alert alert-success mt-3" th:text="${mensaje}"></div>
                 </form>
+
                 <div class="mb-3">
                     <small>Tiempo restante: <span id='tiempoSubasta'></span> </small>
                 </div>
-
 
                 <!-- Mensaje de confirmación -->
                 <div th:if="${mensaje != null}" class="alert alert-success mt-3" th:text="${mensaje}"></div>
