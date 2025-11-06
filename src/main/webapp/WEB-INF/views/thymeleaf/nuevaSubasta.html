@@ -29,17 +29,31 @@
 <div th:replace="~{fragments/header :: userHeader}"></div>
 
 <main role="main" class="container">
-    <div id="newSubastabox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div id="newSubastabox" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 my-2">
         <form action="#" th:action="@{/crearSubasta}" method="POST" th:object="${subasta}" enctype="multipart/form-data">
-            <h3 class="form-signin-heading">Crear subasta</h3>
-            <hr class="colorgraph"><br>
+            <h3 class="form-signin-heading my-4">Crear subasta</h3>
 
-            <label for="titulo">Producto</label>
+            <!--
+            <label for="titulo">Nombre del producto</label>
             <input th:field="*{titulo}" id="titulo" class="form-control" required/>
+            -->
 
+            <div class="input-group mb-3">
+                <span class="input-group-text">Nombre del producto</span>
+                <input type="text" th:field="*{titulo}" class="form-control" id="titulo" required min="0">
+            </div>
+
+            <!-- Descripcion
             <label for="descripcion">Descripcion</label>
             <textarea  th:field="*{descripcion}" id="descripcion" class="form-control" required></textarea>
+            -->
 
+            <div class="input-group mb-3">
+                <span class="input-group-text">Descripción</span>
+                <textarea th:field="*{descripcion}" id="descripcion" class="form-control" aria-label="With textarea" required></textarea>
+            </div>
+
+            <!-- Estado del producto
             <label for="estadoProducto">Estado Producto</label>
             <select th:field="*{estadoProducto}" id="estadoProducto" class="form-control" required >
                 <option value="Nuevo; En caja" selected>Nuevo; En caja</option>
@@ -48,26 +62,64 @@
                 <option value="Usado; Buen estado">Usado; Buen estado</option>
                 <option value="Usado">Usado</option>
                 <option value="Para repuestos">Para repuestos</option>
-            </select>
+            </select> -->
 
-            <!-- Categorías -->
-            <label for="selectDeCategoria">Categoría</label>
-            <select id="selectDeCategoria" class="form-control" required>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="estadoProducto">Estado del producto</label>
+                <select class="form-select" id="estadoProducto">
+                    <option value="Nuevo; En caja" selected>Nuevo; En caja</option>
+                    <option value="Nuevo; Sin caja">Nuevo; Sin caja</option>
+                    <option value="Usado; Como nuevo">Usado; Como nuevo</option>
+                    <option value="Usado; Buen estado">Usado; Buen estado</option>
+                    <option value="Usado">Usado</option>
+                    <option value="Para repuestos">Para repuestos</option>
+                </select>
+            </div>
+
+            <!-- Categorías
+            <label for="selectDeCategoriax">Categoría</label>
+            <select id="selectDeCategoriax" class="form-control" required>
                 <option value="-1">Seleccione una categoría</option>
                 <option th:each="cat : ${listaCategorias}"
                         th:value="${cat.id}"
                         th:text="${cat.nombre}"></option>
-            </select>
-            <!-- Subcategorías -->
-            <label for="selectDeSubcategoria">Subcategoría</label>
-            <select th:field="*{subcategoria.id}" id="selectDeSubcategoria" class="form-control" required disabled>
-                <option value="-1" selected hidden>Seleccione una subcategoría</option>
-            </select>
+            </select> -->
 
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="selectDeCategoria">Categoría</label>
+                <select class="form-select" id="selectDeCategoria" required>
+                    <option value="-1" selected>Selecciona una categoría</option>
+                    <option th:each="cat : ${listaCategorias}"
+                             th:value="${cat.id}"
+                             th:text="${cat.nombre}"></option>
+                </select>
+            </div>
+
+            <!-- Subcategorías
+            <label for="selectDeSubcategoriax">Subcategoría</label>
+            <select th:field="*{subcategoria.id}" id="selectDeSubcategoriax" class="form-control" required disabled>
+                <option value="-1" selected hidden>Seleccione una subcategoría</option>
+            </select> -->
+
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="selectDeSubcategoria">Subcategoría</label>
+                <select th:field="*{subcategoria.id}" class="form-select" id="selectDeSubcategoria" required disabled>
+                    <option value="-1" selected hidden>Seleccione una subcategoría</option>
+                </select>
+            </div>
+
+            <!-- Monto inicial
             <label for="precioInicial">Monto inicial de Subasta</label>
             <input type="number" th:field="*{precioInicial}" id="precioInicial" class="form-control" required min="0"/>
+            -->
 
-            <!--    TODO: Encontrar manera de no usar el estadoSubasta y usar una variable que llegue al controlador    -->
+            <div class="input-group mb-3">
+                <span class="input-group-text">Precio inicial</span>
+                <input type="number" th:field="*{precioInicial}" class="form-control" id="precioInicial" aria-label="Amount (to the nearest dollar)" required min="0">
+                <span class="input-group-text">$</span>
+            </div>
+
+            <!--
             <label for="select_fechaFin">Duracion Subasta</label>
             <select th:field="*{estadoSubasta}" id="select_fechaFin" class="form-control" required>
                 <option value="" selected disabled>Seleccionar duracion</option>
@@ -75,12 +127,29 @@
                 <option value="1">Rapido (1 dia)</option>
                 <option value="2">Normal (3 dia)</option>
                 <option value="3">Prolongado (7 dia)</option>
-            </select>
+            </select> -->
 
-            <!--    TODO: Posibilidad de que pueda agregar mas fotos    -->
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="select_fechaFin">Duración</label>
+                <select th:field="*{estadoSubasta}" id="select_fechaFin" class="form-select" required>
+                    <option value="" selected disabled>Seleccionar duracion</option>
+                    <option value="0">Express (12 horas)</option>
+                    <option value="1">Rapido (1 dia)</option>
+                    <option value="2">Normal (3 dia)</option>
+                    <option value="3">Prolongado (7 dia)</option>
+                </select>
+            </div>
+
+            <!-- Imagen
             <div class="form-group">
                 <label for="imagenSubasta">Foto del Producto (Max. 3)</label>
                 <input type="file" class="form-control-file" id="imagenSubasta" name="imagenSubasta" accept="image/*" multiple required>
+            </div> -->
+
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="imagenSubasta">Fotos</label>
+                <input type="file" class="form-control" id="imagenSubasta" name="imagenSubasta" accept="image/*" multiple required>
+                <label class="input-group-text" for="imagenSubasta">Máximo 3</label>
             </div>
 
             <!-- Para la gente confundida, asi se llama la foto subida:
