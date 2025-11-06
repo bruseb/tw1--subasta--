@@ -30,7 +30,7 @@
 
 <main role="main" class="container">
 
-  <h2>¡Bienvenido <span th:text="${usuario.nombre}"></span> <span th:text="${usuario.apellido}"></span>!</h2>
+  <h2 class="mt-2">¡Bienvenido <span th:text="${usuario.nombre}"></span> <span th:text="${usuario.apellido}"></span>!</h2>
   <p>Este es un resumen de tu perfil donde podrás ver tus datos e historial de subastas creadas.</p>
 
   <div class="accordion accordion-flush mb-3" id="accordionFlushExample">
@@ -106,8 +106,8 @@
     <p>No tenés subastas creadas todavía.</p>
   </div>
 
-    <section class="container" >
-        <article  class="my-4 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+    <section class="container">
+        <article  class="my-2 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
             <div th:each="subasta : ${subastas}">
                 <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
             </div>
