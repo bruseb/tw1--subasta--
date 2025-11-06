@@ -1,6 +1,5 @@
 package com.tallerwebi.dominio;
 
-
 import com.tallerwebi.exception.UsuarioNoDefinidoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service("servicioOferta")
 @Transactional
-public class ServicioOfertaImpl  implements ServicioOferta{
+public class ServicioOfertaImpl implements ServicioOferta{
 
     private final RepositorioOferta repositorioOferta;
     private final RepositorioUsuario repositorioUsuario;
@@ -93,5 +93,10 @@ public class ServicioOfertaImpl  implements ServicioOferta{
             subasta.setEstadoSubasta(-1);
             repositorioSubasta.actualizar(subasta);
         }
+    }
+
+    @Override
+    public List<Subasta> listarSubastasOfertadasPorUsuario(String emailUsuario) {
+        return repositorioOferta.obtenerSubastasOfertadasPorUsuario(emailUsuario);
     }
 }

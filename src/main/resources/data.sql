@@ -1,6 +1,20 @@
 -- Usuario de prueba (ADMIN)
-INSERT INTO Usuario(id, email, password, rol, activo, nombre)
-VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 'unlam');
+INSERT INTO Usuario(id, email, password, rol, activo, nombre, apellido, dni,
+                    pais, provincia, ciudad, direccion, cp, telefono)
+VALUES(null,
+       'test@unlam.edu.ar',
+       'test',
+       'ADMIN',
+       true,
+       'UNLaM',
+       'Admin',
+       '11222333',
+       'Argentina',
+       'Buenos Aires',
+       'La Matanza',
+       'Florencio Varela 1903',
+       '1754',
+       44808900);
 
 -- ======================
 -- Categorías principales
