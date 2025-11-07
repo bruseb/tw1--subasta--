@@ -26,6 +26,10 @@ public class Subasta {
     private Subcategoria subcategoria;
 
     private String estadoProducto;
+    private Double peso;
+    private Double largo;
+    private Double alto;
+    private Double ancho;
     private Float precioInicial;
     private Float precioActual; //Dependiendo de como aplicaramos el de subastar, esto se puede eliminar por un SELECT
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
@@ -55,6 +59,18 @@ public class Subasta {
 
     public String getEstadoProducto() { return estadoProducto; }
     public void setEstadoProducto(String estadoProducto) { this.estadoProducto = estadoProducto; }
+
+    public Double getPeso() { return peso; }
+    public void setPeso(Double peso) { this.peso = peso; }
+
+    public Double getLargo() { return largo; }
+    public void setLargo(Double largo) { this.largo = largo; }
+
+    public Double getAlto() { return alto; }
+    public void setAlto(Double alto) { this.alto = alto; }
+
+    public Double getAncho() { return ancho; }
+    public void setAncho(Double ancho) { this.ancho = ancho; }
 
     public Float getPrecioInicial() { return precioInicial; }
     public void setPrecioInicial(Float precioInicial) {this.precioInicial = precioInicial; }

@@ -3,15 +3,16 @@ package com.tallerwebi.dominio;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServicioEnvioImpl {
+public class ServicioEnvioImpl implements ServicioEnvio {
 
-    public EnvioRespuesta calcularEnvio (EnvioPedido pedido){
-        String tamanio = calcularTamanio(pedido.getLargo(),pedido.getAncho(),pedido.getAlto());
-        String zona = calcularZona(pedido.getPais(), pedido.getProvincia());
-        Double costo = calcularCosto(tamanio, pedido.getPeso(), zona);
+    @Override
+    public Envio calcularEnvio (Envio actual){
+        String tamanio = calcularTamanio(actual.getLargo(),actual.getAncho(),actual.getAlto());
+        String zona = calcularZona(actual.getPais(), actual.getProvincia());
+        Double costo = calcularCosto(tamanio, actual.getPeso(), zona);
         Integer dias = calcularTiempoEntrega(zona);
 
-        EnvioRespuesta respuesta = new EnvioRespuesta();
+        Envio respuesta = new Envio();
         respuesta.setTamanio(tamanio);
         respuesta.setZonaDestino(zona);
         respuesta.setCosto(costo);

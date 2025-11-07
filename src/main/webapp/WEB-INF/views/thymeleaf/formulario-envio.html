@@ -27,7 +27,7 @@
 
     <h5>Domicilio de entrega</h5>
 
-    <form th:action="@{/calcular-envio}" th:object="${envioPedido}" method="post">
+    <form th:action="@{/calcular-envio}" th:object="${envio}" method="post">
         <div>
             <label>País:</label>
             <select th:field="*{pais}" required>
@@ -65,17 +65,17 @@
 
         <div>
             <label>Largo(cm):</label>
-            <input type="number" th:field="*{largo}" required>
+            <input type="number" step="0.1" th:field="*{largo}" required>
         </div>
 
         <div>
             <label>Ancho(cm):</label>
-            <input type="number" th:field="*{ancho}" required>
+            <input type="number" step="0.1" th:field="*{ancho}" required>
         </div>
 
         <div>
             <label>Alto(cm):</label>
-            <input type="number" th:field="*{alto}" required>
+            <input type="number" step="0.1" th:field="*{alto}" required>
         </div>
 
         <button type="submit">Calcular envío</button>

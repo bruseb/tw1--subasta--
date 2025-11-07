@@ -78,7 +78,30 @@
 
             <!-- Categorías
             <label for="selectDeCategoriax">Categoría</label>
-            <select id="selectDeCategoriax" class="form-control" required>
+            <select id="selectDeCategoriax" class="form-control" required> -->
+            <label>Medidas Producto</label>
+            <div class="medidas-horizontal">
+                <div class="campo">
+                    <label for="peso">Peso(Kg)</label>
+                    <input type="number" th:field="*{peso}" id="peso" class="form-control"  min="0" step="0.1" required/>
+                </div>
+                <div class="campo">
+                    <label for="largo">Largo(cm)</label>
+                    <input type="number" th:field="*{largo}" id="largo" class="form-control"  min="0.1" step="0.1" required/>
+                </div>
+                <div class="campo">
+                    <label for="alto">Alto(cm)</label>
+                    <input type="number" th:field="*{alto}" id="alto" class="form-control"  min="0.1" step="0.1" required/>
+                </div>
+                <div class="campo">
+                    <label for="ancho">Ancho(cm)</label>
+                    <input type="number" th:field="*{ancho}" id="ancho" class="form-control"  min="0.1" step="0.1" required/>
+                </div>
+            </div>
+
+            <!-- Categorías
+            <label for="selectDeCategoria">Categoría</label>
+            <select id="selectDeCategoria" class="form-control" required>
                 <option value="-1">Seleccione una categoría</option>
                 <option th:each="cat : ${listaCategorias}"
                         th:value="${cat.id}"

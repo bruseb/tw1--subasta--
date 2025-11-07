@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.EnvioPedido;
-import com.tallerwebi.dominio.EnvioRespuesta;
+import com.tallerwebi.dominio.Envio;
 import com.tallerwebi.dominio.ServicioEnvioImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,13 +17,14 @@ public class ControladorEnvio {
 
     @GetMapping("/calcular-envio")
     public String mostrarFormulario(Model model){
-        model.addAttribute("envioPedido", new EnvioPedido());
+        model.addAttribute("envio", new Envio());
         return "formulario-envio";
     }
 
     @PostMapping("/calcular-envio")
-    public String procesarFormulario(@ModelAttribute EnvioPedido envioPedido, Model model){
-        EnvioRespuesta resultado = servicioEnvio.calcularEnvio(envioPedido);
+    public String procesarFormulario(@ModelAttribute Envio envio, Model model){
+        Envio resultado = servicioEnvio.calcularEnvio(envio);
+        model.addAttribute("envio", envio);
         model.addAttribute("resultado", resultado);
         return "formulario-envio";
     }
