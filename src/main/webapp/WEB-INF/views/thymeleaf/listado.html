@@ -23,22 +23,34 @@
 <!-- Header -->
 <div th:replace="~{fragments/header :: userHeader}"></div>
 
-<h1>Resultado de búsqueda</h1>
+<div class="container">
 
-<div class="contenedor-tarjetas">
-     <div th:each="subasta : ${subastas}"
-          th:onclick="|window.location.href='ofertar/nuevaOferta?idSubasta=${subasta.id}'|"
-          class="tarjeta-enlace">
-        <div class="tarjeta">
-            <img class="tarjeta-img" th:src="@{'/imagen/' + ${subasta.id} + '/1'}" alt="Imagen del producto" >
-            <div class="tarjeta-contenido">
-                <h3 th:text="${subasta.titulo}" >Título</h3>
-                <p th:text="${subasta.descripcion}">Descripción</p>
-                <p><strong>Precio:</strong><span th:text="${subasta.precioActual}"></span></p>
-                <p><strong>Estado:</strong><span th:text="${subasta.estadoProducto}"></span></p>
+    <h2 class="mt-3">Resultado de búsqueda</h2>
+
+    <section class="container">
+        <article  class="my-2 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+            <div th:each="subasta : ${subastas}">
+                <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
+            </div>
+        </article>
+    </section>
+
+    <!-- <div class="contenedor-tarjetas">
+        <div th:each="subasta : ${subastas}"
+             th:onclick="|window.location.href='ofertar/nuevaOferta?idSubasta=${subasta.id}'|"
+             class="tarjeta-enlace">
+            <div class="tarjeta">
+                <img class="tarjeta-img" th:src="@{'/imagen/' + ${subasta.id} + '/1'}" alt="Imagen del producto" >
+                <div class="tarjeta-contenido">
+                    <h3 th:text="${subasta.titulo}" >Título</h3>
+                    <p th:text="${subasta.descripcion}">Descripción</p>
+                    <p><strong>Precio:</strong><span th:text="${subasta.precioActual}"></span></p>
+                    <p><strong>Estado:</strong><span th:text="${subasta.estadoProducto}"></span></p>
+                </div>
             </div>
         </div>
-     </div>
+    </div> -->
+
 </div>
 
 

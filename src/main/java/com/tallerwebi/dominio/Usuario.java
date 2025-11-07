@@ -19,7 +19,7 @@ public class Usuario {
     private String apellido;
     private String direccion;
     private Integer cp;
-    private String telefono;
+    private Integer telefono;
     private String dni;
     private String pais;
     private String provincia;
@@ -65,8 +65,8 @@ public class Usuario {
     public void setApellido(String apellido) { this.apellido = apellido; }
     public String getDireccion() { return direccion; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
-    public String getTelefono() { return telefono; }
-    public void setTelefono(String telefono) { this.telefono = telefono; }
+    public Integer getTelefono() { return telefono; }
+    public void setTelefono(Integer telefono) { this.telefono = telefono; }
     public String getDni() { return dni; }
     public void setDni(String dni) { this.dni = dni; }
     public Integer getCp() {

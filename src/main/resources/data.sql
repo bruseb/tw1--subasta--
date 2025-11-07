@@ -1,6 +1,34 @@
 -- Usuario de prueba (ADMIN)
-INSERT INTO Usuario(id, email, password, rol, activo, nombre)
-VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 'unlam');
+INSERT INTO Usuario(id, email, password, rol, activo, nombre, apellido, dni,
+                    pais, provincia, ciudad, direccion, cp, telefono)
+VALUES(null,
+       'test@unlam.edu.ar',
+       'test',
+       'ADMIN',
+       true,
+       'UNLaM',
+       'Admin',
+       '11222333',
+       'Argentina',
+       'Buenos Aires',
+       'La Matanza',
+       'Florencio Varela 1903',
+       '1754',
+       44808900),
+      (null,
+       'test_test@unlam.edu.ar',
+       'test_test',
+       'TEST',
+       true,
+       'UNLaM',
+       'Admin',
+       '11222333',
+       'Argentina',
+       'Buenos Aires',
+       'La Matanza',
+       'Florencio Varela 1903',
+       '1754',
+       44808900);
 
 -- ======================
 -- Categorías principales
@@ -139,7 +167,7 @@ VALUES
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
  'USADO', 950000.00, 950000.00, '2025-11-15 14:00:00', DATE_ADD('2025-11-15 14:00:00', INTERVAL 72 HOUR), 10),
 
-((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
+((SELECT u.id FROM Usuario u WHERE u.email = 'test_test@unlam.edu.ar'),
  'Nikon Z50 con lente 16-50mm',
  'Kit liviano para viaje, excelente autofocus y video 4K.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),

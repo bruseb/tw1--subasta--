@@ -1,9 +1,6 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.ServicioPerfil;
-import com.tallerwebi.dominio.ServicioSubasta;
-import com.tallerwebi.dominio.Subasta;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,11 +16,13 @@ public class ControladorPerfil {
 
     private final ServicioPerfil servicioPerfil;
     private final ServicioSubasta servicioSubasta;
+    private final ServicioOferta servicioOferta;
 
     @Autowired
-    public ControladorPerfil(ServicioPerfil servicioPerfil, ServicioSubasta servicioSubasta) {
+    public ControladorPerfil(ServicioPerfil servicioPerfil, ServicioSubasta servicioSubasta, ServicioOferta servicioOferta) {
         this.servicioPerfil = servicioPerfil;
         this.servicioSubasta = servicioSubasta;
+        this.servicioOferta = servicioOferta;
     }
 
     @GetMapping("/perfil")
@@ -38,6 +37,9 @@ public class ControladorPerfil {
 
         List<Subasta> subastasUsuario = servicioSubasta.listarSubastasDelUsuario(email);
         model.put("subastas", subastasUsuario);
+
+        List<Subasta> subastasOfertadas = servicioOferta.listarSubastasOfertadasPorUsuario(email);
+        model.put("subastasOfertadas", subastasOfertadas);
 
         return "perfil";
     }

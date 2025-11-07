@@ -21,7 +21,13 @@ public class ControladorOfertar {
     private final RepositorioUsuario repositorioUsuario;
     private final ServicioSubasta servicioSubasta;
     private final RepositorioOfertaImpl repositorioOferta;
-
+    private boolean esPropietario(Subasta subasta, String emailUsuario) {
+        return emailUsuario != null
+                && subasta != null
+                && subasta.getCreador() != null
+                && subasta.getCreador().getEmail() != null
+                && subasta.getCreador().getEmail().equalsIgnoreCase(emailUsuario);
+    }
 
     @Autowired
     public ControladorOfertar(ServicioOferta servicioOferta,
@@ -52,16 +58,31 @@ public class ControladorOfertar {
 
     // Mostrar la página de ofertar
     @GetMapping("/nuevaOferta")
-    public String mostrarFormularioOferta(@RequestParam Long idSubasta, Model model) {
+    public String mostrarFormularioOferta(@RequestParam Long idSubasta,
+                                          HttpServletRequest request,
+                                          Model model) {
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
+
         if (subastaDet == null) {
             model.addAttribute("error", "no existe la subasta" + idSubasta);
             return "error";
         }
+
+        // Obtener usuario logueado
+        String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
+        boolean esPropietario = esPropietario(subastaDet, emailUsuario);
+
+        // Determinar si el usuario es el propietario
+       // boolean esPropietario = false;
+        //if (emailUsuario != null && subastaDet.getCreador() != null) {
+         //   esPropietario = emailUsuario.equalsIgnoreCase(subastaDet.getCreador().getEmail());
+        //}
+
         model.addAttribute("subastaDet", subastaDet);
         model.addAttribute("oferta", new Oferta());
+        model.addAttribute("esPropietario", esPropietario);
 
-        return "nuevaOferta"; // Thymeleaf buscará nuevaOferta.html
+        return "nuevaOferta"; // Thymeleaf busca nuevaOferta.html
     }
 
     //Ver la subasta
@@ -98,64 +119,16 @@ public class ControladorOfertar {
             return "resultadoOferta";
         } catch (RuntimeException ex) {
             Subasta s = servicioSubasta.buscarSubasta(idSubasta);
+            boolean esPropietario = esPropietario(s, creadorEmail);
+
             model.addAttribute("error", ex.getMessage());
             model.addAttribute("subastaDet", s);
             model.addAttribute("oferta", oferta);
-            return "nuevaOferta";
-        }
-  /*
-        // 2) Buscar subasta y usuario
-        Subasta subasta = servicioSubasta.buscarSubasta(id);
-        if (subasta == null) {
-            model.addAttribute("error", "La subasta no existe (ID " + id + ").");
-            return "error";
-        }
-
-        Usuario usuario = repositorioUsuario.buscar(creadorEmail);
-        if (usuario == null) {
-            model.addAttribute("error", "No se encontró el usuario logueado.");
-            return "error";
-        }
-
-        // 3) Validar monto
-
-        Float precioActual = subasta.getPrecioActual();
-        if (precioActual == null){
-            precioActual= subasta.getPrecioActual();
-            subasta.setPrecioActual(precioActual);
-        }
-
-        Float ofertado = oferta.getMontoOfertado();
-        if (ofertado == null) {
-            model.addAttribute("error", "El monto ofertado es obligatorio.");
-            model.addAttribute("subastaDet", subasta);
-            model.addAttribute("oferta", new Oferta());
+            model.addAttribute("esPropietario", esPropietario);
             return "nuevaOferta";
         }
 
-        if (ofertado <= precioActual) {
-            model.addAttribute("error", "El monto ofertado debe ser mayor a $" + precioActual);
-            model.addAttribute("subastaDet", subasta);
-            model.addAttribute("oferta", new Oferta());
-            return "nuevaOferta";
-        }
 
-        // 4) Completar y guardar oferta
-        oferta.setOfertadorID(usuario);
-        oferta.setFechaOferta(LocalDateTime.now());
-        oferta.setSubasta(subasta);
-        servicioOferta.crearOferta(oferta, creadorEmail);
-
-        // 5) Actualizar subasta
-        subasta.setPrecioActual(ofertado);
-        servicioSubasta.actualizar(subasta);
-
-        // 6) Respuesta a la vista
-        model.addAttribute("ultimaOferta", oferta);
-        model.addAttribute("subastaDet", subasta);
-        model.addAttribute("oferta", new Oferta());
-        return "resultadoOferta";
-    }*/
     }
 
     @RequestMapping(value="/jsonOfertas/{idSubasta}", method = RequestMethod.GET)

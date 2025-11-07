@@ -30,8 +30,8 @@
                     <dl>
                         <dt>Precio Inicial</dt>
                         <dd class="card-text" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioInicial, 2, 2)}"></dd>
-                        <dt>Precio de Compra</dt>
-                        <dd class="card-text">$ 5000000,00</dd>
+                        <dt>Estado</dt>
+                        <dd class="card-text" th:text="${subasta.estadoProducto}"></dd>
                     </dl>
                 </div>
             </a>
