@@ -1,9 +1,11 @@
 
 const inputImporte = document.querySelector("#montoOfertado");
 const inputMontoActual = document.querySelector("#montoActual");
+const buttonSubmit = document.querySelector("#btn-ofertar")
 const valorIdSubasta = document.querySelector("#idSubasta");
 const valorTiempoSubasta = document.querySelector("#tiempoSubasta");
 const valorFechaFin = document.querySelector("#fechaFin");
+const valorMontoActual = document.querySelector("#precioActual");
 const tableListaOfertas = document.querySelector("#listaOfertas");
 const ES_PROPIETARIO = /* [[${esPropietario}]] */ false;
 const importeMinimo = 1;
@@ -19,8 +21,8 @@ if (!ES_PROPIETARIO && inputImporte && inputMontoActual) {
 //Llamada inicial, para que no tarde
 callOfertas();
 
-setInterval(callOfertas, intervalActualizarOferta);
-setInterval(temporizador, intervalActualizarTimer);
+const intervalActualizarOfertas = setInterval(callOfertas, intervalActualizarOferta);
+const intervalTemporizador = setInterval(temporizador, intervalActualizarTimer);
 
 function callOfertas(){
     let xhr = new XMLHttpRequest();
@@ -50,6 +52,7 @@ function checkListaOfertas(payload){
         let idUltimaOfertaCall  = Number(listaOfertas[listaOfertas.length-1][0]);
         let idUltimaOfertaTabla = Number(tableListaOfertas.childNodes[0].id);
         if(idUltimaOfertaCall != idUltimaOfertaTabla){
+            valorMontoActual.textContent = listaOfertas[listaOfertas.length-1][2].toFixed(2);
             crearListaOfertas(listaOfertas);
         }
     }
@@ -97,6 +100,12 @@ function temporizador(){
     subastaHor = subastaHor + (subastaDia * 24);
     valorTiempoSubasta.textContent = subastaHor.toString().padStart(2,0) + "Hrs " + subastaMin.toString().padStart(2,0) + "Min " + subastaSeg.toString().padStart(2,0) + "Seg";
     if(diferencia < 0){
+        if(buttonSubmit != null){
+            buttonSubmit.disabled = true;
+        }
+        clearInterval(intervalActualizarOfertas);
+        clearInterval(intervalTemporizador);
+        callOfertas();
         valorTiempoSubasta.textContent = "FINALIZADO";
     }
 }

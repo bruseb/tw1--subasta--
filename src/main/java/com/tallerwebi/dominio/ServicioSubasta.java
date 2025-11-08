@@ -3,10 +3,12 @@ package com.tallerwebi.dominio;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ServicioSubasta {
     void crearSubasta(Subasta subasta,MultipartFile[] imagen, String creador) throws IOException;
+    LocalDateTime obtenerTiempoFin(Integer indicador);
     Subasta buscarSubasta(Long idSubasta);
     List<Subasta> listarSubastasDelUsuario(String emailCreador);
     List<Subasta> listarSubastasPorCategoriaId(Long idCategoria);

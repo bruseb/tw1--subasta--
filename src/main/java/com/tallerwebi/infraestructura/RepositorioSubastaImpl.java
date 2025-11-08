@@ -26,28 +26,6 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
         sessionFactory.getCurrentSession().save(subasta);
     }
 
-    public LocalDateTime obtenerTiempoFin(Integer indicador){
-        LocalDateTime temp = LocalDateTime.now();
-        LocalDateTime result;
-        switch(indicador){
-            case 0:
-                result = temp.plusHours(12);
-                break;
-            case 1:
-                result = temp.plusDays(1);
-                break;
-            case 2:
-                result = temp.plusDays(3);
-                break;
-            case 3:
-                result = temp.plusDays(7);
-                break;
-            default:
-                result = temp;
-        }
-        return result;
-    }
-
     public Subasta obtenerSubasta(Long id){
         final Session session = sessionFactory.getCurrentSession();
         return (Subasta) session.createCriteria(Subasta.class)
@@ -65,9 +43,11 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
     @Override
     public List<Subasta> buscarSubasta(String titulo) {
 
-        String hql = "FROM Subasta WHERE LOWER(titulo) LIKE :titulo";
+        String hql = "FROM Subasta WHERE LOWER(titulo) LIKE :titulo AND estadoSubasta = :estadoSubasta";
         Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        Integer estadoSubasta = 10;
         query.setParameter("titulo","%" + titulo.toLowerCase() + "%");
+        query.setParameter("estadoSubasta",estadoSubasta);
         return query.getResultList();
     }
 
@@ -103,17 +83,21 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
 
     @Override
     public List<Subasta> buscarSubastasPorCategoriaId(Long idCategoria) {
-        String hql = "FROM Subasta s WHERE s.subcategoria.categoria.id = :idCategoria";
+        String hql = "FROM Subasta s WHERE s.subcategoria.categoria.id = :idCategoria AND s.estadoSubasta = :estadoSubasta";
         Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        Integer estadoSubasta = 10;
         query.setParameter("idCategoria",idCategoria);
+        query.setParameter("estadoSubasta",estadoSubasta);
         return query.getResultList();
     }
 
     @Override
     public List<Subasta> buscarSubastasPorSubcategoriaId(Long idSubcategoria) {
-        String hql = "FROM Subasta s WHERE s.subcategoria.id = :idSubcategoria";
+        String hql = "FROM Subasta s WHERE s.subcategoria.id = :idSubcategoria AND s.estadoSubasta = :estadoSubasta";
         Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        Integer estadoSubasta = 10;
         query.setParameter("idSubcategoria",idSubcategoria);
+        query.setParameter("estadoSubasta",estadoSubasta);
         return query.getResultList();
     }
 
