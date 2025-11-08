@@ -7,7 +7,7 @@ import java.util.List;
 public interface RepositorioSubasta {
     void guardar(Subasta subasta);
     boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto,Subcategoria subcategoria,Float precioInicial, Usuario creador);
-    LocalDateTime obtenerTiempoFin(Integer indicador);
+
     Subasta obtenerSubasta(Long id);
     @Transactional
     List<Subasta> buscarTodas();

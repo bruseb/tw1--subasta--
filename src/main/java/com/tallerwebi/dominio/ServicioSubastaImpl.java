@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -46,7 +47,8 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         if(     subasta.getEstadoSubasta() != 0 &&
                 subasta.getEstadoSubasta() != 1 &&
                 subasta.getEstadoSubasta() != 2 &&
-                subasta.getEstadoSubasta() != 3){
+                subasta.getEstadoSubasta() != 3 &&
+                subasta.getEstadoSubasta() != 4){
             throw new RuntimeException("Estado de subasta no valido.");
         }
 
@@ -60,7 +62,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
 
         subasta.setCreador(repositorioUsuario.buscar(emailCreador));
         subasta.setFechaInicio();
-        subasta.setFechaFin(repositorioSubasta.obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
+        subasta.setFechaFin(obtenerTiempoFin(subasta.getEstadoSubasta()));   //Subasta en curso
         subasta.setEstadoSubasta(10);
 
         boolean yaExiste = repositorioSubasta.existeLaSubasta(subasta.getTitulo(), subasta.getDescripcion(),subasta.getEstadoProducto(), subasta.getSubcategoria(),subasta.getPrecioInicial() ,subasta.getCreador());
@@ -92,6 +94,33 @@ public class ServicioSubastaImpl implements ServicioSubasta {
 
         repositorioSubasta.guardar(subasta);
     }
+
+    @Override
+    public LocalDateTime obtenerTiempoFin(Integer indicador){
+        LocalDateTime temp = LocalDateTime.now();
+        LocalDateTime result;
+        switch(indicador){
+            case 0:
+                result = temp.plusHours(12);    //Express
+                break;
+            case 1:
+                result = temp.plusDays(1);      //Rapido
+                break;
+            case 2:
+                result = temp.plusDays(3);      //Normal
+                break;
+            case 3:
+                result = temp.plusDays(7);      //Prolongado
+                break;
+            case 4:
+                result = temp.plusMinutes(5);   //Ultra Express
+                break;
+            default:
+                result = temp;
+        }
+        return result;
+    }
+
 
     @Override
     public Subasta buscarSubasta(Long idSubasta) {return repositorioSubasta.obtenerSubasta(idSubasta);}
