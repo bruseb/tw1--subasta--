@@ -60,9 +60,12 @@
 
                                     <div class="card-body">
                                         <input type="hidden" name="idSubasta" id="idSubasta" th:value="${subasta.id}"/>
-
-                                        <p  th:text="${subasta.titulo}" class="card-text descripcion-recortada">Titulo de subasta</p>
-                                        <p  th:text="${subasta.descripcion}" class="card-text descripcion-recortada">Descripción de subasta</p>
+                                        <h5 th:text="${subasta.titulo}" class="card-title">Titulo de subasta</h5>
+                                        <p th:text="${subasta.descripcion}" class="card-text descripcion-recortada">Descripción de subasta</p>
+                                        <dl>
+                                            <dt>Precio final</dt>
+                                            <dd class="card-text" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioActual, 2, 2)}"></dd>
+                                        </dl>
                                     </div>
                                 </a>
                             </div>
