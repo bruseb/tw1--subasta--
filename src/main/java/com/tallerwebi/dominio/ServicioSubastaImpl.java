@@ -149,4 +149,10 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         return repositorioSubasta.buscarSubastasGanadas(emailCreador);
     }
 
+    @Override
+    public void eliminarSubasta(Subasta subasta) {
+        subasta.setEstadoSubasta(-2);
+        repositorioSubasta.actualizar(subasta);
+    }
+
 }
