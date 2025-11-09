@@ -21,15 +21,17 @@ public class ControladorSubasta {
 
     private final ServicioSubcategorias servicioSubcategorias;
     private final ServicioCategorias servicioCategorias;
+    private final ServicioPerfil servicioPerfil;
     private ServicioSubasta servicioSubasta;
     private RepositorioSubasta repositorioSubasta;
 
     @Autowired
-    public  ControladorSubasta(ServicioSubasta servicioSubasta, ServicioSubcategorias servicioSubcategorias, ServicioCategorias servicioCategorias, RepositorioSubasta repositorioSubasta) {
+    public  ControladorSubasta(ServicioSubasta servicioSubasta, ServicioSubcategorias servicioSubcategorias, ServicioCategorias servicioCategorias, RepositorioSubasta repositorioSubasta, ServicioPerfil servicioPerfil) {
         this.servicioSubasta = servicioSubasta;
         this.servicioSubcategorias = servicioSubcategorias;
         this.servicioCategorias = servicioCategorias;
         this.repositorioSubasta = repositorioSubasta;
+        this.servicioPerfil = servicioPerfil;
     }
 
     @RequestMapping(path = "/nuevaSubasta", method = RequestMethod.GET)
@@ -68,6 +70,23 @@ public class ControladorSubasta {
             return new ModelAndView("nuevaSubasta", model);
         }
     }
+
+    @GetMapping("/compras")
+    public String irACompras(HttpServletRequest request, ModelMap model) {
+        String email = (String) request.getSession().getAttribute("email");
+        if (email == null) {
+            return "redirect:/login";
+        }
+
+        Usuario usuario = servicioPerfil.obtenerPerfil(email);
+        model.put("usuario", usuario);
+
+        List<Subasta> subastasGanadas = servicioSubasta.listarSubastasGanadas(email);
+        model.put("subastasGanadas", subastasGanadas);
+
+        return "compras";
+    }
+
 
         @RequestMapping(value = "/imagen/{subastaID}/{orden}")
         public ResponseEntity<byte[]> getImagenSubasta(@PathVariable("subastaID") Long subastaID,@PathVariable("orden") int orden, HttpServletRequest request){
