@@ -14,6 +14,7 @@ public interface RepositorioSubasta {
     @Transactional
     List<Subasta> buscarSubasta(String titulo);
     List<Subasta> buscarSubastasPorCreador(String emailCreador);
+    List<Subasta> buscarSubastasGanadas(String emailCreador);
 
     void actualizar(Subasta subasta);
     List<Subasta> buscarSubastasPorCategoriaId(Long idCategoria);

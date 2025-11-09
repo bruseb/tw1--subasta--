@@ -11,6 +11,7 @@ public interface ServicioSubasta {
     LocalDateTime obtenerTiempoFin(Integer indicador);
     Subasta buscarSubasta(Long idSubasta);
     List<Subasta> listarSubastasDelUsuario(String emailCreador);
+    List<Subasta> listarSubastasGanadas(String emailCreador);
     List<Subasta> listarSubastasPorCategoriaId(Long idCategoria);
     List<Subasta> listarSubastasPorSubcategoriaId(Long idSubcategoria);
 }
