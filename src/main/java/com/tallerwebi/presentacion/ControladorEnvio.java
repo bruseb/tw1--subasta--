@@ -23,9 +23,15 @@ public class ControladorEnvio {
 
     @PostMapping("/calcular-envio")
     public String procesarFormulario(@ModelAttribute Envio envio, Model model){
-        Envio resultado = servicioEnvio.calcularEnvio(envio);
-        model.addAttribute("envio", envio);
-        model.addAttribute("resultado", resultado);
+
+        try {
+            Envio resultado = servicioEnvio.calcularEnvio(envio);
+            model.addAttribute("envio", envio);
+            model.addAttribute("resultado", resultado);
+        } catch (IllegalArgumentException e){
+            model.addAttribute("envio", envio);
+            model.addAttribute("error", e.getMessage());
+        }
         return "formulario-envio";
     }
 }
