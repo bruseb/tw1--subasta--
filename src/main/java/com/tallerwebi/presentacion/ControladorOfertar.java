@@ -63,7 +63,7 @@ public class ControladorOfertar {
                                           Model model) {
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
 
-        if (subastaDet == null) {
+        if (subastaDet == null || subastaDet.getEstadoSubasta() == -2) {
             model.addAttribute("error", "no existe la subasta" + idSubasta);
             return "error";
         }
@@ -89,7 +89,7 @@ public class ControladorOfertar {
     @GetMapping("/{id}")
     public String verDetalleSubasta(@PathVariable ("id") Long idSubasta, Model model) {
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
-        if (subastaDet == null) {
+        if (subastaDet == null || subastaDet.getEstadoSubasta() == -2) {
             model.addAttribute("error", "no existe la subasta" + idSubasta);
             return "error";
         }
@@ -150,14 +150,13 @@ public class ControladorOfertar {
                                           HttpServletRequest request,
                                           Model model) {
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
-
-        if (subastaDet == null) {
+        if (subastaDet == null || subastaDet.getEstadoSubasta() == -2) {
             model.addAttribute("error", "no existe la subasta" + idSubasta);
             return "error";
         }
-        return "nuevaOferta";
 
-
+        servicioSubasta.eliminarSubasta(subastaDet);
+        return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
     }
 }
 
