@@ -66,7 +66,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="estadoProducto">Estado del producto</label>
-                <select class="form-select" id="estadoProducto">
+                <select th:field="*{estadoProducto}" class="form-select" id="estadoProducto">
                     <option value="Nuevo; En caja" selected>Nuevo; En caja</option>
                     <option value="Nuevo; Sin caja">Nuevo; Sin caja</option>
                     <option value="Usado; Como nuevo">Usado; Como nuevo</option>
