@@ -144,6 +144,21 @@ public class ControladorOfertar {
 
         return responseReturn;
     }
+
+    @GetMapping("/eliminarOferta")
+    public String eliminarSubasta(@RequestParam Long idSubasta,
+                                          HttpServletRequest request,
+                                          Model model) {
+        Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
+
+        if (subastaDet == null) {
+            model.addAttribute("error", "no existe la subasta" + idSubasta);
+            return "error";
+        }
+        return "nuevaOferta";
+
+
+    }
 }
 
 

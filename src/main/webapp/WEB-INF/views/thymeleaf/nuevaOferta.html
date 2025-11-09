@@ -84,6 +84,7 @@
                 <form th:action="@{/ofertar/guardar}" th:object="${oferta}" method="post">
                     <!-- idSubasta para el @RequestParam Long idSubasta -->
                     <input type="hidden" name="idSubasta" id="idSubasta" th:value="${subastaDet.id}"/>
+                    <input type="hidden" name="idSubasta" id="esPropietario" th:value="${esPropietario}"/>
                     <input type="hidden" name="fechaFin" id="fechaFin" th:value="${subastaDet.fechaFin}"/>
                     <div class="mb-3">
                         <small>Monto Actual de la subasta: $
@@ -104,6 +105,10 @@
 
                 <div class="mb-3">
                     <small>Tiempo restante: <span id='tiempoSubasta'></span> </small>
+                </div>
+
+                <div class="mb-3"  th:if="${esPropietario}">
+                    <button id="btn-eliminarSubasta" type="button" class="btn btn-danger w-100">Eliminar Subasta</button>
                 </div>
 
                 <!-- Mensaje de confirmación -->
