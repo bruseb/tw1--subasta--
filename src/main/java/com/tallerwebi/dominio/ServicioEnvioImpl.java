@@ -2,6 +2,9 @@ package com.tallerwebi.dominio;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class ServicioEnvioImpl implements ServicioEnvio {
 
@@ -32,7 +35,18 @@ public class ServicioEnvioImpl implements ServicioEnvio {
     public String calcularZona (String pais, String provincia){
         if(!pais.equalsIgnoreCase("Argentina")) return "Internacional";
 
-        switch(provincia.toLowerCase()){
+        List<String> provinciasArgentina = Arrays.asList(
+                "jujuy", "salta", "tucumán", "catamarca", "la rioja", "santiago del estero",
+                "formosa", "chaco", "corrientes", "misiones", "mendoza", "san juan", "san luis",
+                "buenos aires", "cordoba", "santa fe", "entre rios", "la pampa",
+                "neuquen", "rio negro", "chubut", "santa cruz", "tierra del fuego");
+
+        String provinciaLower = provincia.toLowerCase();
+        if(!provinciasArgentina.contains(provinciaLower)){
+            throw new IllegalArgumentException("Provincia inválida para Argentina: " + provincia);
+        }
+
+        switch(provinciaLower){
             case "jujuy":
             case "salta":
             case "tucumán":
@@ -126,7 +140,7 @@ public class ServicioEnvioImpl implements ServicioEnvio {
             case "Internacional":
             return 10;
             default:
-                return 5;
+                return 12;
         }
     }
 
