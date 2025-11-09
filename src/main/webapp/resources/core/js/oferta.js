@@ -10,7 +10,7 @@ const valorMontoActual = document.querySelector("#precioActual");
 const tableListaOfertas = document.querySelector("#listaOfertas");
 //const ES_PROPIETARIO = /* [[${esPropietario}]] */ false;
 const input_ES_PROPIETARIO = document.querySelector("#esPropietario");
-const ES_PROPIETARIO = Boolean(input_ES_PROPIETARIO.value);
+const ES_PROPIETARIO = input_ES_PROPIETARIO.value;
 const importeMinimo = 1;
 const intervalActualizarOferta = 5000; //5 segundos
 const intervalActualizarTimer = 1000; //1 segundo
@@ -18,10 +18,10 @@ const intervalActualizarTimer = 1000; //1 segundo
 const finSubasta = new Date(valorFechaFin.value).getTime();
 
 //inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
-if (!ES_PROPIETARIO && inputImporte && inputMontoActual) {
+if (ES_PROPIETARIO === 'false' && inputImporte && inputMontoActual) {
     inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
 }
-if(ES_PROPIETARIO){
+if(ES_PROPIETARIO === 'true'){
     buttonEliminarSubasta.setAttribute("onclick","if(confirm('¿Estas seguro de eliminar la subasta?\\nESTA ACCION ES IRREVERSIBLE')) {\nwindow.location.replace('eliminarOferta?idSubasta=" + valorIdSubasta.value + "');\n}");
 }
 //Llamada inicial, para que no tarde
