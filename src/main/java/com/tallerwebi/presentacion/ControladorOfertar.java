@@ -4,6 +4,7 @@ import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioOfertaImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,8 @@ public class ControladorOfertar {
     private final RepositorioUsuario repositorioUsuario;
     private final ServicioSubasta servicioSubasta;
     private final RepositorioOfertaImpl repositorioOferta;
+    private final ServicioPagoInicialSubasta servicioPagoInicialSubasta;
+
     private boolean esPropietario(Subasta subasta, String emailUsuario) {
         return emailUsuario != null
                 && subasta != null
@@ -32,11 +35,12 @@ public class ControladorOfertar {
     @Autowired
     public ControladorOfertar(ServicioOferta servicioOferta,
                               RepositorioUsuario repositorioUsuario,
-                              ServicioSubasta servicioSubasta, RepositorioOfertaImpl repositorioOferta) {
+                              ServicioSubasta servicioSubasta, RepositorioOfertaImpl repositorioOferta, ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
         this.servicioOferta = servicioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.servicioSubasta = servicioSubasta;
         this.repositorioOferta = repositorioOferta;
+        this.servicioPagoInicialSubasta = servicioPagoInicialSubasta;
     }
 
 
@@ -57,6 +61,7 @@ public class ControladorOfertar {
 
 
     // Mostrar la página de ofertar
+    @Transactional(readOnly = true)
     @GetMapping("/nuevaOferta")
     public String mostrarFormularioOferta(@RequestParam Long idSubasta,
                                           HttpServletRequest request,
@@ -67,10 +72,24 @@ public class ControladorOfertar {
             model.addAttribute("error", "no existe la subasta" + idSubasta);
             return "error";
         }
-
-        // Obtener usuario logueado
-        String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
+        //Obtener usuario logueado
+        String emailUsuario = (String)request.getSession().getAttribute("USUARIO");
         boolean esPropietario = esPropietario(subastaDet, emailUsuario);
+
+        //validacion 10%
+        boolean haPagadoInicial = false;
+        if(emailUsuario != null) {
+            Usuario usuario = repositorioUsuario.buscar(emailUsuario);
+            PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario, subastaDet);
+            haPagadoInicial = pago != null && Boolean.TRUE.equals(pago.getPagoConfirmado());
+
+            model.addAttribute("subastaDet", subastaDet);
+            model.addAttribute("oferta", new Oferta());
+            model.addAttribute("esPropietario", esPropietario);
+            model.addAttribute("haPagadoInicial", haPagadoInicial);
+
+            return "nuevaOferta";
+        }
 
         // Determinar si el usuario es el propietario
        // boolean esPropietario = false;

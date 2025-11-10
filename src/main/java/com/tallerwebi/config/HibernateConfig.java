@@ -60,11 +60,9 @@ public class HibernateConfig {
     }
 
     @Bean
-   public HibernateTransactionManager transactionManager() {
+    public HibernateTransactionManager transactionManager() {
     return new HibernateTransactionManager(sessionFactory(dataSource()).getObject());
     }
-
-
 
     private Properties hibernateProperties() {
         Properties properties = new Properties();

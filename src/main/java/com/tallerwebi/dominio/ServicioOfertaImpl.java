@@ -16,14 +16,14 @@ public class ServicioOfertaImpl implements ServicioOferta{
     private final RepositorioOferta repositorioOferta;
     private final RepositorioUsuario repositorioUsuario;
     private final RepositorioSubasta repositorioSubasta;
-    private final RepositorioReservaSubasta repositorioReservaSubasta;
+    private final ServicioPagoInicialSubasta servicioPagoInicialSubasta;
 
     @Autowired
-    public ServicioOfertaImpl(RepositorioOferta repositorioOferta, RepositorioUsuario repositorioUsuario, RepositorioSubasta repositorioSubasta, RepositorioReservaSubasta repositorioReservaSubasta) {
+    public ServicioOfertaImpl(RepositorioOferta repositorioOferta, RepositorioUsuario repositorioUsuario, RepositorioSubasta repositorioSubasta, ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
         this.repositorioOferta = repositorioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioSubasta = repositorioSubasta;
-        this.repositorioReservaSubasta = repositorioReservaSubasta;
+        this.servicioPagoInicialSubasta = servicioPagoInicialSubasta;
     }
 
 
@@ -46,10 +46,10 @@ public class ServicioOfertaImpl implements ServicioOferta{
         if (subasta == null) throw new RuntimeException("Subasta inexistente.");
         if (subasta.getEstadoSubasta() == -1) throw new RuntimeException("Subasta cerrada.");
 
-        //validar que el usuario haya abonado el 10% del valor actual
-        ReservaSubasta reserva = repositorioReservaSubasta.buscarRerservaConfirmada(usuario,subasta);
-        if(reserva == null || !reserva.getPagoConfirmado()){
-            throw new RuntimeException("Debes abonar el 10% de la subasta actual para poder ofertar.");
+        //validar que el usuario haya abonado el 10% del valor inicial
+        PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario,subasta);
+        if(pago == null || !pago.getPagoConfirmado()){
+            throw new RuntimeException("Debes abonar el 10% de la subasta inicial para poder ofertar.");
         }
 
         //Validacion antiofertante
