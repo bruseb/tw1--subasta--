@@ -33,17 +33,12 @@
             <select th:field="*{pais}" required>
                 <option value="" disabled>Seleccionar país</option>
                 <option value="Argentina">Argentina</option>
-                <option value="Brasil">Brasil</option>
-                <option value="Bolivia">Bolivia</option>
-                <option value="Chile">Chile</option>
-                <option value="Paraguay">Paraguay</option>
-                <option value="Uruguay">Uruguay</option>
             </select>
         </div>
 
         <div>
             <label>Provincia:</label>
-            <input th:field="*{provincia}">
+            <input th:field="*{provincia}" placeholder="Ej: Buenos Aires" required>
         </div>
 
         <div>
@@ -58,8 +53,23 @@
 <br>
         <h5>Datos del producto</h5>
 
+        <input type="hidden" id="calcular" name="calcular" value="">
+
+        <label>Subasta:</label>
+        <select name="subastaId" onchange="document.getElementById('calcular').value=''; this.form.submit();">
+            <option value="" disabled selected>Seleccionar subasta</option>
+            <option th:each="subasta : ${subastas}"
+                    th:value="${subasta.id}"
+                    th:text="'Subasta #' + ${subasta.id}"
+                    th:selected="${subasta.id} == ${subastaId}">
+            </option>
+        </select>
+
+
+
         <div>
             <label>Peso(kg):</label>
+            <small class="form-text text-muted">Solo informativo, no afecta el costo.</small>
             <input type="number" step="0.1" th:field="*{peso}" required>
         </div>
 
@@ -78,7 +88,7 @@
             <input type="number" step="0.1" th:field="*{alto}" required>
         </div>
 
-        <button type="submit">Calcular envío</button>
+        <button type="submit" onclick="document.getElementById('calcular').value='true'">Calcular envío</button>
     </form>
 
     <div th:if="${error}" class="alert alert-danger">
@@ -91,8 +101,8 @@
         <h4>Resultado del Envío</h4>
         <p>Tamaño del paquete: <strong th:text="${resultado.tamanio}"> </strong></p>
         <p>Zona/pais destino: <strong th:text="${resultado.zonaDestino}"> </strong></p>
-        <p>Costo: <strong>$<span th:text="${resultado.costo}"> </span> </strong></p>
-        <p>Dias estimados de entrega: <strong> <span th:text="${resultado.diasDeEntrega}"> días</span></strong></p>
+        <p>Costo: <strong>$<span th:text="${resultado.costo}"></span></strong></p>
+        <p>Días estimados de entrega: <strong><span th:text="${resultado.diasDeEntrega}"> </span> días</strong></p>
     </div>
 </div>
 
