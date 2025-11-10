@@ -38,16 +38,20 @@ public class RepositorioSubastaImplTest {
 
     @Test
     @Transactional
-    public void deberiaGuardaUnaSubasta(){
+    public void deberiaGuardaUnaSubastaYRecuperarUnaSubastaPorId(){
 
+        //preparacion
         Subasta subasta = new Subasta();
-        subasta.setId(1L);
         subasta.setTitulo("Teclado");
         subasta.setDescripcion("Teclado en buen estado");
         subasta.setEstadoProducto("usado");
         subasta.setPrecioInicial(15000F);
 
+        //ejecucion
         repositorioSubasta.guardar(subasta);
+        Long idGenerado = subasta.getId();
+
+        Subasta subastaObtenida = repositorioSubasta.obtenerSubasta(idGenerado);
 
         String hql = "FROM Subasta WHERE id = :id";
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
