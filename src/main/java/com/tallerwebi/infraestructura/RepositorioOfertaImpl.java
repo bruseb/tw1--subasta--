@@ -42,9 +42,10 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
     public List<Subasta> obtenerSubastasOfertadasPorUsuario(String emailUsuario) {
         String hql = "SELECT DISTINCT o.subasta " +
                 "FROM Oferta o " +
-                "WHERE o.ofertadorID.email = :email";
+                "WHERE o.ofertadorID.email = :email AND o.subasta.estadoSubasta = :estadoSubasta";
         Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql, Subasta.class);
         query.setParameter("email", emailUsuario);
+        query.setParameter("estadoSubasta",10);
         return query.getResultList();
     }
 }

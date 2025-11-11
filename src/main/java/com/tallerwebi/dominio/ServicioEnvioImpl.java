@@ -2,14 +2,22 @@ package com.tallerwebi.dominio;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Service
 public class ServicioEnvioImpl implements ServicioEnvio {
 
     @Override
-    public Envio calcularEnvio (Envio actual){
-        String tamanio = calcularTamanio(actual.getLargo(),actual.getAncho(),actual.getAlto());
+    public Envio calcularEnvio(Envio actual) {
+        String tamanio = calcularTamanio(actual.getLargo(), actual.getAncho(), actual.getAlto());
         String zona = calcularZona(actual.getPais(), actual.getProvincia());
-        Double costo = calcularCosto(tamanio, actual.getPeso(), zona);
+
+        if (zona.equals("Internacional")) {
+            throw new IllegalArgumentException("Solo se permiten envíos dentro de Argentina.");
+        }
+
+        Double costo = calcularCosto(tamanio);
         Integer dias = calcularTiempoEntrega(zona);
 
         Envio respuesta = new Envio();
@@ -21,18 +29,32 @@ public class ServicioEnvioImpl implements ServicioEnvio {
         return respuesta;
     }
 
-    public String calcularTamanio(Double largo, Double ancho, Double alto){
+    public String calcularTamanio(Double largo, Double ancho, Double alto) {
         Double volumen = largo * ancho * alto;
-        if(volumen <= 10000) return "Pequeño";
+        if (volumen <= 10000) return "Pequeño";
         else if (volumen <= 30000) return "Mediano";
         else if (volumen <= 60000) return "Grande";
-        else return "Extra grande";
+        else if (volumen <= 100000) return "Extra Grande";
+        else return "Gigante";
     }
 
-    public String calcularZona (String pais, String provincia){
-        if(!pais.equalsIgnoreCase("Argentina")) return "Internacional";
+    public String calcularZona(String pais, String provincia) {
+        if (!pais.equalsIgnoreCase("Argentina")) {
+            throw new IllegalArgumentException("Solo se permiten envíos dentro de Argentina.");
+        }
 
-        switch(provincia.toLowerCase()){
+        List<String> provinciasArgentina = Arrays.asList(
+                "jujuy", "salta", "tucumán", "catamarca", "la rioja", "santiago del estero",
+                "formosa", "chaco", "corrientes", "misiones", "mendoza", "san juan", "san luis",
+                "buenos aires", "cordoba", "santa fe", "entre rios", "la pampa",
+                "neuquen", "rio negro", "chubut", "santa cruz", "tierra del fuego");
+
+        String provinciaLower = provincia.toLowerCase();
+        if (!provinciasArgentina.contains(provinciaLower)) {
+            throw new IllegalArgumentException("Provincia inválida para Argentina: " + provincia);
+        }
+
+        switch (provinciaLower) {
             case "jujuy":
             case "salta":
             case "tucumán":
@@ -66,68 +88,39 @@ public class ServicioEnvioImpl implements ServicioEnvio {
         }
     }
 
-    public Double calcularCosto(String tamanio, Double peso, String zona){
-        Double valorTamanio;
+    public Double calcularCosto(String tamanio) {
 
-        switch(tamanio){
-            case "Pequeño":
-                valorTamanio = 5000.0;
-                break;
-            case "Mediano":
-                valorTamanio = 7500.0;
-                break;
-            case "Grande":
-                valorTamanio = 10000.0;
-                break;
+        String tamanioNormalizado = tamanio.toLowerCase();
+        switch (tamanioNormalizado) {
+            case "pequeño":
+                return 5000.0;
+            case "mediano":
+                return 7500.0;
+            case "grande":
+                return 10000.0;
+            case "extra grande":
+                return 12500.0;
+            case "gigante":
+                return 15000.0;
             default:
-                valorTamanio = 13000.0;
-                break;
-        }
-
-        Double valorZona;
-
-        switch (zona){
-            case "Noroeste":
-            case "Noreste":
-            valorZona = 1.2;
-            break;
-            case "Cuyo":
-                valorZona = 1.3;
-                break;
-            case "Pampeana":
-                valorZona = 1.0;
-                break;
-            case "Patagonia":
-                valorZona = 1.5;
-                break;
-            case "Internacional":
-                valorZona = 2.0;
-                break;
-            default:
-                valorZona = 1.0;
-        }
-
-        return valorTamanio + peso * 100 * valorZona;
-    }
-
-    public Integer calcularTiempoEntrega (String zona){
-
-        switch (zona){
-            case "Pampeana":
-                return 2;
-            case "Cuyo":
-                return 4;
-            case "Noroeste":
-                return 4;
-            case "Noreste":
-                return 4;
-            case "Patagonia":
-                return 6;
-            case "Internacional":
-            return 10;
-            default:
-                return 5;
+                throw new IllegalArgumentException("Tamaño desconocido " + tamanio);
         }
     }
 
-}
+        public Integer calcularTiempoEntrega (String zona){
+
+            switch (zona) {
+                case "Pampeana":
+                    return 2;
+                case "Cuyo":
+                case "Noroeste":
+                case "Noreste":
+                    return 4;
+                case "Patagonia":
+                    return 6;
+                default:
+                    return 8;
+            }
+        }
+
+    }

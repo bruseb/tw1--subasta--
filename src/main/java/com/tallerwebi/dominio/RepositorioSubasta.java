@@ -8,12 +8,14 @@ public interface RepositorioSubasta {
     void guardar(Subasta subasta);
     boolean existeLaSubasta(String titulo, String descripcion, String estadoProducto,Subcategoria subcategoria,Float precioInicial, Usuario creador);
 
+    @Transactional
     Subasta obtenerSubasta(Long id);
     @Transactional
     List<Subasta> buscarTodas();
     @Transactional
     List<Subasta> buscarSubasta(String titulo);
     List<Subasta> buscarSubastasPorCreador(String emailCreador);
+    List<Subasta> buscarSubastasGanadas(String emailCreador);
 
     void actualizar(Subasta subasta);
     List<Subasta> buscarSubastasPorCategoriaId(Long idCategoria);

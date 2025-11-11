@@ -144,4 +144,15 @@ public class ServicioSubastaImpl implements ServicioSubasta {
         return repositorioSubasta.buscarSubastasPorSubcategoriaId(idSubcategoria);
     }
 
+    @Override
+    public List<Subasta> listarSubastasGanadas(String emailCreador){
+        return repositorioSubasta.buscarSubastasGanadas(emailCreador);
+    }
+
+    @Override
+    public void eliminarSubasta(Subasta subasta) {
+        subasta.setEstadoSubasta(-2);
+        repositorioSubasta.actualizar(subasta);
+    }
+
 }

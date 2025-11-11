@@ -66,7 +66,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" for="estadoProducto">Estado del producto</label>
-                <select class="form-select" id="estadoProducto">
+                <select th:field="*{estadoProducto}" class="form-select" id="estadoProducto">
                     <option value="Nuevo; En caja" selected>Nuevo; En caja</option>
                     <option value="Nuevo; Sin caja">Nuevo; Sin caja</option>
                     <option value="Usado; Como nuevo">Usado; Como nuevo</option>
@@ -79,23 +79,26 @@
             <!-- Categorías
             <label for="selectDeCategoriax">Categoría</label>
             <select id="selectDeCategoriax" class="form-control" required> -->
-            <label>Medidas Producto</label>
             <div class="medidas-horizontal">
-                <div class="campo">
-                    <label for="peso">Peso(Kg)</label>
-                    <input type="number" th:field="*{peso}" id="peso" class="form-control"  min="0" step="0.1" required/>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Peso</span>
+                    <input type="number" th:field="*{peso}" class="form-control" id="peso" aria-label="peso" min="0.1" step="0.1" required>
+                    <span class="input-group-text">kg</span>
                 </div>
-                <div class="campo">
-                    <label for="largo">Largo(cm)</label>
-                    <input type="number" th:field="*{largo}" id="largo" class="form-control"  min="0.1" step="0.1" required/>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Largo</span>
+                    <input type="number" th:field="*{largo}" class="form-control" id="largo" aria-label="largo" min="0.1" step="0.1" required>
+                    <span class="input-group-text">cm</span>
                 </div>
-                <div class="campo">
-                    <label for="alto">Alto(cm)</label>
-                    <input type="number" th:field="*{alto}" id="alto" class="form-control"  min="0.1" step="0.1" required/>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Alto</span>
+                    <input type="number" th:field="*{alto}" class="form-control" id="alto" aria-label="alto" min="0.1" step="0.1" required>
+                    <span class="input-group-text">cm</span>
                 </div>
-                <div class="campo">
-                    <label for="ancho">Ancho(cm)</label>
-                    <input type="number" th:field="*{ancho}" id="ancho" class="form-control"  min="0.1" step="0.1" required/>
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Ancho</span>
+                    <input type="number" th:field="*{ancho}" class="form-control" id="ancho" aria-label="ancho" min="0.1" step="0.1" required>
+                    <span class="input-group-text">cm</span>
                 </div>
             </div>
 

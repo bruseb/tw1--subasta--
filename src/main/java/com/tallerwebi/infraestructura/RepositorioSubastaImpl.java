@@ -58,6 +58,7 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
         return session.createCriteria(Subasta.class)
                 .createAlias("creador", "u")
                 .add(Restrictions.eq("u.email", emailCreador))
+                .add(Restrictions.eq("estadoSubasta", 10))
                 .list();
     }
 
@@ -100,5 +101,16 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
         query.setParameter("estadoSubasta",estadoSubasta);
         return query.getResultList();
     }
+
+    @Override
+    public List<Subasta> buscarSubastasGanadas(String emailCreador){
+        String hql = "SELECT s FROM Subasta s JOIN Oferta o ON s.precioActual = o.montoOfertado WHERE o.ofertadorID.email = :emailcreador AND s.estadoSubasta = :estadoSubasta";
+        Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
+        Integer estadoSubasta = -1;
+        query.setParameter("emailcreador",emailCreador);
+        query.setParameter("estadoSubasta",estadoSubasta);
+        return query.getResultList();
+    }
+
 
 }
