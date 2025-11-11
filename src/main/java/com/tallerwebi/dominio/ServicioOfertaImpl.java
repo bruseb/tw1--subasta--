@@ -43,7 +43,7 @@ public class ServicioOfertaImpl implements ServicioOferta{
         if (usuario == null) throw new RuntimeException("Usuario inexistente.");
 
         Subasta subasta = repositorioSubasta.obtenerSubasta(id);
-        if (subasta == null) throw new RuntimeException("Subasta inexistente.");
+        if (subasta == null || subasta.getEstadoSubasta() == null || subasta.getEstadoSubasta() == -2 ) throw new RuntimeException("Subasta inexistente.");
         if (subasta.getEstadoSubasta() == -1) throw new RuntimeException("Subasta cerrada.");
 
         //validar que el usuario haya abonado el 10% del valor actual
