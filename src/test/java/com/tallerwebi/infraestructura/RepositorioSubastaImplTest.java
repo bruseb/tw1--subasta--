@@ -122,7 +122,7 @@ public class RepositorioSubastaImplTest {
         usuario.setPassword("123456");
         sessionFactory.getCurrentSession().save(usuario);
 
-        subasta.setId(1L);
+        subasta.setId(2L);
         subasta.setTitulo("Teclado");
         subasta.setDescripcion("Teclado en buen estado");
         subasta.setEstadoProducto("Usado");
@@ -139,7 +139,7 @@ public class RepositorioSubastaImplTest {
 
         repositorioSubasta.guardar(subasta);
 
-        Subasta subastaObtenidaPorId = repositorioSubasta.obtenerSubasta(1L);
+        Subasta subastaObtenidaPorId = repositorioSubasta.obtenerSubasta(2L);
 
         assertThat(subastaObtenidaPorId,is(equalTo(subasta)));
     }
@@ -174,7 +174,7 @@ public class RepositorioSubastaImplTest {
         usuario.setPassword("123456");
         sessionFactory.getCurrentSession().save(usuario);
 
-        subasta.setId(1L);
+        subasta.setId(3L);
         subasta.setTitulo("Teclado");
         subasta.setDescripcion("Teclado en buen estado");
         subasta.setEstadoProducto("Usado");
@@ -226,7 +226,7 @@ public class RepositorioSubastaImplTest {
         usuario.setPassword("123456");
         sessionFactory.getCurrentSession().save(usuario);
 
-        subasta.setId(1L);
+        subasta.setId(4L);
         subasta.setTitulo("Teclado");
         subasta.setDescripcion("Teclado en buen estado");
         subasta.setEstadoProducto("Usado");
