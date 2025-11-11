@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service("servicioOferta")
 @Transactional
-public class ServicioOfertaImpl implements ServicioOferta{
+public class ServicioOfertaImpl implements ServicioOferta {
 
     private final RepositorioOferta repositorioOferta;
     private final RepositorioUsuario repositorioUsuario;
@@ -19,26 +19,25 @@ public class ServicioOfertaImpl implements ServicioOferta{
     private final ServicioPagoInicialSubasta servicioPagoInicialSubasta;
 
     @Autowired
-    public ServicioOfertaImpl(RepositorioOferta repositorioOferta, RepositorioUsuario repositorioUsuario, RepositorioSubasta repositorioSubasta, ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
+    public ServicioOfertaImpl(RepositorioOferta repositorioOferta,
+                              RepositorioUsuario repositorioUsuario,
+                              RepositorioSubasta repositorioSubasta,
+                              ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
         this.repositorioOferta = repositorioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioSubasta = repositorioSubasta;
         this.servicioPagoInicialSubasta = servicioPagoInicialSubasta;
     }
 
-
-
     @Override
     public Oferta ofertar(Long id, String emailCreador, Float montoOfertado) {
-        // 1) Validar parámetros base
         if (emailCreador == null || emailCreador.isBlank())
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         if (id == null)
-           throw new IllegalArgumentException("idSubasta es obligatorio.");
+            throw new IllegalArgumentException("idSubasta es obligatorio.");
         if (montoOfertado == null)
             throw new IllegalArgumentException("El monto ofertado es obligatorio.");
 
-        // 2) Cargar usuario y subasta
         Usuario usuario = repositorioUsuario.buscar(emailCreador);
         if (usuario == null) throw new RuntimeException("Usuario inexistente.");
 
@@ -46,28 +45,24 @@ public class ServicioOfertaImpl implements ServicioOferta{
         if (subasta == null) throw new RuntimeException("Subasta inexistente.");
         if (subasta.getEstadoSubasta() == -1) throw new RuntimeException("Subasta cerrada.");
 
-        //validar que el usuario haya abonado el 10% del valor inicial
-        PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario,subasta);
-        if(pago == null || !pago.getPagoConfirmado()){
-            throw new RuntimeException("Debes abonar el 10% de la subasta inicial para poder ofertar.");
+        // 🔑 Validar que el usuario haya abonado el 10% del valor inicial
+        PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario, subasta);
+        if (pago == null || !Boolean.TRUE.equals(pago.getPagoConfirmado())) {
+            throw new RuntimeException("Debes abonar el 10% del monto inicial para poder ofertar.");
         }
 
-        //Validacion antiofertante
         Usuario creador = subasta.getCreador();
-        if(creador != null && creador.getEmail() !=null
-        && creador.getEmail().equalsIgnoreCase(emailCreador)){
+        if (creador != null && creador.getEmail() != null
+                && creador.getEmail().equalsIgnoreCase(emailCreador)) {
             throw new RuntimeException("No es posible que ofertes sobre una Subasta que creaste vos mismo!");
         }
 
-
-        // Regla de negocio (Float)
         Float actual = subasta.getPrecioActual() != null ? subasta.getPrecioActual()
                 : subasta.getPrecioInicial();
         if (actual == null) throw new RuntimeException("La subasta no tiene precio inicial.");
         if (Float.compare(montoOfertado, actual) <= 0)
             throw new RuntimeException("El monto ofertado debe ser mayor a " + actual);
 
-        // 4) Construir y guardar la oferta
         Oferta oferta = new Oferta();
         oferta.setSubasta(subasta);
         oferta.setOfertadorID(usuario);
@@ -75,16 +70,14 @@ public class ServicioOfertaImpl implements ServicioOferta{
         oferta.setFechaOferta(LocalDateTime.now());
         repositorioOferta.guardarOferta(oferta);
 
-        // 5) Actualizar estado de la subasta
         subasta.setPrecioActual(montoOfertado);
         repositorioSubasta.actualizar(subasta);
 
         return oferta;
-
     }
 
     @Override
-    public Object[] listarOfertasSubastaJSON(Long idSubasta){
+    public Object[] listarOfertasSubastaJSON(Long idSubasta) {
         Object[] returnJSON = repositorioOferta.obtenerOfertasPorSubastaJSON(idSubasta);
         verificarFechasSubasta(idSubasta);
         return returnJSON;
@@ -93,11 +86,10 @@ public class ServicioOfertaImpl implements ServicioOferta{
     @Override
     public void verificarFechasSubasta(Long idSubasta) {
         Subasta subasta = repositorioSubasta.obtenerSubasta(idSubasta);
-        LocalDateTime fechaAhora =  LocalDateTime.now();
+        LocalDateTime fechaAhora = LocalDateTime.now();
 
-        int comparacionFechas = fechaAhora.compareTo(subasta.getFechaFin());//Si es un numero negativo, fechaAhora es anterior a FechaFin
-        if(comparacionFechas >= 0){
-            //Cerrar Subasta
+        int comparacionFechas = fechaAhora.compareTo(subasta.getFechaFin());
+        if (comparacionFechas >= 0) {
             subasta.setEstadoSubasta(-1);
             repositorioSubasta.actualizar(subasta);
         }

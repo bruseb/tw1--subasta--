@@ -14,8 +14,7 @@ import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/pago-inicial")
-
- public class ControladorPagoInicial {
+public class ControladorPagoInicial {
 
     private final RepositorioUsuario repositorioUsuario;
     private final ServicioSubasta servicioSubasta;
@@ -32,6 +31,9 @@ import java.time.LocalDateTime;
 
     @PostMapping
     public String procesarPagoInicial(@RequestParam Long idSubasta,
+                                      @RequestParam String numeroTarjeta,
+                                      @RequestParam String fechaVencimiento,
+                                      @RequestParam String cvv,
                                       HttpServletRequest request,
                                       RedirectAttributes redirectAttrs) {
 
@@ -49,19 +51,26 @@ import java.time.LocalDateTime;
             return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
         }
 
-        // Verificar si ya pagó
-        PagoInicialSubasta pagoExistente = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario, subasta);
-        if (pagoExistente != null && Boolean.TRUE.equals(pagoExistente.getPagoConfirmado())) {
-            redirectAttrs.addFlashAttribute("mensaje", "Ya abonaste el 10% de esta subasta.");
+        // Validación de tarjeta
+        if (numeroTarjeta.isBlank() || fechaVencimiento.isBlank() || cvv.isBlank()) {
+            redirectAttrs.addFlashAttribute("error", "Debe completar los datos de la tarjeta.");
+            // vuelve a pagoInicial porque no completó el pago
             return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
         }
 
-        //registrar pago
-        servicioPagoInicialSubasta.registrarPagoInicial(usuario, subasta);
 
-        redirectAttrs.addFlashAttribute("mensaje", "Pago inicial registrado correctamente.");
+        boolean pagoRegistrado = servicioPagoInicialSubasta.registrarPagoInicial(usuario, subasta);
+
+        if (pagoRegistrado) {
+            redirectAttrs.addFlashAttribute("mensaje", "Pago inicial registrado correctamente.");
+        } else {
+            redirectAttrs.addFlashAttribute("mensaje", "Ya abonaste el 10% de esta subasta.");
+        }
+
+        //después del pago (nuevo o ya registrado) vuelve a nuevaOferta
         return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
     }
 }
+
 
 

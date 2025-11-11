@@ -14,9 +14,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/ofertar")
-
 public class ControladorOfertar {
-
 
     private final ServicioOferta servicioOferta;
     private final RepositorioUsuario repositorioUsuario;
@@ -35,15 +33,15 @@ public class ControladorOfertar {
     @Autowired
     public ControladorOfertar(ServicioOferta servicioOferta,
                               RepositorioUsuario repositorioUsuario,
-                              ServicioSubasta servicioSubasta, RepositorioOfertaImpl repositorioOferta, ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
+                              ServicioSubasta servicioSubasta,
+                              RepositorioOfertaImpl repositorioOferta,
+                              ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
         this.servicioOferta = servicioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.servicioSubasta = servicioSubasta;
         this.repositorioOferta = repositorioOferta;
         this.servicioPagoInicialSubasta = servicioPagoInicialSubasta;
     }
-
-
 
     // Vista inicial con el form para buscar
     @GetMapping("/buscarSubasta")
@@ -54,13 +52,10 @@ public class ControladorOfertar {
     // Procesar búsqueda
     @PostMapping("/buscarSubasta")
     public String buscarSubasta(@RequestParam Long idSubasta) {
-
-
         return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
     }
 
-
-    // Mostrar la página de ofertar
+    // Mostrar la página de ofertar (SIEMPRE nuevaOferta.html)
     @Transactional(readOnly = true)
     @GetMapping("/nuevaOferta")
     public String mostrarFormularioOferta(@RequestParam Long idSubasta,
@@ -69,66 +64,42 @@ public class ControladorOfertar {
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
 
         if (subastaDet == null || subastaDet.getEstadoSubasta() == -2) {
-            model.addAttribute("error", "no existe la subasta" + idSubasta);
+            model.addAttribute("error", "No existe la subasta con id " + idSubasta);
             return "error";
         }
-        //Obtener usuario logueado
-        String emailUsuario = (String)request.getSession().getAttribute("USUARIO");
+
+        String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
         boolean esPropietario = esPropietario(subastaDet, emailUsuario);
-
-        //validacion 10%
-        boolean haPagadoInicial = false;
-        if(emailUsuario != null) {
-            Usuario usuario = repositorioUsuario.buscar(emailUsuario);
-            PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario, subastaDet);
-            haPagadoInicial = pago != null && Boolean.TRUE.equals(pago.getPagoConfirmado());
-
-            model.addAttribute("subastaDet", subastaDet);
-            model.addAttribute("oferta", new Oferta());
-            model.addAttribute("esPropietario", esPropietario);
-            model.addAttribute("haPagadoInicial", haPagadoInicial);
-
-            return "nuevaOferta";
-        }
-
-        // Determinar si el usuario es el propietario
-       // boolean esPropietario = false;
-        //if (emailUsuario != null && subastaDet.getCreador() != null) {
-         //   esPropietario = emailUsuario.equalsIgnoreCase(subastaDet.getCreador().getEmail());
-        //}
 
         model.addAttribute("subastaDet", subastaDet);
         model.addAttribute("oferta", new Oferta());
         model.addAttribute("esPropietario", esPropietario);
 
-        return "nuevaOferta"; // Thymeleaf busca nuevaOferta.html
+        return "nuevaOferta";
     }
 
-    //Ver la subasta
-    @GetMapping("/{id}")
-    public String verDetalleSubasta(@PathVariable ("id") Long idSubasta, Model model) {
-        Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
-        if (subastaDet == null || subastaDet.getEstadoSubasta() == -2) {
-            model.addAttribute("error", "no existe la subasta" + idSubasta);
-            return "error";
-        }
-        model.addAttribute("subastaDet", subastaDet);
-        return "subasta-detalle";
-    }
-
-    // Guardar la oferta
+    // Guardar la oferta (VALIDACIÓN DE PAGO INICIAL)
     @PostMapping("/guardar")
-
-    public String guardarOferta(@ModelAttribute ("oferta") Oferta oferta,
+    public String guardarOferta(@ModelAttribute("oferta") Oferta oferta,
                                 @RequestParam Long idSubasta,
                                 HttpServletRequest request,
                                 Model model) {
 
-        // Usuario logueado
         String creadorEmail = (String) request.getSession().getAttribute("USUARIO");
         if (creadorEmail == null) {
             model.addAttribute("error", "Debe iniciar sesión para ofertar.");
             return "redirect:/login";
+        }
+
+        Subasta subasta = servicioSubasta.buscarSubasta(idSubasta);
+        Usuario usuario = repositorioUsuario.buscar(creadorEmail);
+
+        // Validar pago inicial ANTES de ofertar
+        PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario, subasta);
+        if (pago == null || !Boolean.TRUE.equals(pago.getPagoConfirmado())) {
+            model.addAttribute("subastaDet", subasta);
+            model.addAttribute("montoInicial", subasta.getPrecioInicial() * 0.10);
+            return "pagoInicial";
         }
 
         try {
@@ -137,22 +108,18 @@ public class ControladorOfertar {
             model.addAttribute("subastaDet", creada.getSubasta());
             return "resultadoOferta";
         } catch (RuntimeException ex) {
-            Subasta s = servicioSubasta.buscarSubasta(idSubasta);
-            boolean esPropietario = esPropietario(s, creadorEmail);
+            boolean esPropietario = esPropietario(subasta, creadorEmail);
 
             model.addAttribute("error", ex.getMessage());
-            model.addAttribute("subastaDet", s);
+            model.addAttribute("subastaDet", subasta);
             model.addAttribute("oferta", oferta);
             model.addAttribute("esPropietario", esPropietario);
             return "nuevaOferta";
         }
-
-
     }
 
-    @RequestMapping(value="/jsonOfertas/{idSubasta}", method = RequestMethod.GET)
+    @RequestMapping(value = "/jsonOfertas/{idSubasta}", method = RequestMethod.GET)
     public @ResponseBody Object obtenerOfertasJSON(@PathVariable Long idSubasta) {
-
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
         if (subastaDet == null) {
             return null;
@@ -166,16 +133,16 @@ public class ControladorOfertar {
 
     @GetMapping("/eliminarOferta")
     public String eliminarSubasta(@RequestParam Long idSubasta,
-                                          HttpServletRequest request,
-                                          Model model) {
+                                  HttpServletRequest request,
+                                  Model model) {
         Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
         String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
         if (subastaDet == null || subastaDet.getEstadoSubasta() == -2) {
-            model.addAttribute("error", "no existe la subasta" + idSubasta);
+            model.addAttribute("error", "no existe la subasta " + idSubasta);
             return "error";
         }
 
-        if(!subastaDet.getCreador().getEmail().equals(emailUsuario)) {
+        if (!subastaDet.getCreador().getEmail().equals(emailUsuario)) {
             model.addAttribute("error", "No podes borrar una subasta que no es tuya.");
             return "error";
         }

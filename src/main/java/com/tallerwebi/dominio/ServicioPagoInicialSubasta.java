@@ -7,6 +7,6 @@ public interface ServicioPagoInicialSubasta {
 
 
         PagoInicialSubasta buscarPagoConfirmado(Usuario usuario, Subasta subasta);
-        void registrarPagoInicial(Usuario usuario, Subasta subasta);
+        boolean registrarPagoInicial(Usuario usuario, Subasta subasta);
     }
 
