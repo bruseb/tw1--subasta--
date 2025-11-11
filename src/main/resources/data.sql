@@ -382,7 +382,6 @@ AND c.nombreEnUrl = 'moda'),
 -- ======================
 -- Imágenes
 -- ======================
-
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE Imagen;
 SET FOREIGN_KEY_CHECKS = 1;

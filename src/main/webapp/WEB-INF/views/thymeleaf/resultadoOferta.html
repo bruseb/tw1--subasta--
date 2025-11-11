@@ -31,7 +31,7 @@
                 Tu nueva subasta fue registrada correctamente en el sistema.<br>
 
                 Tu oferta se registró correctamente con en ID: <strong th:text="${ultimaOferta.id}"></strong>
-                para el producto <span th:text="${subastaDet.id}">.</span><br>
+                para el producto <span th:text="${subastaDet.titulo}">.</span><br>
                 Te notificaremos si sos el ganador de la subasta! <br>
 
 
@@ -41,8 +41,8 @@
                 <a th:href="@{/categorias}" class="btn btn-primary px-4">
                     Volver al Inicio
                 </a>
-                <a th:href="@{/nuevaSubasta}" class="btn btn-outline-primary px-4">
-                    Ver mis Subastas
+                <a th:href="@{/perfil}" class="btn btn-outline-primary px-4">
+                    Ver mis Ofertas
                 </a>
 
             </div>
