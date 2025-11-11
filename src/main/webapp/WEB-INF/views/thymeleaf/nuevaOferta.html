@@ -120,7 +120,7 @@
         <!-- Formulario de pago simulado -->
         <div class="mb-4" th:if="${!haPagadoInicial}">
 
-            <h5 class="mb-3">Pago inicial .</h5>
+            <h5 class="mb-3"><strong>Ofertar</strong>.</h5>
             <p>Para ofertar en esta subasta, debés abonar el 10% del valor inicial.</p>
 
             <form th:action="@{/pago-inicial}" method="post">
