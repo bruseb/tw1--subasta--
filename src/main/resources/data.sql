@@ -368,7 +368,7 @@ VALUES
 (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'cuadernos-y-diarios'),
 'NUEVO', 0.3, 2.0, 21.5, 15.5, 24000.00, 24000.00, '2025-11-16 10:00:00', DATE_ADD('2025-11-16 10:00:00', INTERVAL 72 HOUR), 10),
 
-Accesorios - relojes
+--Accesorios - relojes
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
 'Reloj Casio Vintage A168',
 'Reloj digital clásico, correa metálica, retroiluminación y cronómetro. En excelente estado.',
@@ -382,7 +382,6 @@ AND c.nombreEnUrl = 'moda'),
 -- ======================
 -- Imágenes
 -- ======================
-
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE Imagen;
 SET FOREIGN_KEY_CHECKS = 1;

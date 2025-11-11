@@ -32,7 +32,8 @@ public class ControladorOfertar {
     @Autowired
     public ControladorOfertar(ServicioOferta servicioOferta,
                               RepositorioUsuario repositorioUsuario,
-                              ServicioSubasta servicioSubasta, RepositorioOfertaImpl repositorioOferta) {
+                              ServicioSubasta servicioSubasta,
+                              RepositorioOfertaImpl repositorioOferta) {
         this.servicioOferta = servicioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.servicioSubasta = servicioSubasta;
@@ -72,11 +73,6 @@ public class ControladorOfertar {
         String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
         boolean esPropietario = esPropietario(subastaDet, emailUsuario);
 
-        // Determinar si el usuario es el propietario
-       // boolean esPropietario = false;
-        //if (emailUsuario != null && subastaDet.getCreador() != null) {
-         //   esPropietario = emailUsuario.equalsIgnoreCase(subastaDet.getCreador().getEmail());
-        //}
 
         model.addAttribute("subastaDet", subastaDet);
         model.addAttribute("oferta", new Oferta());

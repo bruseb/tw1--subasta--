@@ -28,7 +28,7 @@ public class ServicioOfertaImpl implements ServicioOferta{
 
     @Override
     public Oferta ofertar(Long id, String emailCreador, Float montoOfertado) {
-        // 1) Validar parámetros base
+
         if (emailCreador == null || emailCreador.isBlank())
             throw new UsuarioNoDefinidoException("Usuario no definido.");
         if (id == null)
@@ -36,7 +36,7 @@ public class ServicioOfertaImpl implements ServicioOferta{
         if (montoOfertado == null)
             throw new IllegalArgumentException("El monto ofertado es obligatorio.");
 
-        // 2) Cargar usuario y subasta
+        // Cargar usuario y subasta
         Usuario usuario = repositorioUsuario.buscar(emailCreador);
         if (usuario == null) throw new RuntimeException("Usuario inexistente.");
 
@@ -98,5 +98,10 @@ public class ServicioOfertaImpl implements ServicioOferta{
     @Override
     public List<Subasta> listarSubastasOfertadasPorUsuario(String emailUsuario) {
         return repositorioOferta.obtenerSubastasOfertadasPorUsuario(emailUsuario);
+    }
+
+    @Override
+    public Oferta buscarOfertaGanadoraDeSubasta(Long idSubasta) {
+        return null;
     }
 }
