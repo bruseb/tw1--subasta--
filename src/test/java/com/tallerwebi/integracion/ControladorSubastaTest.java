@@ -49,16 +49,4 @@ public class ControladorSubastaTest {
         ModelAndView mv = result.getModelAndView();
         assertThat(mv.getViewName(), equalToIgnoringCase("nuevaSubasta"));
     }
-
-//TODO: TESTING - Debe retornar Model Compras
-
-//    @Test
-//    public void debeRetornarModelCompras() throws Exception {
-//        MvcResult result = this.mockMvc.perform(get("/compras"))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        ModelAndView mv = result.getModelAndView();
-//        assertThat(mv.getViewName(), equalToIgnoringCase("compras"));
-//    }
 }
