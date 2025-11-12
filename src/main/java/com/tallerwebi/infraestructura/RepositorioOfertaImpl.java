@@ -30,7 +30,7 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
 
     @Override
     public Object[] obtenerOfertasPorSubastaJSON(Long idSubasta) {
-        String hql = "SELECT o.id, o.fechaOferta, o.montoOfertado, o.ofertadorID.id, o.ofertadorID.nombre, o.ofertadorID.apellido " +
+        String hql = "SELECT o.id, o.fechaOferta, o.montoOfertado, o.ofertadorID.id, o.ofertadorID.nombre, o.ofertadorID.apellido, o.ofertadorID.email " +
                      "FROM Oferta o " +
                      "WHERE o.subasta.id = :idSubasta";
         Query<Object[]> query = sessionFactory.getCurrentSession().createQuery(hql,Object[].class);
