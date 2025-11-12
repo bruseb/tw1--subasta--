@@ -12,6 +12,7 @@ public class Notificacion {
     private String mensaje;
     private boolean leida = false;
     private LocalDateTime fecha;
+    private Long id_subasta;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -46,5 +47,11 @@ public class Notificacion {
     }
     public void setUsuarioDestino(Usuario usuarioDestino) {
         this.usuarioDestino = usuarioDestino;
+    }
+    public Long getId_subasta() {
+        return id_subasta;
+    }
+    public void setId_subasta(Long id_subasta) {
+        this.id_subasta = id_subasta;
     }
 }

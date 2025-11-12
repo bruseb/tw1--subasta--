@@ -81,17 +81,10 @@ public class ServicioOfertaImpl implements ServicioOferta {
         subasta.setPrecioActual(montoOfertado);
         repositorioSubasta.actualizar(subasta);
 
-        // Notificar
-        servicioNotificacion.crearNotificacion(
-                subasta.getCreador(),
-                "Tu subasta '" + subasta.getTitulo() + "' recibió una nueva oferta de $" + montoOfertado
-        );
-
         List<Usuario> otrosOfertantes = repositorioOferta.obtenerOfertantesPorSubasta(subasta, usuario);
         for (Usuario u : otrosOfertantes) {
             servicioNotificacion.crearNotificacion(
-                    u,
-                    "Han superado tu oferta en la subasta '" + subasta.getTitulo() + "'."
+                    u,"Han superado tu oferta en la subasta '" + subasta.getTitulo() + "'.", subasta.getId()
             );
         }
 

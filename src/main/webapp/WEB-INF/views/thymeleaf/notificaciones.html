@@ -38,9 +38,9 @@
 
     <ul class="list-group">
         <li th:each="n : ${notificaciones}"
-            th:text="${n.mensaje}"
             th:classappend="${n.leida} ? 'p-3 mb-2 bg-secondary text-white' : 'p-3 mb-2 bg-primary text-white'"
             class="list-group-item">
+            <a th:href="@{/ofertar/nuevaOferta(idSubasta=${n.id_subasta})}" th:text="${n.mensaje}" class="text-light text-decoration-none d-block">Ir a la subasta</a>
         </li>
     </ul>
 
