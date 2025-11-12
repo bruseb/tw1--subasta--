@@ -3,6 +3,7 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.Oferta;
 import com.tallerwebi.dominio.RepositorioOferta;
 import com.tallerwebi.dominio.Subasta;
+import com.tallerwebi.dominio.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -48,4 +49,16 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
         query.setParameter("estadoSubasta",10);
         return query.getResultList();
     }
+
+    @Override
+    public List<Usuario> obtenerOfertantesPorSubasta(Subasta subasta, Usuario excluido) {
+        String hql = "SELECT DISTINCT o.ofertadorID FROM Oferta o WHERE o.subasta = :subasta AND o.ofertadorID != :excluido";
+        return sessionFactory.getCurrentSession()
+                .createQuery(hql, Usuario.class)
+                .setParameter("subasta", subasta)
+                .setParameter("excluido", excluido)
+                .getResultList();
+    }
+
+
 }

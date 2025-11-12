@@ -17,13 +17,15 @@ public class ServicioOfertaImpl implements ServicioOferta{
     private final RepositorioUsuario repositorioUsuario;
     private final RepositorioSubasta repositorioSubasta;
     private final RepositorioReservaSubasta repositorioReservaSubasta;
+    private final ServicioNotificacion servicioNotificacion;
 
     @Autowired
-    public ServicioOfertaImpl(RepositorioOferta repositorioOferta, RepositorioUsuario repositorioUsuario, RepositorioSubasta repositorioSubasta, RepositorioReservaSubasta repositorioReservaSubasta) {
+    public ServicioOfertaImpl(RepositorioOferta repositorioOferta, RepositorioUsuario repositorioUsuario, RepositorioSubasta repositorioSubasta, RepositorioReservaSubasta repositorioReservaSubasta, ServicioNotificacion servicioNotificacion) {
         this.repositorioOferta = repositorioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioSubasta = repositorioSubasta;
         this.repositorioReservaSubasta = repositorioReservaSubasta;
+        this.servicioNotificacion = servicioNotificacion;
     }
 
 
@@ -47,10 +49,10 @@ public class ServicioOfertaImpl implements ServicioOferta{
         if (subasta.getEstadoSubasta() == -1) throw new RuntimeException("Subasta cerrada.");
 
         //validar que el usuario haya abonado el 10% del valor actual
-        ReservaSubasta reserva = repositorioReservaSubasta.buscarRerservaConfirmada(usuario,subasta);
+        /*ReservaSubasta reserva = repositorioReservaSubasta.buscarRerservaConfirmada(usuario,subasta);
         if(reserva == null || !reserva.getPagoConfirmado()){
             throw new RuntimeException("Debes abonar el 10% de la subasta actual para poder ofertar.");
-        }
+        }*/
 
         //Validacion antiofertante
         Usuario creador = subasta.getCreador();
@@ -79,8 +81,22 @@ public class ServicioOfertaImpl implements ServicioOferta{
         subasta.setPrecioActual(montoOfertado);
         repositorioSubasta.actualizar(subasta);
 
-        return oferta;
+        // Notificar al creador de la subasta
+        servicioNotificacion.crearNotificacion(
+                subasta.getCreador(),
+                "Tu subasta '" + subasta.getTitulo() + "' recibió una nueva oferta de $" + montoOfertado
+        );
 
+        // Notificar a los otros participantes (excepto el ofertante actual)
+        List<Usuario> otrosOfertantes = repositorioOferta.obtenerOfertantesPorSubasta(subasta, usuario);
+        for (Usuario u : otrosOfertantes) {
+            servicioNotificacion.crearNotificacion(
+                    u,
+                    "Han superado tu oferta en la subasta '" + subasta.getTitulo() + "'."
+            );
+        }
+
+        return oferta;
     }
 
     @Override
