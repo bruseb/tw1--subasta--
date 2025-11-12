@@ -99,13 +99,13 @@ function crearListaOfertas(listaOfertas){
         if(listaOfertas[listaOfertas.length-i][6] === usuarioActual ){
             texto = "<b>" + texto + "</b>";
             if(listaOfertas.length-i === listaOfertas.length-1 && rangoTiempoOferta(fechaOferta.getDate().toString().padStart(2,0), fechaOferta.getMonth().toString().padStart(2,0),fechaOferta.getFullYear().toString(),fechaOferta.getHours().toString().padStart(2,0) , fechaOferta.getMinutes().toString().padStart(2,0) , fechaOferta.getSeconds().toString().padStart(2,0) ) ){
-                let nodeBotonEliminarOferta = document.createElement("button");
-                nodeBotonEliminarOferta.id = "botonCancelarOferta";
-                nodeBotonEliminarOferta.setAttribute("onclick","if(confirm('¿Estas seguro de eliminar tu oferta?\\nESTA ACCION ES IRREVERSIBLE')) {\nwindow.location.replace('eliminarOferta?idSubasta=" + valorIdSubasta.value + "&idOferta=" + listaOfertas[listaOfertas.length-i][0] + "');\n}");
-                nodeBotonEliminarOferta.setAttribute("class", "btn btn-danger");
-                nodeBotonEliminarOferta.innerText = "Cancelar Oferta";
-                nodeBotonEliminarOferta.style.padding = "2px 8px";
-                nodeBotonEliminarOferta.style.margin = "0px 10px";
+                let nodeBotonCancelarOferta = document.createElement("button");
+                nodeBotonCancelarOferta.id = "botonCancelarOferta";
+                nodeBotonCancelarOferta.setAttribute("onclick","if(confirm('¿Estas seguro de cancelar tu oferta?\\nESTA ACCION ES IRREVERSIBLE')) {\nwindow.location.replace('eliminarOferta?idSubasta=" + valorIdSubasta.value + "&idOferta=" + listaOfertas[listaOfertas.length-i][0] + "');\n}");
+                nodeBotonCancelarOferta.setAttribute("class", "btn btn-danger");
+                nodeBotonCancelarOferta.innerText = "Cancelar Oferta";
+                nodeBotonCancelarOferta.style.padding = "2px 8px";
+                nodeBotonCancelarOferta.style.margin = "0px 10px";
 
                 let nodeHiddenTiempo = document.createElement("input");
                 let tiempoOferta =  new Date(fechaOferta.getFullYear().toString(), fechaOferta.getMonth().toString().padStart(2,0), fechaOferta.getDate().toString().padStart(2,0),fechaOferta.getHours().toString().padStart(2,0) , fechaOferta.getMinutes().toString().padStart(2,0) , fechaOferta.getSeconds().toString().padStart(2,0)).getTime();
@@ -114,7 +114,7 @@ function crearListaOfertas(listaOfertas){
                 nodeHiddenTiempo.value = tiempoOferta.toString();
 
                 nodeOferta.innerHTML = texto;
-                nodeOferta.appendChild(nodeBotonEliminarOferta);
+                nodeOferta.appendChild(nodeBotonCancelarOferta);
                 nodeOferta.appendChild(nodeHiddenTiempo);
                 tableListaOfertas.appendChild(nodeOferta);
             }else{
