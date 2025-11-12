@@ -155,6 +155,9 @@ function temporizador(){
         if(buttonSubmit != null){
             buttonSubmit.disabled = true;
         }
+        if(buttonEliminarSubasta != null){
+            buttonEliminarSubasta.disabled = true;
+        }
         clearInterval(intervalActualizarOfertas);
         clearInterval(intervalTemporizador);
         callOfertas();

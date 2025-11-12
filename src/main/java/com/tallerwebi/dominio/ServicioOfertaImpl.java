@@ -100,6 +100,18 @@ public class ServicioOfertaImpl implements ServicioOferta{
     }
 
     @Override
+    public Oferta buscarOferta(Long idSubasta) {
+        return repositorioOferta.obtenerOferta(idSubasta);
+    }
+
+    @Override
+    public void eliminarOferta(Oferta oferta, Subasta subasta){
+        repositorioOferta.eliminarOferta(oferta);
+        subasta.setPrecioActual(repositorioOferta.obtenerOfertaMaxima(subasta.getId()));
+        repositorioSubasta.actualizar(subasta);
+    }
+
+    @Override
     public Object[] listarOfertasSubastaJSON(Long idSubasta){
         Object[] returnJSON = repositorioOferta.obtenerOfertasPorSubastaJSON(idSubasta);
         verificarFechasSubasta(idSubasta);

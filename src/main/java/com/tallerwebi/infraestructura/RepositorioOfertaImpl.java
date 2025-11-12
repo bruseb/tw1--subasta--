@@ -60,5 +60,25 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
                 .getResultList();
     }
 
+    @Override
+    public Oferta obtenerOferta(Long idOferta) {
+        String hql = "FROM Oferta o WHERE o.id = :idOferta";
+        Query<Oferta> query = sessionFactory.getCurrentSession().createQuery(hql, Oferta.class);
+        query.setParameter("idOferta",idOferta);
+        return query.getSingleResult();
+    }
 
+    @Override
+    public void eliminarOferta(Oferta oferta){
+        sessionFactory.getCurrentSession().delete(oferta);
+    }
+
+    @Override
+    public Float obtenerOfertaMaxima(Long idSubasta){
+        String hql = "SELECT MAX(o.montoOfertado) FROM Oferta o WHERE o.subasta.id = :idSubasta";
+        Query<Float> query = sessionFactory.getCurrentSession().createQuery(hql,Float.class);
+        query.setParameter("idSubasta",idSubasta);
+
+        return  query.uniqueResult();
+    }
 }
