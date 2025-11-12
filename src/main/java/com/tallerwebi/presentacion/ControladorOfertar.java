@@ -36,6 +36,9 @@ public class ControladorOfertar {
                               ServicioSubasta servicioSubasta,
                               RepositorioOfertaImpl repositorioOferta,
                               ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
+                              RepositorioUsuario repositorioUsuario,
+                              ServicioSubasta servicioSubasta,
+                              RepositorioOfertaImpl repositorioOferta) {
         this.servicioOferta = servicioOferta;
         this.servicioUsuario = servicioUsuario;
         this.servicioSubasta = servicioSubasta;

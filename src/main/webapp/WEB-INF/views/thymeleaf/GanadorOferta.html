@@ -1,24 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Oferta confirmada</title>
-    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
+    <title>Ganaste la oferta</title>
 
-    <!-- Boostrap core css -->
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}"/>
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-
-    <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
 </head>
 <body>
-
 <!-- Header -->
-    <div th:replace="~{fragments/header :: userHeader}"></div>
-
+<div th:replace="~{fragments/header :: userHeader}"></div>
 
 <main class="d-flex flex-column justify-content-center align-items-center h-100 flex-grow-1">
     <div class="card shadow-lg border-0 rounded-4 text-center p-4 w-75 w-md-50 w-lg-25 mx-auto">
@@ -26,32 +21,28 @@
             <div class="mb-3">
                 <i class="bi bi-check-circle-fill text-primary display-1"></i>
             </div>
-            <h2 class="fw-bold text-primary mb-3">¡Oferta Confirmada!</h2>
+            <h2 class="fw-bold text-primary mb-3">¡¡Ganaste! 🥳</h2>
+
             <p class="text-muted mb-4">
-                Tu oferta fue registrada exitosamente.<br>
-
-                Has ofertado al producto <strong><span th:text="${subastaDet.getTitulo()}">.</span></strong><br>
-                ¡Te notificaremos si sos el ganador de la subasta!<br>
-
+                Tu oferta fue la más alta en el producto + ID! <br>
+                Tenés <strong><span id="countdown"></span></strong> para realizar el pago. <br>
+                Si el pago no se realiza antes del vencimiento, la subasta se liberará nuevamente.
             </p>
 
-            <div class="d-flex justify-content-center gap-3">
-                <a th:href="@{/perfil}" class="btn btn-outline-primary px-4">
-                    Ver mi perfil
-                </a>
+            <div class="d-flex justify-content-center gap-3 mb-3">
                 <a th:href="@{/categorias}" class="btn btn-primary px-4">
-                    Volver al Inicio
+                    Liberar Producto
                 </a>
-
             </div>
+
+            <!-- Contenedor para el Wallet Brick -->
+            <div id="walletBrick_container" class="d-flex justify-content-center"></div>
         </div>
     </div>
 </main>
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </body>
 </html>

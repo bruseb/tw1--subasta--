@@ -23,6 +23,7 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/categorias}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/nuevaSubasta}">Subastar</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/calcular-envio}">Calcular envío</a></li>
+
                 <li class="nav-item">
                     <form class="d-flex" role="search" method="get" th:action="@{/subastas}">
                         <div class="input-group">
@@ -30,6 +31,11 @@
                             <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i></button>
                         </div>
                     </form>
+                </li>
+                <li>
+                    <a th:href="@{/notificaciones}" id="notificacionesBtn" class="btn btn-light">
+                        🔔 <span id="contadorNotificaciones" class="badge bg-danger">0</span>
+                    </a>
                 </li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/compras}">Mis compras</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/perfil}">Mi perfil</a></li>

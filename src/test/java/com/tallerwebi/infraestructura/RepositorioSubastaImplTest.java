@@ -1,21 +1,22 @@
-/*package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.RepositorioSubasta;
-import com.tallerwebi.dominio.Subasta;
+import com.tallerwebi.dominio.*;
 import com.tallerwebi.integracion.config.HibernateTestConfig;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -39,24 +40,56 @@ public class RepositorioSubastaImplTest {
     @Test
     @Transactional
     public void deberiaGuardaUnaSubasta(){
-
         Subasta subasta = new Subasta();
+        Categoria cat = new Categoria();
+        Subcategoria subcat= new Subcategoria();
+        Usuario usuario = new Usuario();
+        List<Subcategoria> subcategorias = new ArrayList<>();
+
+        cat.setId(1L);
+        cat.setNombre("Piezas de PC");
+        cat.setNombreEnUrl("piezaspc");
+        sessionFactory.getCurrentSession().save(cat);
+
+        subcat.setId(1L);
+        subcat.setNombre("Perifericos");
+        subcat.setNombreEnUrl("perifericos");
+
+        subcategorias.add(subcat);
+        cat.setSubcategorias(subcategorias);
+        sessionFactory.getCurrentSession().save(subcat);
+
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        usuario.setApellido("Testing");
+        usuario.setEmail("test123@gmail.com");
+        usuario.setPassword("123456");
+        sessionFactory.getCurrentSession().save(usuario);
+
         subasta.setId(1L);
         subasta.setTitulo("Teclado");
         subasta.setDescripcion("Teclado en buen estado");
-        subasta.setEstadoProducto("usado");
+        subasta.setEstadoProducto("Usado");
+        subasta.setSubcategoria(subcat);
+        subasta.setCreador(usuario);
+        subasta.setPeso(15D);
+        subasta.setAlto(15D);
+        subasta.setAncho(15D);
+        subasta.setLargo(15D);
+        subasta.setEstadoSubasta(10);
+        subasta.setFechaInicio();
+        subasta.setFechaFin(subasta.getFechaInicio().plusHours(1));
         subasta.setPrecioInicial(15000F);
 
         repositorioSubasta.guardar(subasta);
 
         String hql = "FROM Subasta WHERE id = :id";
-        Query query = sessionFactory.getCurrentSession().createQuery(hql);
+        Query<Subasta> query = sessionFactory.getCurrentSession().createQuery(hql,Subasta.class);
         query.setParameter("id",1L);
 
-        Subasta subastaObtenida = (Subasta)query.getSingleResult();
+        Subasta subastaObtenida = query.getSingleResult();
 
         assertThat(subastaObtenida,is(equalTo(subasta)));
-
     }
 
     @Test
@@ -64,19 +97,51 @@ public class RepositorioSubastaImplTest {
     public void queSePuedaBuscarUnaSubastaPorId(){
 
         Subasta subasta = new Subasta();
-        subasta.setId(1L);
-        subasta.setTitulo("Monitor");
-        subasta.setDescripcion("Monitor en buen estado");
-        subasta.setEstadoProducto("nuevo");
-        subasta.setPrecioInicial(12000F);
+        Categoria cat = new Categoria();
+        Subcategoria subcat= new Subcategoria();
+        Usuario usuario = new Usuario();
+        List<Subcategoria> subcategorias = new ArrayList<>();
+
+        cat.setId(1L);
+        cat.setNombre("Piezas de PC");
+        cat.setNombreEnUrl("piezaspc");
+        sessionFactory.getCurrentSession().save(cat);
+
+        subcat.setId(1L);
+        subcat.setNombre("Perifericos");
+        subcat.setNombreEnUrl("perifericos");
+
+        subcategorias.add(subcat);
+        cat.setSubcategorias(subcategorias);
+        sessionFactory.getCurrentSession().save(subcat);
+
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        usuario.setApellido("Testing");
+        usuario.setEmail("test123@gmail.com");
+        usuario.setPassword("123456");
+        sessionFactory.getCurrentSession().save(usuario);
+
+        subasta.setId(2L);
+        subasta.setTitulo("Teclado");
+        subasta.setDescripcion("Teclado en buen estado");
+        subasta.setEstadoProducto("Usado");
+        subasta.setSubcategoria(subcat);
+        subasta.setCreador(usuario);
+        subasta.setPeso(15D);
+        subasta.setAlto(15D);
+        subasta.setAncho(15D);
+        subasta.setLargo(15D);
+        subasta.setEstadoSubasta(10);
+        subasta.setFechaInicio();
+        subasta.setFechaFin(subasta.getFechaInicio().plusHours(1));
+        subasta.setPrecioInicial(15000F);
 
         repositorioSubasta.guardar(subasta);
 
-        Subasta subastaObtenidaPorId = repositorioSubasta.obtenerSubasta(1L);
+        Subasta subastaObtenidaPorId = repositorioSubasta.obtenerSubasta(2L);
 
         assertThat(subastaObtenidaPorId,is(equalTo(subasta)));
-
-
     }
 
     @Test
@@ -84,47 +149,103 @@ public class RepositorioSubastaImplTest {
     public void queSePuedaBuscarUnaSubastaPorTitulo(){
 
         Subasta subasta = new Subasta();
+        Categoria cat = new Categoria();
+        Subcategoria subcat= new Subcategoria();
+        Usuario usuario = new Usuario();
+        List<Subcategoria> subcategorias = new ArrayList<>();
+
+        cat.setId(1L);
+        cat.setNombre("Piezas de PC");
+        cat.setNombreEnUrl("piezaspc");
+        sessionFactory.getCurrentSession().save(cat);
+
+        subcat.setId(1L);
+        subcat.setNombre("Perifericos");
+        subcat.setNombreEnUrl("perifericos");
+
+        subcategorias.add(subcat);
+        cat.setSubcategorias(subcategorias);
+        sessionFactory.getCurrentSession().save(subcat);
+
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        usuario.setApellido("Testing");
+        usuario.setEmail("test123@gmail.com");
+        usuario.setPassword("123456");
+        sessionFactory.getCurrentSession().save(usuario);
+
         subasta.setId(3L);
-        subasta.setTitulo("Mouse");
-        subasta.setDescripcion("Mouse en buen estado");
-        subasta.setEstadoProducto("nuevo");
-        subasta.setPrecioInicial(10000F);
+        subasta.setTitulo("Teclado");
+        subasta.setDescripcion("Teclado en buen estado");
+        subasta.setEstadoProducto("Usado");
+        subasta.setSubcategoria(subcat);
+        subasta.setCreador(usuario);
+        subasta.setPeso(15D);
+        subasta.setAlto(15D);
+        subasta.setAncho(15D);
+        subasta.setLargo(15D);
+        subasta.setEstadoSubasta(10);
+        subasta.setFechaInicio();
+        subasta.setFechaFin(subasta.getFechaInicio().plusHours(1));
+        subasta.setPrecioInicial(15000F);
 
         repositorioSubasta.guardar(subasta);
 
-        List<Subasta> subastaObtenidaPorTitulo = repositorioSubasta.buscarSubasta("mouse");
+        List<Subasta> subastaObtenidaPorTitulo = repositorioSubasta.buscarSubasta("teclado");
 
         assertThat(subastaObtenidaPorTitulo.size(),is(1));
-
-
     }
 
     @Test
     @Transactional
-    public void queSePuedaBuscarMasDeUnaSubastaPorTitulo(){
+    public void queNoEncuentreSiLaSubastaEstaCerrada(){
 
-        Subasta subasta1 = new Subasta();
-        subasta1.setId(4L);
-        subasta1.setTitulo("El mejor Mouse");
-        subasta1.setDescripcion("Mouse en buen estado");
-        subasta1.setEstadoProducto("nuevo");
-        subasta1.setPrecioInicial(9000F);
+        Subasta subasta = new Subasta();
+        Categoria cat = new Categoria();
+        Subcategoria subcat= new Subcategoria();
+        Usuario usuario = new Usuario();
+        List<Subcategoria> subcategorias = new ArrayList<>();
 
-        repositorioSubasta.guardar(subasta1);
+        cat.setId(1L);
+        cat.setNombre("Piezas de PC");
+        cat.setNombreEnUrl("piezaspc");
+        sessionFactory.getCurrentSession().save(cat);
 
-        Subasta subasta2 = new Subasta();
-        subasta2.setId(5L);
-        subasta2.setTitulo("Mouse gammer");
-        subasta2.setDescripcion("Mouse con poco uso");
-        subasta2.setEstadoProducto("usado");
-        subasta2.setPrecioInicial(12000F);
+        subcat.setId(1L);
+        subcat.setNombre("Perifericos");
+        subcat.setNombreEnUrl("perifericos");
 
-        repositorioSubasta.guardar(subasta2);
+        subcategorias.add(subcat);
+        cat.setSubcategorias(subcategorias);
+        sessionFactory.getCurrentSession().save(subcat);
 
-        List<Subasta> subastaObtenidaPorTitulo = repositorioSubasta.buscarSubasta("mouse");
+        usuario.setId(1L);
+        usuario.setNombre("Usuario");
+        usuario.setApellido("Testing");
+        usuario.setEmail("test123@gmail.com");
+        usuario.setPassword("123456");
+        sessionFactory.getCurrentSession().save(usuario);
 
-        assertThat(subastaObtenidaPorTitulo.size(),is(2));
+        subasta.setId(4L);
+        subasta.setTitulo("Teclado");
+        subasta.setDescripcion("Teclado en buen estado");
+        subasta.setEstadoProducto("Usado");
+        subasta.setSubcategoria(subcat);
+        subasta.setCreador(usuario);
+        subasta.setPeso(15D);
+        subasta.setAlto(15D);
+        subasta.setAncho(15D);
+        subasta.setLargo(15D);
+        subasta.setEstadoSubasta(-1);
+        subasta.setFechaInicio();
+        subasta.setFechaFin(subasta.getFechaInicio().plusHours(1));
+        subasta.setPrecioInicial(15000F);
 
+        repositorioSubasta.guardar(subasta);
+
+        List<Subasta> subastaObtenidaPorTitulo = repositorioSubasta.buscarSubasta("Teclado");
+
+        assertThat(subastaObtenidaPorTitulo.size(),is(0));
 
     }
-}*/
+}
