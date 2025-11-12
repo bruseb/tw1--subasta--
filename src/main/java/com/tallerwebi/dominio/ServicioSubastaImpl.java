@@ -52,7 +52,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Estado de subasta no valido.");
         }
 
-        if(subasta.getSubcategoria() == null || subasta.getSubcategoria().getCategoria() == null){
+        if(subasta.getSubcategoria() == null){
             throw new RuntimeException("Categoria no definida.");
         }
 
