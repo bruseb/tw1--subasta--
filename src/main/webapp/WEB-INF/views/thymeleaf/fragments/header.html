@@ -31,12 +31,11 @@
                         </div>
                     </form>
                 </li>
-                <div class="dropdown">
-                    <button id="notificacionesBtn" class="btn btn-light" data-bs-toggle="dropdown">
+                <li>
+                    <a th:href="@{/notificaciones}" id="notificacionesBtn" class="btn btn-light">
                         🔔 <span id="contadorNotificaciones" class="badge bg-danger">0</span>
-                    </button>
-                    <ul class="dropdown-menu" id="listaNotificaciones"></ul>
-                </div>
+                    </a>
+                </li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/compras}">Mis compras</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/perfil}">Mi perfil</a></li>
                 <li class="nav-item" th:if="${session.email}">

@@ -17,12 +17,14 @@ public class ControladorPerfil {
     private final ServicioPerfil servicioPerfil;
     private final ServicioSubasta servicioSubasta;
     private final ServicioOferta servicioOferta;
+    private final ServicioNotificacion servicioNotificacion;
 
     @Autowired
-    public ControladorPerfil(ServicioPerfil servicioPerfil, ServicioSubasta servicioSubasta, ServicioOferta servicioOferta) {
+    public ControladorPerfil(ServicioPerfil servicioPerfil, ServicioSubasta servicioSubasta, ServicioOferta servicioOferta, ServicioNotificacion servicioNotificacion) {
         this.servicioPerfil = servicioPerfil;
         this.servicioSubasta = servicioSubasta;
         this.servicioOferta = servicioOferta;
+        this.servicioNotificacion = servicioNotificacion;
     }
 
     @GetMapping("/perfil")
@@ -40,6 +42,9 @@ public class ControladorPerfil {
 
         List<Subasta> subastasOfertadas = servicioOferta.listarSubastasOfertadasPorUsuario(email);
         model.put("subastasOfertadas", subastasOfertadas);
+
+        List<Notificacion> notificaciones = servicioNotificacion.obtenerNoLeidas(email);
+        model.put("notificaciones", notificaciones);
 
         return "perfil";
     }
