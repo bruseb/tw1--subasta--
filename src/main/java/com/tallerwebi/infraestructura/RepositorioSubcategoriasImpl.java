@@ -69,6 +69,11 @@ public class RepositorioSubcategoriasImpl implements RepositorioSubcategorias {
             lista.forEach(s -> Hibernate.initialize(s.getSubastas()));
             return lista;
         }
+    @Override
+    public Subcategoria buscarPorId(Long idSubcategoria) {
+        final Session session = sessionFactory.getCurrentSession();
+        return session.get(Subcategoria.class, idSubcategoria);
+    }
 }
 
 
