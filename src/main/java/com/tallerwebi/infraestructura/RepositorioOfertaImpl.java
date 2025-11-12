@@ -30,9 +30,10 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
 
     @Override
     public Object[] obtenerOfertasPorSubastaJSON(Long idSubasta) {
-        String hql = "SELECT o.id, o.fechaOferta, o.montoOfertado, o.ofertadorID.id, o.ofertadorID.nombre, o.ofertadorID.apellido " +
+        String hql = "SELECT o.id, o.fechaOferta, o.montoOfertado, o.ofertadorID.id, o.ofertadorID.nombre, o.ofertadorID.apellido, o.ofertadorID.email " +
                      "FROM Oferta o " +
-                     "WHERE o.subasta.id = :idSubasta";
+                     "WHERE o.subasta.id = :idSubasta "+
+                     "ORDER BY o.fechaOferta";
         Query<Object[]> query = sessionFactory.getCurrentSession().createQuery(hql,Object[].class);
         query.setParameter("idSubasta",idSubasta);
 
@@ -60,5 +61,25 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
                 .getResultList();
     }
 
+    @Override
+    public Oferta obtenerOferta(Long idOferta) {
+        String hql = "FROM Oferta o WHERE o.id = :idOferta";
+        Query<Oferta> query = sessionFactory.getCurrentSession().createQuery(hql, Oferta.class);
+        query.setParameter("idOferta",idOferta);
+        return query.getSingleResult();
+    }
 
+    @Override
+    public void eliminarOferta(Oferta oferta){
+        sessionFactory.getCurrentSession().delete(oferta);
+    }
+
+    @Override
+    public Float obtenerOfertaMaxima(Long idSubasta){
+        String hql = "SELECT MAX(o.montoOfertado) FROM Oferta o WHERE o.subasta.id = :idSubasta";
+        Query<Float> query = sessionFactory.getCurrentSession().createQuery(hql,Float.class);
+        query.setParameter("idSubasta",idSubasta);
+
+        return  query.uniqueResult();
+    }
 }

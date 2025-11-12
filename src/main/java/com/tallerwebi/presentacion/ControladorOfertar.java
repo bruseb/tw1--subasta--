@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,6 +83,7 @@ public class ControladorOfertar {
         model.addAttribute("subastaDet", subastaDet);
         model.addAttribute("oferta", oferta);
         model.addAttribute("esPropietario", esPropietario);
+        model.addAttribute("usuarioActual",emailUsuario);
 
         return "nuevaOferta";
     }
@@ -139,7 +141,7 @@ public class ControladorOfertar {
         return responseReturn;
     }
 
-    @GetMapping("/eliminarOferta")
+    @GetMapping("/eliminarSubasta")
     public String eliminarSubasta(@RequestParam Long idSubasta,
                                   HttpServletRequest request,
                                   Model model) {
@@ -156,6 +158,40 @@ public class ControladorOfertar {
         }
 
         servicioSubasta.eliminarSubasta(subastaDet);
+        return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
+    }
+
+    @GetMapping("/eliminarOferta")
+    public String eliminarOferta(@RequestParam Long idSubasta,
+                                 @RequestParam Long idOferta,
+                                  HttpServletRequest request,
+                                  Model model) {
+        Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
+        Oferta oferta = servicioOferta.buscarOferta(idOferta);
+        String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
+        LocalDateTime ahora =  LocalDateTime.now();
+        LocalDateTime cierreBotonCancelar = oferta.getFechaOferta().plusMinutes(1);
+        LocalDateTime cierreSubasta = subastaDet.getFechaFin().minusMinutes(1);
+
+        int comparacionBotonCancelar = ahora.compareTo(cierreBotonCancelar);
+        int comparacionCierreSubasta = ahora.compareTo(cierreSubasta);
+
+        if(!oferta.getOfertadorID().getEmail().equals(emailUsuario)) {
+            model.addAttribute("error", "No podes borrar una oferta que no es tuya.");
+            return "error";
+        }
+
+        if(comparacionBotonCancelar >= 0){
+            model.addAttribute("error", "Expiro el tiempo para cancelar tu oferta.");
+            return "error";
+        }
+
+        if(comparacionCierreSubasta >= 0){
+            model.addAttribute("error", "No puedes cancelar tu oferta cuando falta menos de 1 minuto para que termine la subasta.");
+            return "error";
+        }
+
+        servicioOferta.eliminarOferta(oferta,subastaDet);
         return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
     }
 }
