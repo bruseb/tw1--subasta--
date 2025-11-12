@@ -47,11 +47,12 @@ public class ControladorSubasta {
     public ModelAndView crearSubasta(@ModelAttribute("subasta") Subasta subasta,
                                      @RequestParam("imagenSubasta") MultipartFile[] imagenSubasta,
                                      @RequestParam("precioInicial") Float precioInicial,
-                                     HttpServletRequest request) {
+                                                                          HttpServletRequest request) {
         ModelMap model = new ModelMap();
         try{
 
             subasta.setPrecioInicial(precioInicial);
+
 
             String creadorEmail = (String) request.getSession().getAttribute("USUARIO");
 
