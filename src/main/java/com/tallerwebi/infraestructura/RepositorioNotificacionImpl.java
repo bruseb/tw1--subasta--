@@ -29,11 +29,25 @@ public class RepositorioNotificacionImpl implements RepositorioNotificacion {
     }
 
     @Override
-    public void marcarComoLeida(Long id) {
-        Notificacion n = sessionFactory.getCurrentSession().get(Notificacion.class, id);
-        if (n != null) {
-            n.setLeida(true);
-            sessionFactory.getCurrentSession().update(n);
-        }
+    public void marcarTodasComoLeidas(String email) {
+        String hql = "UPDATE Notificacion n " +
+                "SET n.leida = true " +
+                "WHERE n.usuarioDestino IN (" +
+                "   SELECT u FROM Usuario u WHERE u.email = :email" +
+                ")";
+        sessionFactory.getCurrentSession()
+                .createQuery(hql)
+                .setParameter("email", email)
+                .executeUpdate();
     }
+
+    @Override
+    public List<Notificacion> obtenerTodas(String email) {
+        String hql = "FROM Notificacion n WHERE n.usuarioDestino.email = :email ORDER BY n.fecha DESC";
+        return sessionFactory.getCurrentSession()
+                .createQuery(hql, Notificacion.class)
+                .setParameter("email", email)
+                .getResultList();
+    }
+
 }

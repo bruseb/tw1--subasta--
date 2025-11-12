@@ -11,7 +11,7 @@ import java.util.List;
 public class ServicioNotificacionImpl implements ServicioNotificacion {
 
     @Autowired
-    private RepositorioNotificacion repositorio;
+    private RepositorioNotificacion repositorioNotificacion;
 
     @Override
     public void crearNotificacion(Usuario destino, String mensaje) {
@@ -19,11 +19,27 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
         n.setUsuarioDestino(destino);
         n.setMensaje(mensaje);
         n.setFecha(LocalDateTime.now());
-        repositorio.guardar(n);
+        repositorioNotificacion.guardar(n);
     }
 
     @Override
     public List<Notificacion> obtenerNoLeidas(String email) {
-        return repositorio.obtenerNoLeidas(email);
+        return repositorioNotificacion.obtenerNoLeidas(email);
     }
+
+    @Override
+    public int contarNoLeidas(String email) {
+        return repositorioNotificacion.obtenerNoLeidas(email).size();
+    }
+
+    @Override
+    public List<Notificacion> obtenerTodas(String email) {
+        return repositorioNotificacion.obtenerTodas(email);
+    }
+
+    @Override
+    public void marcarTodasComoLeidas(String email) {
+        repositorioNotificacion.marcarTodasComoLeidas(email);
+    }
+
 }

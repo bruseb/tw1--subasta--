@@ -30,18 +30,19 @@
 
 <main role="main" class="container">
 
-    <h2>Mis notificaciones</h2>
+    <h2>Notificaciones</h2>
 
-    <div th:if="${notificaciones != null and notificaciones.size() > 0}">
-        <div th:each="n : ${notificaciones}" class="alert alert-info">
-            <strong th:text="${n.mensaje}"></strong><br>
-            <small th:text="${n.fecha}"></small>
-        </div>
+    <div th:if="${#lists.isEmpty(notificaciones)}">
+        <p>No tenés notificaciones todavía.</p>
     </div>
 
-    <div th:if="${notificaciones == null or notificaciones.size() == 0}">
-        <p>No tenés notificaciones.</p>
-    </div>
+    <ul class="list-group">
+        <li th:each="n : ${notificaciones}"
+            th:text="${n.mensaje}"
+            th:classappend="${n.leida} ? 'p-3 mb-2 bg-secondary text-white' : 'p-3 mb-2 bg-primary text-white'"
+            class="list-group-item">
+        </li>
+    </ul>
 
 </main>
 <!-- /.container -->

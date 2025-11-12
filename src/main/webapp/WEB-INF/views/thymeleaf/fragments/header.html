@@ -49,22 +49,5 @@
     </nav>
 </header>
 
-<script>
-    const source = new EventSource('/notificaciones/stream');
-
-    source.addEventListener('nueva-notificacion', function(e) {
-        const data = e.data;
-        const lista = document.getElementById('listaNotificaciones');
-        const li = document.createElement('li');
-        li.classList.add('dropdown-item');
-        li.textContent = data;
-        lista.prepend(li);
-
-        // Actualiza contador
-        const contador = document.getElementById('contadorNotificaciones');
-        contador.textContent = parseInt(contador.textContent) + 1;
-    });
-</script>
-
 </body>
 </html>
