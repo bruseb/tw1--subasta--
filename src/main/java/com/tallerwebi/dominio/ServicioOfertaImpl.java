@@ -45,7 +45,7 @@ public class ServicioOfertaImpl implements ServicioOferta {
         if (subasta == null) throw new RuntimeException("Subasta inexistente.");
         if (subasta.getEstadoSubasta() == -1) throw new RuntimeException("Subasta cerrada.");
 
-        // 🔑 Validar que el usuario haya abonado el 10% del valor inicial
+        // Validar que el usuario haya abonado el 10% del valor inicial
         PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario, subasta);
         if (pago == null || !Boolean.TRUE.equals(pago.getPagoConfirmado())) {
             throw new RuntimeException("Debes abonar el 10% del monto inicial para poder ofertar.");

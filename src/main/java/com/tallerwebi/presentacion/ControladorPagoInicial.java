@@ -16,15 +16,15 @@ import java.time.LocalDateTime;
 @RequestMapping("/pago-inicial")
 public class ControladorPagoInicial {
 
-    private final RepositorioUsuario repositorioUsuario;
+    private final ServicioUsuario servicioUsuario;
     private final ServicioSubasta servicioSubasta;
     private final ServicioPagoInicialSubasta servicioPagoInicialSubasta;
 
     @Autowired
-    public ControladorPagoInicial(RepositorioUsuario repositorioUsuario,
+    public ControladorPagoInicial(ServicioUsuario servicioUsuario,
                                   ServicioSubasta servicioSubasta,
                                   ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
-        this.repositorioUsuario = repositorioUsuario;
+        this.servicioUsuario = servicioUsuario;
         this.servicioSubasta = servicioSubasta;
         this.servicioPagoInicialSubasta = servicioPagoInicialSubasta;
     }
@@ -43,7 +43,7 @@ public class ControladorPagoInicial {
             return "redirect:/login";
         }
 
-        Usuario usuario = repositorioUsuario.buscar(emailUsuario);
+        Usuario usuario = servicioUsuario.buscarPorEmail(emailUsuario);
         Subasta subasta = servicioSubasta.buscarSubasta(idSubasta);
 
         if (usuario == null || subasta == null) {

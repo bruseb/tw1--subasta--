@@ -17,7 +17,7 @@ import java.util.Map;
 public class ControladorOfertar {
 
     private final ServicioOferta servicioOferta;
-    private final RepositorioUsuario repositorioUsuario;
+    private final ServicioUsuario servicioUsuario;
     private final ServicioSubasta servicioSubasta;
     private final RepositorioOfertaImpl repositorioOferta;
     private final ServicioPagoInicialSubasta servicioPagoInicialSubasta;
@@ -32,12 +32,12 @@ public class ControladorOfertar {
 
     @Autowired
     public ControladorOfertar(ServicioOferta servicioOferta,
-                              RepositorioUsuario repositorioUsuario,
+                              ServicioUsuario servicioUsuario,
                               ServicioSubasta servicioSubasta,
                               RepositorioOfertaImpl repositorioOferta,
                               ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
         this.servicioOferta = servicioOferta;
-        this.repositorioUsuario = repositorioUsuario;
+        this.servicioUsuario = servicioUsuario;
         this.servicioSubasta = servicioSubasta;
         this.repositorioOferta = repositorioOferta;
         this.servicioPagoInicialSubasta = servicioPagoInicialSubasta;
@@ -71,8 +71,16 @@ public class ControladorOfertar {
         String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
         boolean esPropietario = esPropietario(subastaDet, emailUsuario);
 
+        // Calcular monto sugerido: precioActual + 1, o precioInicial + 1 si no hay ofertas
+        float montoSugerido = (subastaDet.getPrecioActual() != null
+                ? subastaDet.getPrecioActual()
+                : subastaDet.getPrecioInicial()) + 1;
+
+        Oferta oferta = new Oferta();
+        oferta.setMontoOfertado(montoSugerido);
+
         model.addAttribute("subastaDet", subastaDet);
-        model.addAttribute("oferta", new Oferta());
+        model.addAttribute("oferta", oferta);
         model.addAttribute("esPropietario", esPropietario);
 
         return "nuevaOferta";
@@ -92,7 +100,7 @@ public class ControladorOfertar {
         }
 
         Subasta subasta = servicioSubasta.buscarSubasta(idSubasta);
-        Usuario usuario = repositorioUsuario.buscar(creadorEmail);
+        Usuario usuario = servicioUsuario.buscarPorEmail(creadorEmail);
 
         // Validar pago inicial ANTES de ofertar
         PagoInicialSubasta pago = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario, subasta);

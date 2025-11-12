@@ -2,14 +2,14 @@ package com.tallerwebi.dominio;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Service
-@Transactional
 public class ServicioPagoInicialSubastaImpl implements ServicioPagoInicialSubasta {
 
     private final RepositorioPagoInicialSubasta repositorioPagoInicialSubasta;
@@ -20,11 +20,13 @@ public class ServicioPagoInicialSubastaImpl implements ServicioPagoInicialSubast
     }
 
     @Override
+    @Transactional(readOnly = true)
     public PagoInicialSubasta buscarPagoConfirmado(Usuario usuario, Subasta subasta) {
         return repositorioPagoInicialSubasta.buscarPagoInicialConfirmado(usuario, subasta);
     }
 
     @Override
+    @Transactional
     public boolean registrarPagoInicial(Usuario usuario, Subasta subasta) {
         PagoInicialSubasta existente = repositorioPagoInicialSubasta.buscarPagoInicialConfirmado(usuario, subasta);
         if (existente != null && Boolean.TRUE.equals(existente.getPagoConfirmado())) {
