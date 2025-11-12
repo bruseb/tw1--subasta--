@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ofertar - Producto 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+
+    <link rel="icon" type="image/x-icon" th:href="@{/img/favicon.ico}" />
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+</head>
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header :: userHeader}"></div>
+
+<div class="alert alert-warning">
+    Para poder ofertar en esta subasta, primero debe abonar el 10% del monto inicial (en caso de ganar la subasta el mismo será descontado del total).
+</div>
+
+<div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+<form th:action="@{/pago-inicial}" method="post">
+    <input type="hidden" name="idSubasta" th:value="${subastaDet.id}" />
+
+    <div class="form-group">
+        <label>Monto a pagar:</label>
+        <input type="text" th:value="${#numbers.formatDecimal(montoInicial,2,2)}" readonly class="form-control"/>
+    </div>
+
+    <div class="form-group">
+        <label>Número de tarjeta</label>
+        <input type="text" name="numeroTarjeta" class="form-control" required
+               pattern="\d{16}" inputmode="numeric"
+               title="Debe ingresar 16 dígitos" placeholder="Ingrese los 16 dígitos de su tarjeta"/>
+    </div>
+
+    <div class="form-group">
+        <label>Fecha de vencimiento</label>
+        <input type="text" name="fechaVencimiento" placeholder="MM/AA" class="form-control" required
+               pattern="\d{2}/\d{2}" title="Formato MM/AA"/>
+    </div>
+
+    <div class="form-group">
+        <label>Código de seguridad (CVV)</label>
+        <input type="text" name="cvv" class="form-control" required
+               pattern="\d{3}" inputmode="numeric"
+               title="Debe ingresar 3 dígitos"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Pagar y habilitar oferta</button>
+</form>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js}"></script>
+<script type="module" th:inline="javascript" th:src="@{/js/oferta.js}"></script>
+</body>
+</html>

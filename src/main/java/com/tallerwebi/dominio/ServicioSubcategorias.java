@@ -7,4 +7,5 @@ public interface ServicioSubcategorias {
     Subcategoria buscarSubcategoriaPorNombreDeRuta(String nombreDeCategoriaEnUrl, String nombreDeSubcategoriaEnUrl);
     List<Subcategoria> listarSubcategoriasSegunCategoriaId(Long idCategoria);
     List<Subcategoria> listarSubcategoriasPopulares();
+
 }

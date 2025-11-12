@@ -7,4 +7,5 @@ public interface RepositorioSubcategorias {
     Subcategoria buscarSubcategoriaPorNombreDeRuta(String nombreDeCategoriaEnUrl, String nombreDeSubcategoriaEnUrl);
     List<Subcategoria> listarSubcategoriasDeCategoriaSeleccionadaPorId(Long idCategoria);
     List<Subcategoria> listarSubcategoriasPopulares();
+    Subcategoria buscarPorId(Long idSubcategoria);
 }
