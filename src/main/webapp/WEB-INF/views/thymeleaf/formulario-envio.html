@@ -14,98 +14,120 @@
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/formulario-envio.css}"/>
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+    <link rel="stylesheet" th:href="@{/css/formularioPago.css}"/>
 </head>
 
 <body>
 
 <!-- Header -->
-<div th:replace="~{fragments/header :: userHeader}"></div>
+<ul class="progress-steps" aria-label="Progreso">
+    <li class="step is-current">
+        <div class="step-inner">
+            <div class="circle">1</div>
+            <div class="label">Cálculo de envío</div>
+        </div>
+    </li>
+    <li class="step">
+        <div class="step-inner">
+            <div class="circle">2</div>
+            <div class="label">Formulario de pago</div>
+        </div>
+    </li>
+    <li class="step">
+        <div class="step-inner">
+            <div class="circle">3</div>
+            <div class="label">Confirmación</div>
+        </div>
+    </li>
+</ul>
 
 <div class="container formulario-envio">
-    <h2>Simulador de Envío</h2>
+    <h2>Calcula tu Envío</h2>
     <br>
 
-    <h5>Domicilio de entrega</h5>
+    <h5>Domicilio de entrega (Datos del usuario logueado)</h5>
 
     <form th:action="@{/calcular-envio}" th:object="${envio}" method="post">
+
         <div>
             <label>País:</label>
-            <select th:field="*{pais}" required>
-                <option value="" disabled>Seleccionar país</option>
+            <select th:field="*{pais}" required readonly="readonly">
                 <option value="Argentina">Argentina</option>
             </select>
         </div>
-
         <div>
             <label>Provincia:</label>
-            <input th:field="*{provincia}" placeholder="Ej: Buenos Aires" required>
+            <input th:field="*{provincia}" readonly="readonly" required>
         </div>
 
         <div>
             <label>Ciudad:</label>
-            <input th:field="*{ciudad}" required>
+            <input th:field="*{ciudad}" readonly="readonly" required>
+        </div>
+        <div>
+            <label>Direccion:</label>
+            <input th:field="*{direccion}" readonly="readonly" required>
         </div>
 
         <div>
             <label>Código Postal:</label>
-            <input type="number" th:field="*{codigoPostal}" required>
+            <input type="number" th:field="*{codigoPostal}" readonly="readonly" required>
         </div>
-<br>
-        <h5>Datos del producto</h5>
 
-        <input type="hidden" id="calcular" name="calcular" value="">
+        <br>
 
-        <label>Subasta:</label>
-        <select name="subastaId" onchange="document.getElementById('calcular').value=''; this.form.submit();">
-            <option value="" disabled selected>Seleccionar subasta</option>
-            <option th:each="subasta : ${subastas}"
-                    th:value="${subasta.id}"
-                    th:text="'Subasta #' + ${subasta.id}"
-                    th:selected="${subasta.id} == ${subastaId}">
-            </option>
-        </select>
+        <h5>Datos del producto: Subasta #<span th:text="${subastaId}"></span></h5>
 
+
+        <input type="hidden" name="subastaId" th:value="${subastaId}">
 
 
         <div>
             <label>Peso(kg):</label>
             <small class="form-text text-muted">Solo informativo, no afecta el costo.</small>
-            <input type="number" step="0.1" th:field="*{peso}" required>
+            <input type="number" step="0.1" th:field="*{peso}" readonly="readonly" required>
         </div>
-
         <div>
             <label>Largo(cm):</label>
-            <input type="number" step="0.1" th:field="*{largo}" required>
+            <input type="number" step="0.1" th:field="*{largo}" readonly="readonly" required>
         </div>
 
         <div>
             <label>Ancho(cm):</label>
-            <input type="number" step="0.1" th:field="*{ancho}" required>
+            <input type="number" step="0.1" th:field="*{ancho}" readonly="readonly" required>
         </div>
 
         <div>
             <label>Alto(cm):</label>
-            <input type="number" step="0.1" th:field="*{alto}" required>
+            <input type="number" step="0.1" th:field="*{alto}" readonly="readonly" required>
         </div>
 
-        <button type="submit" onclick="document.getElementById('calcular').value='true'">Calcular envío</button>
+        <button type="submit" name="calcular" value="true">Calcular envío</button>
     </form>
-
-    <div th:if="${error}" class="alert alert-danger">
-        <p th:text="${error}"></p>
-    </div>
-
-    <hr>
-
     <div th:if="${resultado}">
         <h4>Resultado del Envío</h4>
-        <p>Tamaño del paquete: <strong th:text="${resultado.tamanio}"> </strong></p>
-        <p>Zona/pais destino: <strong th:text="${resultado.zonaDestino}"> </strong></p>
+        <p>Tamaño del paquete: <strong th:text="${resultado.tamanio}"></strong></p>
+        <p>Zona/pais destino: <strong th:text="${resultado.zonaDestino}"></strong></p>
         <p>Costo: <strong>$<span th:text="${resultado.costo}"></span></strong></p>
-        <p>Días estimados de entrega: <strong><span th:text="${resultado.diasDeEntrega}"> </span> días</strong></p>
+        <p>Días estimados de entrega: <strong><span th:text="${resultado.diasDeEntrega}"></span> días</strong></p>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a th:href="@{/misSubastasGanadas}" class="mp-btnr">
+                Atras
+            </a>
+
+            <a th:href="@{/formPago/{idSubasta}(idSubasta=${subastaId})}" class="mp-btn">
+                <i class="bi bi-lock" aria-hidden="true"></i>
+                Ir al pago
+            </a>
+        </div>
     </div>
+
+
+
 </div>
 
+</div>
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
 

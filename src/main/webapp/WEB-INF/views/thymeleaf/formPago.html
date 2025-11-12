@@ -12,15 +12,37 @@
     <link rel="stylesheet" th:href="@{/css/formularioPago.css}"/>
 </head>
 <body>
+<ul class="progress-steps" aria-label="Progreso">
+    <li class="step is-done">
+        <div class="step-inner">
+            <div class="circle">✔</div>
+            <div class="label">Cálculo de envío</div>
+        </div>
+    </li>
+    <li class="step is-current">
+        <div class="step-inner">
+            <div class="circle">2</div>
+            <div class="label">Formulario de pago</div>
+        </div>
+    </li>
+    <li class="step">
+        <div class="step-inner">
+            <div class="circle">3</div>
+            <div class="label">Confirmación</div>
+        </div>
+    </li>
+</ul>
 <main class="mp-container">
+
     <header class="mp-header">
+
         <div class="mp-brand">
-        <span class="mp-logo" aria-hidden="true">
+             <span class="mp-logo" aria-hidden="true">
           <!-- Marca simple geométrica (no logo oficial) -->
 
             <img th:src="@{/img/logo.png}" alt="Logo" class="logo-img">
 
-        </span>
+            </span>
             <div class="mp-title">
                 <h1>Pago con tarjeta</h1>
                 <p>Transacción segura <i class="bi bi-shield-lock-fill" aria-hidden="true"></i></p>
@@ -97,19 +119,20 @@
                 <p class="mp-hint">Entre 7 y 9 números (arg.).</p>
                 <p class="mp-error">Ingresá un DNI válido (solo números).</p>
             </div>
-
-            <div class="mp-field">
-                <strong id="email" th:text="${emailUsuario}"></strong>
-                <label for="email">Email</label>
-
-                <div class="mp-input">
-                    <i class="bi bi-envelope"></i>
-                    <strong  th:text="${emailUsuario}"></strong>
-
-                </div>
-                <p class="mp-hint">Te enviaremos el comprobante.</p>
-                <p class="mp-error">Ingresá un email válido.</p>
+        </div>
+        <div class="mp-field">
+            <label for="email">Email</label>
+            <div class="mp-input">
+                <i class="bi bi-envelope"></i>
+                <input id="email"
+                       name="email"
+                       type="email"
+                       th:value="${usuario.email}"
+                       readonly="readonly"
+                       required
+                       maxlength="80" />
             </div>
+            <p class="mp-hint">El comprobante será enviado a este email.</p>
         </div>
 
         <!-- Cuotas -->
@@ -141,7 +164,6 @@
             <p class="mp-error mp-error-inline">Debés aceptar los términos.</p>
         </div>
 
-        <!-- Resumen monto -->
         <div class="mp-summary" aria-live="polite">
             <div class="mp-row">
                 <span>Producto</span>
@@ -150,27 +172,39 @@
 
             <div class="mp-row">
                 <span>Costo de envío</span>
-                <strong>$ 0</strong>
+                <strong th:text="'$ ' + ${costoEnvio}"></strong>
             </div>
+
             <div class="mp-row">
                 <span>Reserva Previa</span>
-                <strong th:text=" '- $ ' + ${reservaPrevia}"></strong>
+                <strong th:text="'- $ ' + ${reservaPrevia}"></strong>
             </div>
+
+
             <div class="mp-divider"></div>
             <div class="mp-row mp-total">
                 <span>Total a pagar</span>
-                <strong>$ 12.900</strong>
+                <strong th:text="'$ ' + ${costoTotal}"></strong>
             </div>
         </div>
 
         <div class="botones-container"> <!-- Botón pagar -->
-            <button type="submit" class="mp-btnr">
-                Atras
-            </button>
-            <button type="submit" class="mp-btn">
-                <i class="bi bi-lock" aria-hidden="true"></i>
-                Pagar ahora
-            </button>
+
+
+            <input type="hidden" name="emailUsuario" th:value="${usuario.email}" />
+            <input type="hidden" name="idSubastaPagada" th:value="${subasta.id}" />
+            <input type="hidden" name="montoTotalPagado" th:value="${costoTotal}" />
+
+            <div class="d-flex justify-content-between mt-4">
+                <a th:href="@{/misSubastasGanadas}" class="mp-btnr">
+                    Atras
+                </a>
+
+                <a th:href="@{/confirmacionPagoEnvio/{idSubasta}(idSubasta=${subastaId})}" class="mp-btn">
+                    <i class="bi bi-lock" aria-hidden="true"></i>
+                    Ir al pago
+                </a>
+            </div>
         </div>
         <p class="mp-security">
             <i class="bi bi-shield-check" aria-hidden="true"></i>

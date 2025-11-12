@@ -14,6 +14,16 @@ public class Envio {
     private Double costo;
     private Integer diasDeEntrega;
     private String zonaDestino;
+    private String direccion;
+
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
 
     public Double getPeso() { return peso; }
     public void setPeso(Double peso) { this.peso = peso; }
