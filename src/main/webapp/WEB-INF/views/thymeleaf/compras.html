@@ -20,6 +20,7 @@
     <!-- custom style -->
 
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+    <link rel="stylesheet" th:href="@{/css/formularioPago.css}"/>
 
 </head>
 
@@ -30,7 +31,7 @@
 
 <main role="main" class="container">
 
-    <h2 class="mt-3">¡Bienvenido <span th:text="${usuario.nombre}"></span> <span th:text="${usuario.apellido}"></span>!</h2>
+    <h2 class="mt-3">¡Tus subastas ganadass <span th:text="${usuario.nombre}"></span> <span th:text="${usuario.apellido}"></span>!</h2>
     <div class="accordion accordion-flush mb-3" id="accordionFlushExample2">
         <div class="accordion-item border">
             <h2 class="accordion-header">
@@ -49,25 +50,20 @@
                         <div th:each="subasta : ${subastasGanadas}">
                             <div class="card card-subcategoria">
                                 <a th:href="@{/ofertar/nuevaOferta(idSubasta=${subasta.id})}" class="text-body text-decoration-none">
-                                    <!-- Tiene imagen -->
                                     <img th:if="${subasta.imagenes != null}"
                                          th:src="@{/imagen/{subastaID}/{orden}(subastaID=${subasta.id}, orden=1)}"
                                          class="card-img-top img-cuadrada" th:alt="'Imagen de ' + ${subasta.titulo}" alt="Imagen de subasta">
-                                    <!-- No tiene imagen -->
-                                    <img th:unless="${subasta.imagenes != null}"
-                                         th:src="@{|https://picsum.photos/seed/${subasta.id}/60|}"
-                                         class="card-img-top" alt="Imagen genérica">
-
                                     <div class="card-body">
-                                        <input type="hidden" name="idSubasta" id="idSubasta" th:value="${subasta.id}"/>
                                         <h5 th:text="${subasta.titulo}" class="card-title">Titulo de subasta</h5>
-                                        <p th:text="${subasta.descripcion}" class="card-text descripcion-recortada">Descripción de subasta</p>
-                                        <dl>
-                                            <dt>Precio final</dt>
-                                            <dd class="card-text" th:text="${'$ ' + #numbers.formatDecimal(subasta.precioActual, 2, 2)}"></dd>
-                                        </dl>
                                     </div>
                                 </a>
+
+                                <div class="botones-container">
+                                    <a th:href="@{/calcular-envio/{idSubasta}(idSubasta=${subasta.id})}" class="mp-btn">
+                                        <i class="bi bi-lock" aria-hidden="true"></i>
+                                        Comprar
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </article>

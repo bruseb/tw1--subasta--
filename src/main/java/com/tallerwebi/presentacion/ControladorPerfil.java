@@ -27,6 +27,7 @@ public class ControladorPerfil {
 
     @GetMapping("/perfil")
     public String verPerfil(HttpServletRequest request, ModelMap model) {
+
         String email = (String) request.getSession().getAttribute("email");
         if (email == null) {
             return "redirect:/login";

@@ -20,10 +20,10 @@
 
         <section class="collapse navbar-collapse " id="navContenido">
             <ul class="navbar-nav ms-auto">
+
+
                 <li class="nav-item"><a class="nav-link" th:href="@{/categorias}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/nuevaSubasta}">Subastar</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/calcular-envio}">Calcular envío</a></li>
-
                 <li class="nav-item">
                     <form class="d-flex" role="search" method="get" th:action="@{/subastas}">
                         <div class="input-group">
@@ -32,6 +32,7 @@
                         </div>
                     </form>
                 </li>
+
                 <li class="nav-item"><a class="nav-link" th:href="@{/compras}">Mis compras</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/perfil}">Mi perfil</a></li>
                 <li class="nav-item" th:if="${session.email}">
