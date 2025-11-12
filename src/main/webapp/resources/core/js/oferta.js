@@ -1,6 +1,8 @@
 
 const inputImporte = document.querySelector("#montoOfertado");
 const inputMontoActual = document.querySelector("#montoActual");
+const input_ES_PROPIETARIO = document.querySelector("#esPropietario");
+const inputUsuarioActual = document.querySelector("#usuarioActual");
 const buttonSubmit = document.querySelector("#btn-ofertar")
 const buttonEliminarSubasta = document.querySelector("#btn-eliminarSubasta");
 const valorIdSubasta = document.querySelector("#idSubasta");
@@ -8,9 +10,10 @@ const valorTiempoSubasta = document.querySelector("#tiempoSubasta");
 const valorFechaFin = document.querySelector("#fechaFin");
 const valorMontoActual = document.querySelector("#precioActual");
 const tableListaOfertas = document.querySelector("#listaOfertas");
-//const ES_PROPIETARIO = /* [[${esPropietario}]] */ false;
-const input_ES_PROPIETARIO = document.querySelector("#esPropietario");
+
 const ES_PROPIETARIO = input_ES_PROPIETARIO.value;
+const usuarioActual = inputUsuarioActual.value;
+
 const importeMinimo = 1;
 const intervalActualizarOferta = 5000; //5 segundos
 const intervalActualizarTimer = 1000; //1 segundo
@@ -22,13 +25,15 @@ if (ES_PROPIETARIO === 'false' && inputImporte && inputMontoActual) {
     inputImporte.value = Number(inputMontoActual.textContent) + importeMinimo;
 }
 if(ES_PROPIETARIO === 'true'){
-    buttonEliminarSubasta.setAttribute("onclick","if(confirm('¿Estas seguro de eliminar la subasta?\\nESTA ACCION ES IRREVERSIBLE')) {\nwindow.location.replace('eliminarOferta?idSubasta=" + valorIdSubasta.value + "');\n}");
+    buttonEliminarSubasta.setAttribute("onclick","if(confirm('¿Estas seguro de eliminar la subasta?\\nESTA ACCION ES IRREVERSIBLE')) {\nwindow.location.replace('eliminarSubasta?idSubasta=" + valorIdSubasta.value + "');\n}");
 }
+
 //Llamada inicial, para que no tarde
 callOfertas();
 
 const intervalActualizarOfertas = setInterval(callOfertas, intervalActualizarOferta);
 const intervalTemporizador = setInterval(temporizador, intervalActualizarTimer);
+const invervalCheckCancelarOferta = setInterval(checkCancelarOferta, intervalActualizarTimer);
 
 function callOfertas(){
     let xhr = new XMLHttpRequest();
@@ -89,8 +94,49 @@ function crearListaOfertas(listaOfertas){
                             listaOfertas[listaOfertas.length-i][4]              + " " +
                             listaOfertas[listaOfertas.length-i][5]              + " - $ " +
                             listaOfertas[listaOfertas.length-i][2].toFixed(2);
-        nodeOferta.innerText = texto;
-        tableListaOfertas.appendChild(nodeOferta);
+
+
+        if(listaOfertas[listaOfertas.length-i][6] === usuarioActual ){
+            texto = "<b>" + texto + "</b>";
+            if(listaOfertas.length-i === listaOfertas.length-1 && rangoTiempoOferta(fechaOferta.getDate().toString().padStart(2,0), fechaOferta.getMonth().toString().padStart(2,0),fechaOferta.getFullYear().toString(),fechaOferta.getHours().toString().padStart(2,0) , fechaOferta.getMinutes().toString().padStart(2,0) , fechaOferta.getSeconds().toString().padStart(2,0) ) ){
+                let nodeBotonEliminarOferta = document.createElement("button");
+                nodeBotonEliminarOferta.id = "botonCancelarOferta";
+                nodeBotonEliminarOferta.setAttribute("onclick","if(confirm('¿Estas seguro de eliminar tu oferta?\\nESTA ACCION ES IRREVERSIBLE')) {\nwindow.location.replace('eliminarOferta?idSubasta=" + valorIdSubasta.value + "&idOferta=" + listaOfertas[listaOfertas.length-i][0] + "');\n}");
+                nodeBotonEliminarOferta.setAttribute("class", "btn btn-danger");
+                nodeBotonEliminarOferta.innerText = "Cancelar Oferta";
+                nodeBotonEliminarOferta.style.padding = "2px 8px";
+                nodeBotonEliminarOferta.style.margin = "0px 10px";
+
+                let nodeHiddenTiempo = document.createElement("input");
+                let tiempoOferta =  new Date(fechaOferta.getFullYear().toString(), fechaOferta.getMonth().toString().padStart(2,0), fechaOferta.getDate().toString().padStart(2,0),fechaOferta.getHours().toString().padStart(2,0) , fechaOferta.getMinutes().toString().padStart(2,0) , fechaOferta.getSeconds().toString().padStart(2,0)).getTime();
+                nodeHiddenTiempo.id = "TiempoBotonCancelarSubasta";
+                nodeHiddenTiempo.setAttribute("hidden","true");
+                nodeHiddenTiempo.value = tiempoOferta.toString();
+
+                nodeOferta.innerHTML = texto;
+                nodeOferta.appendChild(nodeBotonEliminarOferta);
+                nodeOferta.appendChild(nodeHiddenTiempo);
+                tableListaOfertas.appendChild(nodeOferta);
+            }else{
+                nodeOferta.innerHTML = texto;
+                tableListaOfertas.appendChild(nodeOferta);
+            }
+        }else{
+            nodeOferta.innerHTML = texto;
+            tableListaOfertas.appendChild(nodeOferta);
+        }
+    }
+}
+
+function rangoTiempoOferta(dia,mes,anio,hora,minuto,segundo){
+    let fechaOferta = new Date(anio,mes,dia,hora,minuto,segundo).getTime();
+    let fechaActual = new Date().getTime();
+    let diferencia = fechaOferta - fechaActual + 60000;
+    let diferenciaTiempoRestante = finSubasta - fechaActual - 60000;
+    if(diferencia >= 0 && diferenciaTiempoRestante >= 0){
+        return true;    //Dentro de rango de poder cancelar oferta
+    }else{
+        return false;   //Fuera de rango de poder cancelar oferta
     }
 }
 
@@ -113,5 +159,25 @@ function temporizador(){
         clearInterval(intervalTemporizador);
         callOfertas();
         valorTiempoSubasta.textContent = "FINALIZADO";
+    }
+}
+
+function checkCancelarOferta(){
+    let buttonCancelarOferta = document.querySelector("#botonCancelarOferta");
+    let inputTiempoOferta = document.querySelector("#TiempoBotonCancelarSubasta");
+
+    if(buttonCancelarOferta == null){
+        clearInterval(invervalCheckCancelarOferta);
+        return;
+    }
+
+    let tiempoOferta = new Date(Number(inputTiempoOferta.value)).getTime();
+    let tiempoActual = new Date().getTime();
+    let diferenciaBoton = tiempoOferta - tiempoActual + 60000;  // diferenciaBoton < 0 Significa que paso un minuto desde que se creo el boton
+    let diferenciaTiempoRestante = finSubasta - tiempoActual - 60000;   // diferenciaTiempoRestante < 0 Significa que falta menos de 1 minuto para que termine la subasta
+
+    if(diferenciaBoton < 0 || diferenciaTiempoRestante < 0){
+        buttonCancelarOferta.disabled = true;
+        clearInterval(invervalCheckCancelarOferta);
     }
 }

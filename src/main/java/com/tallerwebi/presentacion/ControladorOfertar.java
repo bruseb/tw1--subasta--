@@ -77,6 +77,7 @@ public class ControladorOfertar {
         model.addAttribute("subastaDet", subastaDet);
         model.addAttribute("oferta", new Oferta());
         model.addAttribute("esPropietario", esPropietario);
+        model.addAttribute("usuarioActual",emailUsuario);
 
         return "nuevaOferta"; // Thymeleaf busca nuevaOferta.html
     }
@@ -141,7 +142,7 @@ public class ControladorOfertar {
         return responseReturn;
     }
 
-    @GetMapping("/eliminarOferta")
+    @GetMapping("/eliminarSubasta")
     public String eliminarSubasta(@RequestParam Long idSubasta,
                                           HttpServletRequest request,
                                           Model model) {
@@ -158,6 +159,29 @@ public class ControladorOfertar {
         }
 
         servicioSubasta.eliminarSubasta(subastaDet);
+        return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
+    }
+
+    @GetMapping("/eliminarOferta")
+    public String eliminarOferta(@RequestParam Long idSubasta,
+                                 @RequestParam Long idOferta,
+                                  HttpServletRequest request,
+                                  Model model) {
+        Subasta subastaDet = servicioSubasta.buscarSubasta(idSubasta);
+        String emailUsuario = (String) request.getSession().getAttribute("USUARIO");
+
+
+        /*if (subastaDet == null || subastaDet.getEstadoSubasta() == -2) {
+            model.addAttribute("error", "no existe la subasta" + idSubasta);
+            return "error";
+        }
+
+        if(!subastaDet.getCreador().getEmail().equals(emailUsuario)) {
+            model.addAttribute("error", "No podes borrar una subasta que no es tuya.");
+            return "error";
+        }
+
+        servicioSubasta.eliminarSubasta(subastaDet);*/
         return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
     }
 }
