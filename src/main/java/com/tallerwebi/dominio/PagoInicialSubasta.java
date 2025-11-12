@@ -1,12 +1,14 @@
 package com.tallerwebi.dominio;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="reserva_subasta")
-public class ReservaSubasta {
+@Table(name="pago_inicial_subasta")
+public class PagoInicialSubasta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,10 +24,11 @@ public class ReservaSubasta {
 
     private BigDecimal montoPagado;
 
-    private Boolean pagoConfirmado;
+    @Column(nullable = false)
+    private Boolean pagoConfirmado = false;
 
-    private Boolean reembolsado;
-
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime fechaPago;
 
     public Long getId() { return id; }
@@ -42,9 +45,6 @@ public class ReservaSubasta {
 
     public Boolean getPagoConfirmado() { return pagoConfirmado; }
     public void setPagoConfirmado(Boolean pagoConfirmado) { this.pagoConfirmado = pagoConfirmado; }
-
-    public Boolean getReembolsado() { return reembolsado; }
-    public void setReembolsado(Boolean reembolsado) { this.reembolsado = reembolsado; }
 
     public LocalDateTime getFechaPago() { return fechaPago; }
     public void setFechaPago(LocalDateTime fechaPago) { this.fechaPago = fechaPago; }

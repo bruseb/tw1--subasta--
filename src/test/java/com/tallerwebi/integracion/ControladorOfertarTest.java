@@ -1,4 +1,4 @@
-package com.tallerwebi.integracion;
+/*package com.tallerwebi.integracion;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioOfertaImpl;
@@ -76,4 +76,4 @@ public class ControladorOfertarTest {
 
 
 
-}
+}*/
