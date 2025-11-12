@@ -3,7 +3,7 @@ package com.tallerwebi.dominio;
 import java.util.List;
 
 public interface ServicioNotificacion {
-    void crearNotificacion(Usuario destino, String mensaje);
+    void crearNotificacion(Usuario destino, String mensaje, Long id);
     List<Notificacion> obtenerNoLeidas(String email);
     int contarNoLeidas(String email);
     List<Notificacion> obtenerTodas(String email);

@@ -14,11 +14,12 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
     private RepositorioNotificacion repositorioNotificacion;
 
     @Override
-    public void crearNotificacion(Usuario destino, String mensaje) {
+    public void crearNotificacion(Usuario destino, String mensaje, Long id_subasta) {
         Notificacion n = new Notificacion();
         n.setUsuarioDestino(destino);
         n.setMensaje(mensaje);
         n.setFecha(LocalDateTime.now());
+        n.setId_subasta(id_subasta);
         repositorioNotificacion.guardar(n);
     }
 
