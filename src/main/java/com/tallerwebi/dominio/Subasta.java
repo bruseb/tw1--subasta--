@@ -36,7 +36,7 @@ public class Subasta {
     private LocalDateTime fechaInicio;
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime fechaFin; //  Express -> Inicio + 12hr | Rapido -> Inicio + 24 hrs || Normal -> Inicio + 72 hrs || Prolongado -> Inicio + 168 hrs
-    private Integer estadoSubasta;  //  10 = En curso | -1 = Cerrada
+    private Integer estadoSubasta;  //  10 = En curso | -1 = Cerrada | -2 = Eliminada
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subasta",  fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
     private List<Imagen> imagenes = new ArrayList<>();

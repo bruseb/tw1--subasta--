@@ -6,4 +6,6 @@ public interface ServicioOferta {
     Object[] listarOfertasSubastaJSON(Long idSubasta);
     void verificarFechasSubasta(Long idSubasta);
     List<Subasta> listarSubastasOfertadasPorUsuario(String emailUsuario);
+
+    Oferta buscarOfertaGanadoraDeSubasta(Long idSubasta);
 }

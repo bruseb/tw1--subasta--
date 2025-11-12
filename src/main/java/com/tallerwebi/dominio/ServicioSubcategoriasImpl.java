@@ -36,4 +36,7 @@ public class ServicioSubcategoriasImpl implements ServicioSubcategorias {
     public List<Subcategoria> listarSubcategoriasPopulares() {
         return repositorioSubcategorias.listarSubcategoriasPopulares();
     }
-}
+
+
+    }
+

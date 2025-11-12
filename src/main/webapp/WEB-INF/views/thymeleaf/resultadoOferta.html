@@ -28,21 +28,19 @@
             </div>
             <h2 class="fw-bold text-primary mb-3">¡Oferta Confirmada!</h2>
             <p class="text-muted mb-4">
-                Tu nueva subasta fue registrada correctamente en el sistema.<br>
+                Tu oferta fue registrada exitosamente.<br>
 
-                Tu oferta se registró correctamente con en ID: <strong th:text="${ultimaOferta.id}"></strong>
-                para el producto <span th:text="${subastaDet.id}">.</span><br>
-                Te notificaremos si sos el ganador de la subasta! <br>
-
+                Has ofertado al producto <strong><span th:text="${subastaDet.getTitulo()}">.</span></strong><br>
+                ¡Te notificaremos si sos el ganador de la subasta!<br>
 
             </p>
 
             <div class="d-flex justify-content-center gap-3">
+                <a th:href="@{/perfil}" class="btn btn-outline-primary px-4">
+                    Ver mi perfil
+                </a>
                 <a th:href="@{/categorias}" class="btn btn-primary px-4">
                     Volver al Inicio
-                </a>
-                <a th:href="@{/nuevaSubasta}" class="btn btn-outline-primary px-4">
-                    Ver mis Subastas
                 </a>
 
             </div>

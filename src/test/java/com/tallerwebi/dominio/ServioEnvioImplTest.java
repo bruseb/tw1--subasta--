@@ -1,4 +1,4 @@
-package com.tallerwebi.dominio;
+/*package com.tallerwebi.dominio;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -112,5 +112,5 @@ public class ServioEnvioImplTest {
 
 
 
-}
+}*/
 

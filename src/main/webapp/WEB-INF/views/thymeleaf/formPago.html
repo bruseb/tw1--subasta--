@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pago con tarjeta</title>
+
+    <!-- Bootstrap Icons (solo íconos) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Estilos del formulario -->
+    <link rel="stylesheet" th:href="@{/css/formularioPago.css}"/>
+</head>
+<body>
+<main class="mp-container">
+    <header class="mp-header">
+        <div class="mp-brand">
+        <span class="mp-logo" aria-hidden="true">
+          <!-- Marca simple geométrica (no logo oficial) -->
+
+            <img th:src="@{/img/logo.png}" alt="Logo" class="logo-img">
+
+        </span>
+            <div class="mp-title">
+                <h1>Pago con tarjeta</h1>
+                <p>Transacción segura <i class="bi bi-shield-lock-fill" aria-hidden="true"></i></p>
+            </div>
+        </div>
+        <div class="mp-badges" aria-label="Tarjetas aceptadas">
+            <i class="bi bi-credit-card-2-front-fill" title="Visa/Master"></i>
+            <i class="bi bi-cc-visa" title="Visa" aria-hidden="true"></i>
+            <i class="bi bi-cc-mastercard" title="Mastercard" aria-hidden="true"></i>
+            <i class="bi bi-cc-amex" title="Amex" aria-hidden="true"></i>
+        </div>
+    </header>
+
+    <form class="mp-form" novalidate>
+        <!-- Nombre del titular -->
+        <div class="mp-field">
+            <label for="cardName">Nombre y apellido del titular</label>
+            <div class="mp-input">
+                <i class="bi bi-person"></i>
+                <input id="cardName" name="cardName" type="text" autocomplete="cc-name" placeholder="Como figura en la tarjeta"
+                       required minlength="5" maxlength="60" />
+            </div>
+            <p class="mp-hint">Debe coincidir con el nombre impreso en la tarjeta.</p>
+            <p class="mp-error">Ingresá el nombre completo del titular (mínimo 5 caracteres).</p>
+        </div>
+
+        <!-- Número de tarjeta -->
+        <div class="mp-field">
+            <label for="cardNumber">Número de tarjeta</label>
+            <div class="mp-input">
+                <i class="bi bi-credit-card"></i>
+                <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" autocomplete="cc-number"
+                       placeholder="0000 0000 0000 0000"
+                       required pattern="(?:\d{4} ?){3}\d{4}" maxlength="19" />
+            </div>
+            <p class="mp-hint">16 dígitos, podés escribir con o sin espacios.</p>
+            <p class="mp-error">Ingresá un número de tarjeta válido (16 dígitos).</p>
+        </div>
+
+        <!-- Vencimiento y CVV -->
+        <div class="mp-grid">
+            <div class="mp-field">
+                <label for="exp">Vencimiento (MM/AA)</label>
+                <div class="mp-input">
+                    <i class="bi bi-calendar-event"></i>
+                    <input id="exp" name="exp" type="text" placeholder="MM/AA" autocomplete="cc-exp"
+                           inputmode="numeric" required pattern="(0[1-9]|1[0-2])\/\d{2}" maxlength="5" />
+                </div>
+                <p class="mp-hint">Mes 01–12 y últimos 2 dígitos del año.</p>
+                <p class="mp-error">Formato inválido. Ej: 08/27</p>
+            </div>
+
+            <div class="mp-field">
+                <label for="cvv">Código de seguridad</label>
+                <div class="mp-input">
+                    <i class="bi bi-lock-fill"></i>
+                    <input id="cvv" name="cvv" type="password" inputmode="numeric" autocomplete="cc-csc"
+                           placeholder="CVV" required pattern="\d{3,4}" maxlength="4" />
+                </div>
+                <p class="mp-hint">3 dígitos (4 en Amex).</p>
+                <p class="mp-error">Ingresá 3 o 4 dígitos.</p>
+            </div>
+        </div>
+
+        <!-- DNI y Email -->
+        <div class="mp-grid">
+            <div class="mp-field">
+                <label for="dni">Documento del titular</label>
+                <div class="mp-input">
+                    <i class="bi bi-id-card"></i>
+                    <input id="dni" name="dni" type="text" inputmode="numeric" placeholder="DNI sin puntos"
+                           required pattern="\d{7,9}" maxlength="9" />
+                </div>
+                <p class="mp-hint">Entre 7 y 9 números (arg.).</p>
+                <p class="mp-error">Ingresá un DNI válido (solo números).</p>
+            </div>
+
+            <div class="mp-field">
+                <strong id="email" th:text="${emailUsuario}"></strong>
+                <label for="email">Email</label>
+
+                <div class="mp-input">
+                    <i class="bi bi-envelope"></i>
+                    <strong  th:text="${emailUsuario}"></strong>
+
+                </div>
+                <p class="mp-hint">Te enviaremos el comprobante.</p>
+                <p class="mp-error">Ingresá un email válido.</p>
+            </div>
+        </div>
+
+        <!-- Cuotas -->
+        <div class="mp-field">
+            <label for="installments">Cuotas</label>
+            <div class="mp-input">
+                <i class="bi bi-list-ol"></i>
+                <select id="installments" name="installments" required>
+                    <option value="" selected disabled>Elegí una opción</option>
+                    <option value="1">1 cuota (sin interés)</option>
+                    <option value="3">3 cuotas</option>
+                    <option value="6">6 cuotas</option>
+                    <option value="12">12 cuotas</option>
+                </select>
+            </div>
+            <p class="mp-error">Seleccioná la cantidad de cuotas.</p>
+        </div>
+
+        <!-- Guardar tarjeta -->
+        <div class="mp-check">
+            <input type="checkbox" id="saveCard" name="saveCard" />
+            <label for="saveCard">Guardar tarjeta de forma segura</label>
+        </div>
+
+        <!-- Términos -->
+        <div class="mp-check">
+            <input type="checkbox" id="terms" name="terms" required />
+            <label for="terms">Acepto los <a href="#" aria-label="términos y condiciones">términos y condiciones</a>.</label>
+            <p class="mp-error mp-error-inline">Debés aceptar los términos.</p>
+        </div>
+
+        <!-- Resumen monto -->
+        <div class="mp-summary" aria-live="polite">
+            <div class="mp-row">
+                <span>Producto</span>
+                <strong th:text="'$ ' + ${montoActual}"></strong>
+            </div>
+
+            <div class="mp-row">
+                <span>Costo de envío</span>
+                <strong>$ 0</strong>
+            </div>
+            <div class="mp-row">
+                <span>Reserva Previa</span>
+                <strong th:text=" '- $ ' + ${reservaPrevia}"></strong>
+            </div>
+            <div class="mp-divider"></div>
+            <div class="mp-row mp-total">
+                <span>Total a pagar</span>
+                <strong>$ 12.900</strong>
+            </div>
+        </div>
+
+        <div class="botones-container"> <!-- Botón pagar -->
+            <button type="submit" class="mp-btnr">
+                Atras
+            </button>
+            <button type="submit" class="mp-btn">
+                <i class="bi bi-lock" aria-hidden="true"></i>
+                Pagar ahora
+            </button>
+        </div>
+        <p class="mp-security">
+            <i class="bi bi-shield-check" aria-hidden="true"></i>
+            Tus datos se procesan de forma segura con estándares PCI-DSS.
+        </p>
+    </form>
+</main>
+</body>
+</html>

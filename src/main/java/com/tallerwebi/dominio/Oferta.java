@@ -62,7 +62,6 @@ public class Oferta {
         this.montoOfertado = montoOfertado;
     }
     public Float getMontoOfertado() {
-
         return montoOfertado;
     }
 

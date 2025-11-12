@@ -52,6 +52,10 @@ public class ServicioSubastaImpl implements ServicioSubasta {
             throw new RuntimeException("Estado de subasta no valido.");
         }
 
+        //if(subasta.getSubcategoria() == null || subasta.getSubcategoria().getCategoria() == null){
+          //  throw new RuntimeException("Categoria no definida.");
+        //}
+
         Usuario usuario = repositorioUsuario.buscar(emailCreador);
         if (usuario == null) {
             throw new RuntimeException("Usuario inexistente.");
@@ -147,6 +151,12 @@ public class ServicioSubastaImpl implements ServicioSubasta {
     @Override
     public List<Subasta> listarSubastasGanadas(String emailCreador){
         return repositorioSubasta.buscarSubastasGanadas(emailCreador);
+    }
+
+    @Override
+    public void eliminarSubasta(Subasta subasta) {
+        subasta.setEstadoSubasta(-2);
+        repositorioSubasta.actualizar(subasta);
     }
 
 }

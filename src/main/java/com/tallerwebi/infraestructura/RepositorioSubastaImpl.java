@@ -58,6 +58,7 @@ public class RepositorioSubastaImpl implements RepositorioSubasta {
         return session.createCriteria(Subasta.class)
                 .createAlias("creador", "u")
                 .add(Restrictions.eq("u.email", emailCreador))
+                .add(Restrictions.eq("estadoSubasta", 10))
                 .list();
     }
 
