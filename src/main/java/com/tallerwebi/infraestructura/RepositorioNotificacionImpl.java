@@ -32,8 +32,8 @@ public class RepositorioNotificacionImpl implements RepositorioNotificacion {
     public void marcarTodasComoLeidas(String email) {
         String hql = "UPDATE Notificacion n " +
                 "SET n.leida = true " +
-                "WHERE n.usuarioDestino IN (" +
-                "   SELECT u FROM Usuario u WHERE u.email = :email" +
+                "WHERE n.usuarioDestino.id IN (" +
+                "   SELECT u.id FROM Usuario u WHERE u.email = :email" +
                 ")";
         sessionFactory.getCurrentSession()
                 .createQuery(hql)

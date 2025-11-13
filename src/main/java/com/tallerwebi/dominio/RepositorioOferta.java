@@ -6,4 +6,5 @@ public interface RepositorioOferta {
     Object[] obtenerOfertasPorSubastaJSON(Long idSubasta);
     List<Subasta> obtenerSubastasOfertadasPorUsuario(String emailUsuario);
     List<Usuario> obtenerOfertantesPorSubasta(Subasta subasta, Usuario usuario);
+    Oferta obtenerMayorOfertaPorSubasta(Long idSubasta);
 }

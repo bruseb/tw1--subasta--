@@ -42,30 +42,4 @@ public class ControladorNotificaciones {
         return "notificaciones";
     }
 
-    // contador de notificaciones en tiempo real
-    @GetMapping("/notificaciones/contador")
-    @ResponseBody
-    public int obtenerContador(HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("USUARIO");
-        if (email == null) {
-            return 0;
-        }
-        return servicioNotificacion.contarNoLeidas(email);
-    }
-
-    @GetMapping("/notificaciones/cantidad")
-    @ResponseBody
-    public Map<String, Object> obtenerCantidadNoLeidas(HttpServletRequest request) {
-        String email = (String) request.getSession().getAttribute("USUARIO");
-
-        Map<String, Object> response = new HashMap<>();
-        if (email == null) {
-            response.put("cantidad", 0);
-            return response;
-        }
-
-        int cantidad = servicioNotificacion.obtenerNoLeidas(email).size();
-        response.put("cantidad", cantidad);
-        return response;
-    }
 }

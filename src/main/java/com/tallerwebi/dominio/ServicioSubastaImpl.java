@@ -113,7 +113,7 @@ public class ServicioSubastaImpl implements ServicioSubasta {
                 result = temp.plusDays(7);      //Prolongado
                 break;
             case 4:
-                result = temp.plusMinutes(5);   //Ultra Express
+                result = temp.plusMinutes(1);   //Ultra Express
                 break;
             default:
                 result = temp;
