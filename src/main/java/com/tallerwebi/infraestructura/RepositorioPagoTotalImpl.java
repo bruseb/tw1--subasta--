@@ -1,22 +1,26 @@
 package com.tallerwebi.infraestructura;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import com.tallerwebi.dominio.Pago;
 import com.tallerwebi.dominio.RepositorioPago;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository("repositorioPago")
 public class RepositorioPagoTotalImpl implements RepositorioPago {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public RepositorioPagoTotalImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
     @Override
     public void guardarPago(Pago pago) {
 
 
-        entityManager.persist(pago);
+        sessionFactory.getCurrentSession().save(pago);
 
 
     }

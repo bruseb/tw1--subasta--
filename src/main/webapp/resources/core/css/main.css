@@ -27,10 +27,10 @@
     padding: 14px 18px;
     border-radius: 12px;
     font-weight: 700; font-size: 16px;
-    color:#fff; background: var(--mp-primary);
+    color:#fff; background: #009EE3;
     box-shadow: 0 8px 18px rgba(0,158,227,0.28);
     transition: transform .05s ease, background .15s ease, box-shadow .2s ease;
 }
-.mp-btnazul:hover{ background: var(--mp-primary-hover); }
+.mp-btnazul:hover{ background: #007DB6; }
 .mp-btnazul:active{ transform: translateY(1px); }
 .mp-btnazul:disabled{ opacity:.7; cursor:not-allowed; }

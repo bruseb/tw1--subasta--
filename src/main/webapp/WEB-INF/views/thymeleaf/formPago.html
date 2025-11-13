@@ -188,12 +188,14 @@
             </div>
         </div>
 
-        <div class="botones-container"> <!-- Botón pagar -->
 
 
-            <input type="hidden" name="email" th:value="${usuario.email}" />
-            <input type="hidden" name="idSubasta" th:value="${subasta.id}" />
-            <input type="hidden" name="montoTotal" th:value="${costoTotal}" />
+        <input type="hidden" name="email" th:value="${usuario.email}" />
+        <input type="hidden" name="idSubasta" th:value="${subasta.id}" />
+        <input type="hidden" name="montoTotal" th:value="${costoTotal}" />
+
+
+        <div class="botones-container">
 
             <div class="d-flex justify-content-between mt-4">
                 <a th:href="@{/compras}" class="mp-btnr">
@@ -206,6 +208,7 @@
                 </a>
             </div>
         </div>
+
         <p class="mp-security">
             <i class="bi bi-shield-check" aria-hidden="true"></i>
             Tus datos se procesan de forma segura con estándares PCI-DSS.

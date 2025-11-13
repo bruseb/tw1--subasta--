@@ -3,7 +3,7 @@ package com.tallerwebi.dominio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
@@ -11,7 +11,6 @@ public class ServicioPagoImpl implements ServicioPago {
 
     private final RepositorioPago repositorioPago;
 
-    // Asegurarse de inyectar el repositorio
     @Autowired
     public ServicioPagoImpl(RepositorioPago repositorioPago) {
         this.repositorioPago = repositorioPago;
@@ -38,8 +37,8 @@ public class ServicioPagoImpl implements ServicioPago {
         pago.setIdSubasta(idSubasta);
         pago.setEmail(email);
         pago.setMontoAbonado(montoTotal);
-        pago.setEstado(estado); // Se establece el estado a 2 (Pagado)
-
+        pago.setEstado(estado); // estado a 2 (Pagado)
+        System.out.println("DEBUG: Objeto Pago a guardar: " + pago.toString());
         repositorioPago.guardarPago(pago);
     }
 

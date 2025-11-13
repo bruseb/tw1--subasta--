@@ -23,8 +23,7 @@ public class ControladorConfirmacionPago {
     public String mostrarConfirmacion(@PathVariable(name = "idSubasta") Long idSubasta,
                                       Model model) {
 
-        // 1. **VALIDACIÓN Y SEGURIDAD**
-        // Con @PathVariable, el ID es obligatorio. Si es nulo o inválido, redirigimos.
+
         if (idSubasta == null || idSubasta <= 0) {
             return "redirect:/compras";
         }
@@ -38,13 +37,13 @@ public class ControladorConfirmacionPago {
             System.err.println("Error al buscar subasta: " + e.getMessage());
         }
 
-        // 3. 🚨 MANEJO SEGURO DE OBJETO NULO (Para evitar errores en la vista)
+
         if (subasta == null) {
             subasta = new Subasta();
             subasta.setTitulo("Detalle no encontrado o transacción genérica");
         }
 
-        // 4. AÑADIR AL MODELO
+
         model.addAttribute("subasta", subasta);
 
         return "confirmacionPagoEnvio";
