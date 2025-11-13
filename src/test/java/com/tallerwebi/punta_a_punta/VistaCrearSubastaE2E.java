@@ -46,12 +46,15 @@ public class VistaCrearSubastaE2E {
 
     @Test
     void deberiaEstarEnPaginaCrearSubastas() throws MalformedURLException{
+        vistaCrearSubasta.loginYIrACrearSubasta();
         URL actualURL = vistaCrearSubasta.obtenerURLActual();
-        assertThat(actualURL.getPath(), equalToIgnoringCase("/spring/crearSubasta"));
+        assertThat(actualURL.getPath(), equalToIgnoringCase("/spring/nuevaSubasta"));
     }
 
     @Test
-    void deberiaDarErrorSiIntentaCrearSubastaSinImagenes(){
+    void deberiaCrearSubasta() throws MalformedURLException{
+        vistaCrearSubasta.loginYIrACrearSubasta();
+
         vistaCrearSubasta.escribirNombreProducto("Producto 1");
         vistaCrearSubasta.escribirDescripcion("Descripcion");
         vistaCrearSubasta.escribirEstadoProducto("NUEVO");
@@ -63,34 +66,42 @@ public class VistaCrearSubastaE2E {
         vistaCrearSubasta.escribirSubcategoria("1");
         vistaCrearSubasta.escribirPrecioInicial("1000");
         vistaCrearSubasta.escribirDuracion("1");
-        //vistaCrearSubasta.escribirImagenes("TESTIMAGEN");
+        vistaCrearSubasta.escribirImagenes();
+
         vistaCrearSubasta.darClickEnCrear();
-        String textoError = vistaCrearSubasta.obtenerMensajeDeError();
-        assertThat("Imagen no definida.", equalToIgnoringCase(textoError));
+
+        URL urlPostSubasta = vistaCrearSubasta.obtenerURLActual();
+        assertThat(urlPostSubasta.getPath(), equalToIgnoringCase("/spring/confirmacion-subasta"));
     }
 
     @Test
-    void deberiaDarErrorSiIntentaCrearSubastaSinEstadoProducto(){
-        vistaCrearSubasta.escribirNombreProducto("Producto 1");
+    void deberiaDarErrorSiIntentaCrearSubastaSinSubcategoria(){
+        vistaCrearSubasta.loginYIrACrearSubasta();
+
+        vistaCrearSubasta.escribirNombreProducto("Producto 3");
         vistaCrearSubasta.escribirDescripcion("Descripcion");
         vistaCrearSubasta.escribirEstadoProducto("NUEVO");
         vistaCrearSubasta.escribirPeso("15");
         vistaCrearSubasta.escribirLargo("15");
         vistaCrearSubasta.escribirAlto("15");
         vistaCrearSubasta.escribirAncho("15");
-        //vistaCrearSubasta.escribirCategoria("1");
+        vistaCrearSubasta.escribirCategoria("1");
         //vistaCrearSubasta.escribirSubcategoria("1");
         vistaCrearSubasta.escribirPrecioInicial("1000");
         vistaCrearSubasta.escribirDuracion("1");
-        vistaCrearSubasta.escribirImagenes("TESTIMAGEN");
+        vistaCrearSubasta.escribirImagenes();
+
         vistaCrearSubasta.darClickEnCrear();
+
         String textoError = vistaCrearSubasta.obtenerMensajeDeError();
-        assertThat("Categoria no definida.", equalToIgnoringCase(textoError));
+        assertThat("Error Categoria no definida.", equalToIgnoringCase(textoError));
     }
 
     @Test
     void deberiaDarErrorSiIntentaCrearSubastaConLenguajeOfensivo(){
-        vistaCrearSubasta.escribirNombreProducto("Producto 1");
+        vistaCrearSubasta.loginYIrACrearSubasta();
+
+        vistaCrearSubasta.escribirNombreProducto("Producto 4");
         vistaCrearSubasta.escribirDescripcion("Descripcion de mierda");
         vistaCrearSubasta.escribirEstadoProducto("NUEVO");
         vistaCrearSubasta.escribirPeso("15");
@@ -101,15 +112,19 @@ public class VistaCrearSubastaE2E {
         vistaCrearSubasta.escribirSubcategoria("1");
         vistaCrearSubasta.escribirPrecioInicial("1000");
         vistaCrearSubasta.escribirDuracion("1");
-        vistaCrearSubasta.escribirImagenes("TESTIMAGEN");
+        vistaCrearSubasta.escribirImagenes();
+
         vistaCrearSubasta.darClickEnCrear();
+
         String textoError = vistaCrearSubasta.obtenerMensajeDeError();
-        assertThat("El título o la descripción contienen lenguaje ofensivo.", equalToIgnoringCase(textoError));
+        assertThat("Error El título o la descripción contienen lenguaje ofensivo.", equalToIgnoringCase(textoError));
     }
 
     @Test
     void deberiaDarErrorSiIntentaCrearSubastaConImporteNegativo(){
-        vistaCrearSubasta.escribirNombreProducto("Producto 1");
+        vistaCrearSubasta.loginYIrACrearSubasta();
+
+        vistaCrearSubasta.escribirNombreProducto("Producto 5");
         vistaCrearSubasta.escribirDescripcion("Descripcion de mierda");
         vistaCrearSubasta.escribirEstadoProducto("NUEVO");
         vistaCrearSubasta.escribirPeso("15");
@@ -120,8 +135,10 @@ public class VistaCrearSubastaE2E {
         vistaCrearSubasta.escribirSubcategoria("1");
         vistaCrearSubasta.escribirPrecioInicial("-1000");
         vistaCrearSubasta.escribirDuracion("1");
-        vistaCrearSubasta.escribirImagenes("TESTIMAGEN");
+        vistaCrearSubasta.escribirImagenes();
+
         vistaCrearSubasta.darClickEnCrear();
+
         String textoError = vistaCrearSubasta.obtenerMensajeDeError();
         assertThat("El monto inicial no puede ser negativo.", equalToIgnoringCase(textoError));
     }
