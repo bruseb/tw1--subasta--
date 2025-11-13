@@ -10,7 +10,7 @@ function obtenerLista(){
     for(let i = 0; i < cantidadSubastas; i++){
         let subastaID           = tableSubastas.children[i].children[0].children[0].children[0].children[1].children[0].value;
         let inputOfertas        = tableSubastas.children[i].children[0].children[0].children[0].children[1].children[1];
-        let inputMontoActual    = tableSubastas.children[i].children[0].children[0].children[0].children[1].children[2];
+        let inputMontoActual    = tableSubastas.children[i].children[0].children[0].children[0].children[1].children[3];
 
         callOfertas(subastaID,inputOfertas,inputMontoActual);
     }

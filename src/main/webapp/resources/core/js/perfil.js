@@ -12,7 +12,7 @@ function actualizarListas(){
     for(let i = 0; i < cantidadSubastasCreadas; i++){
         let creada_subastaID                    = tableSubastasCreadas.children[i].children[0].children[0].children[0].children[1].children[0].value;
         let creada_inputOfertas        = tableSubastasCreadas.children[i].children[0].children[0].children[0].children[1].children[1];
-        let creada_inputMontoActual    = tableSubastasCreadas.children[i].children[0].children[0].children[0].children[1].children[2];
+        let creada_inputMontoActual    = tableSubastasCreadas.children[i].children[0].children[0].children[0].children[1].children[3];
 
         callOfertas(creada_subastaID,creada_inputOfertas,creada_inputMontoActual);
     }
@@ -20,7 +20,7 @@ function actualizarListas(){
     for(let i = 0; i < cantidadSubastasOfertadas; i++){
         let ofertada_subastaID                   = tableSubastasOfertadas.children[i].children[0].children[0].children[0].children[1].children[0].value;
         let ofertada_inputOfertas        = tableSubastasOfertadas.children[i].children[0].children[0].children[0].children[1].children[1];
-        let ofertada_inputMontoActual    = tableSubastasOfertadas.children[i].children[0].children[0].children[0].children[1].children[2];
+        let ofertada_inputMontoActual    = tableSubastasOfertadas.children[i].children[0].children[0].children[0].children[1].children[3];
 
         callOfertas(ofertada_subastaID,ofertada_inputOfertas,ofertada_inputMontoActual);
     }
