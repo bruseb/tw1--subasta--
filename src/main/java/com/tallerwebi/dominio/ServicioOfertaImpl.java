@@ -115,7 +115,7 @@ public class ServicioOfertaImpl implements ServicioOferta {
         Subasta subasta = repositorioSubasta.obtenerSubasta(idSubasta);
         LocalDateTime fechaAhora = LocalDateTime.now();
 
-        if (fechaAhora.compareTo(subasta.getFechaFin()) >= 0) {
+        if (fechaAhora.compareTo(subasta.getFechaFin()) >= 0 && subasta.getEstadoSubasta() == 10) {
             subasta.setEstadoSubasta(-1);
             repositorioSubasta.actualizar(subasta);
             //Notificacion al ganador

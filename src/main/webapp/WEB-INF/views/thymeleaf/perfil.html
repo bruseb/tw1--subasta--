@@ -114,7 +114,7 @@
                 </div>
 
                 <section class="container">
-                    <article  class="my-2 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+                    <article id="listaSubastasCreadas" class="my-2 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
                         <div th:each="subasta : ${subastas}">
                             <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
                         </div>
@@ -139,7 +139,7 @@
                 </div>
 
                 <section class="container">
-                    <article  class="my-2 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
+                    <article id="listaSubastasOfertadas" class="my-2 row row-cols-1 row-cols-sm-3 row-cols-lg-4 g-4">
                         <div th:each="subasta : ${subastasOfertadas}">
                             <section th:replace="~{fragments/card-subasta :: subastaCard(subasta=${subasta})}"></section>
                         </div>
@@ -158,5 +158,6 @@
 
 <!-- Boostrap core js -->
 <script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+<script type="module" th:src="@{js/perfil.js}"></script>
 </body>
 </html>
