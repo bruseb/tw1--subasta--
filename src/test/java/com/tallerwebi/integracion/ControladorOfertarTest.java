@@ -1,4 +1,4 @@
-/*package com.tallerwebi.integracion;
+package com.tallerwebi.integracion;
 
 import com.tallerwebi.dominio.*;
 import com.tallerwebi.infraestructura.RepositorioOfertaImpl;
@@ -37,43 +37,11 @@ import static net.bytebuddy.matcher.ElementMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+/*
 @ExtendWith(SpringExtension.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = { SpringWebTestConfig.class, HibernateTestConfig.class })
 public class ControladorOfertarTest {
-
-    @Mock ServicioOferta servicioOferta;
-    @Mock ServicioSubasta servicioSubasta;
-    @Mock RepositorioUsuario repositorioUsuario;
-    @Mock  RepositorioOfertaImpl repositorioOferta;
-
-    private ControladorOfertar controlador;
-
-    @BeforeEach
-    void setUp() {
-
-        controlador = new ControladorOfertar(servicioOferta,  repositorioUsuario ,servicioSubasta ,repositorioOferta);                 // si solo tiene uno
-
-    }
-
-    @Test
-    void QueSeRedireccioneALoginCuandoNoHayUsuarioLogueado() {
-
-        Oferta oferta = new Oferta();
-        Long idSubasta = 1L;
-        Model model = new ExtendedModelMap();
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setSession(new MockHttpSession());
-
-
-        String vista = controlador.guardarOferta(oferta, idSubasta, request, model);
-
-
-        assertEquals("redirect:/login", vista);
-    }
-
 
 
 }*/
