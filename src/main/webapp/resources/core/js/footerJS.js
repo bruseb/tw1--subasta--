@@ -6,7 +6,7 @@ const intervalActualizarContadorNotificaciones = setInterval(obtenerCantidadNoti
 
 function obtenerCantidadNotificacionesNoLeidas(){
     let xhr = new XMLHttpRequest();
-    let url = 'cantidadNotificacionesNoLeidas';
+    let url = '/spring/cantidadNotificacionesNoLeidas';
     xhr.open("GET",url, true);
 
     xhr.onreadystatechange = function () {
