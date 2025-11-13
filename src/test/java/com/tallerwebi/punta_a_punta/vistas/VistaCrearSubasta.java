@@ -2,10 +2,14 @@ package com.tallerwebi.punta_a_punta.vistas;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Locator;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class VistaCrearSubasta extends VistaWeb{
     public VistaCrearSubasta(Page page) {
         super(page);
-        page.navigate("localhost:8080/spring/crearSubasta");
+        page.navigate("localhost:8080/spring/");
     }
 
     public Page getPage() {
@@ -14,6 +18,14 @@ public class VistaCrearSubasta extends VistaWeb{
 
     // Header
     public Locator tituloPagina() { return page.locator("head title"); }
+
+    //Login y ir a Subastas
+    public void loginYIrACrearSubasta(){
+        page.locator("#email").type("test@unlam.edu.ar");
+        page.locator("#password").type("test");
+        page.locator("#btn-login").click();
+        page.navigate("localhost:8080/spring/nuevaSubasta");
+    }
 
     //Formulario Crear Subasta
     public Locator nombreSubasta() { return page.locator("#titulo"); }
@@ -30,7 +42,7 @@ public class VistaCrearSubasta extends VistaWeb{
     public Locator imagenes() { return page.locator("#imagenSubasta"); }
 
     public Locator botonCrear() {  return page.locator("#btn-crearSubasta"); }
-    public Locator mensajeError() { return page.locator("p.alert.alert-danger"); }
+    public Locator mensajeError() { return page.locator(".alert.alert-danger"); }
 
     public void escribirNombreProducto(String nombreProducto){
         this.nombreSubasta().type(nombreProducto);
@@ -61,11 +73,11 @@ public class VistaCrearSubasta extends VistaWeb{
     }
 
     public void escribirCategoria(String categoria){
-        this.categoriaSubasta().type(categoria);
+        this.categoriaSubasta().selectOption(categoria);
     }
 
     public void escribirSubcategoria(String subcategoria){
-        this.subcategoriaSubasta().type(subcategoria);
+        this.subcategoriaSubasta().selectOption(subcategoria);
     }
 
     public void escribirPrecioInicial(String precioInicial){
@@ -76,8 +88,10 @@ public class VistaCrearSubasta extends VistaWeb{
         this.duracion().type(duracion);
     }
 
-    public void escribirImagenes(String imagenes){
-        this.imagenes().type(imagenes);
+    public void escribirImagenes(){
+        //this.imagenes().type(imagenes);
+        Path imagen = Paths.get("C:/Users/Pucci/Desktop/Imagenes test/492703872_1221103426047559_8010241550426300492_n.jpg");
+        this.imagenes().setInputFiles(imagen);
     }
 
     public void darClickEnCrear(){
@@ -85,6 +99,7 @@ public class VistaCrearSubasta extends VistaWeb{
     }
 
     public String obtenerMensajeDeError(){
-        return this.mensajeError().textContent();
+        Locator mensajeError = page.locator(".alert.alert-danger");
+        return mensajeError.textContent();
     }
 }
