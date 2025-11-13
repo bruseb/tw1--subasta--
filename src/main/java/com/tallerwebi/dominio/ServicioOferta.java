@@ -10,5 +10,5 @@ public interface ServicioOferta {
     void verificarFechasSubasta(Long idSubasta);
     List<Subasta> listarSubastasOfertadasPorUsuario(String emailUsuario);
 
-    Oferta buscarOfertaGanadoraDeSubasta(Long idSubasta);
+
 }

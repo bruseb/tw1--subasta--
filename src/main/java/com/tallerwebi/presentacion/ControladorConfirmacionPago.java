@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -18,38 +19,34 @@ public class ControladorConfirmacionPago {
         this.servicioSubasta = servicioSubasta;
     }
 
-    @GetMapping("/confirmacionPagoEnvio")
-    public String mostrarConfirmacion(@RequestParam(name = "idSubasta", required = false) Long idSubasta,
+    @GetMapping("/confirmacionPagoEnvio/{idSubasta}")
+    public String mostrarConfirmacion(@PathVariable(name = "idSubasta") Long idSubasta,
                                       Model model) {
+
+        // 1. **VALIDACIÓN Y SEGURIDAD**
+        // Con @PathVariable, el ID es obligatorio. Si es nulo o inválido, redirigimos.
+        if (idSubasta == null || idSubasta <= 0) {
+            return "redirect:/compras";
+        }
 
         Subasta subasta = null;
 
-        // 1. **BÚSQUEDA DE SUBASTA**
-        // Solo buscamos si el ID no es nulo
-        if (idSubasta != null) {
-            try {
-                subasta = servicioSubasta.buscarSubasta(idSubasta);
-            } catch (Exception e) {
-                System.err.println("Error al buscar la subasta con ID " + idSubasta + ": " + e.getMessage());
-                // Si hay un error en el servicio/repo, 'subasta' seguirá siendo null
-            }
+        try {
+            // 2. OBTENER DATOS PARA LA CONFIRMACIÓN
+            subasta = servicioSubasta.buscarSubasta(idSubasta);
+        } catch (Exception e) {
+            System.err.println("Error al buscar subasta: " + e.getMessage());
         }
 
-        // 2. 🚨 MANEJO SEGURO DE OBJETO NULO (EVITA EL EL1007E)
+        // 3. 🚨 MANEJO SEGURO DE OBJETO NULO (Para evitar errores en la vista)
         if (subasta == null) {
-            // Creamos un objeto Subasta dummy para que la vista pueda acceder a .titulo y .id
             subasta = new Subasta();
-            // 🚨 Asegúrate de que tu clase Subasta tiene un setter para el título
-            subasta.setTitulo("Detalle no encontrado o acceso directo");
-            // Si la vista accede al ID, también necesita un valor:
-            // subasta.setId(0L);
+            subasta.setTitulo("Detalle no encontrado o transacción genérica");
         }
 
-        // 3. **AÑADIR AL MODELO**
+        // 4. AÑADIR AL MODELO
         model.addAttribute("subasta", subasta);
-        // model.addAttribute("pago", pago);
 
-        // 4. DEVOLVER LA VISTA
         return "confirmacionPagoEnvio";
     }
 }

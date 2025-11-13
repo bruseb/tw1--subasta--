@@ -20,3 +20,17 @@
     object-fit: contain;   /* usa contain si preferís ver la imagen completa con bordes */
     object-position: center;
 }
+.mp-btnazul{
+    width:100%;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px;
+    border:0; cursor:pointer;
+    padding: 14px 18px;
+    border-radius: 12px;
+    font-weight: 700; font-size: 16px;
+    color:#fff; background: var(--mp-primary);
+    box-shadow: 0 8px 18px rgba(0,158,227,0.28);
+    transition: transform .05s ease, background .15s ease, box-shadow .2s ease;
+}
+.mp-btnazul:hover{ background: var(--mp-primary-hover); }
+.mp-btnazul:active{ transform: translateY(1px); }
+.mp-btnazul:disabled{ opacity:.7; cursor:not-allowed; }

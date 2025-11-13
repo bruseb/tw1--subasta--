@@ -20,7 +20,7 @@
     <!-- custom style -->
 
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
-    <link rel="stylesheet" th:href="@{/css/formularioPago.css}"/>
+
 
 </head>
 
@@ -58,10 +58,10 @@
                                     </div>
                                 </a>
 
-                                <div class="botones-container">
-                                    <a th:href="@{/calcular-envio/{idSubasta}(idSubasta=${subasta.id})}" class="mp-btn">
-                                        <i class="bi bi-lock" aria-hidden="true"></i>
-                                        Comprar
+                                <div class="boton-avanzar">
+                                    <a th:href="@{/calcular-envio/{idSubasta}(idSubasta=${subasta.id})}" class="mp-btnazul">
+
+                                        Avanzar
                                     </a>
                                 </div>
                             </div>

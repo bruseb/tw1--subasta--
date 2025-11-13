@@ -117,50 +117,47 @@ public class ControladorPago {
     }
 
     @PostMapping("/formPago")
-    public String procesarPago(@RequestParam("emailUsuario") String email, // Email del usuario (campo oculto)
-                               @RequestParam("idSubastaPagada") Long idSubasta, // ID de la subasta (campo oculto)
-                               @RequestParam("montoTotalPagado") Float costoTotal, // Monto total (campo oculto)
-                               // Aquí irían los datos de la tarjeta, si los manejas con otro objeto
-                               // @ModelAttribute("datosTarjeta") DatosTarjeta datosTarjeta,
+    public String procesarPago(@RequestParam("emailUsuario") String email,
+                               @RequestParam("idSubasta") Long idSubasta,
+                               @RequestParam("montoTotalPagado") Float costoTotal,
+
                                HttpServletRequest request,
                                Model model) {
 
-        // 1. **AUTENTICACIÓN/SEGURIDAD** (Opcional, pero buena práctica)
-        // Se verifica que el email recibido corresponda al usuario logueado.
+
         String emailSesion = (String) request.getSession().getAttribute("email");
         if (emailSesion == null || !emailSesion.equals(email)) {
-            // Manejar error o redirigir a login
             return "redirect:/login";
+        }
+
+        // 🚨 Validación adicional de ID (Aunque debe ser garantizada por el GET)
+        if (idSubasta == null || idSubasta <= 0) {
+            return "redirect:/compras";
         }
 
         // 2. **PROCESAR PAGO / GUARDAR TRANSACCIÓN**
 
-        // 🚨 Este es el paso clave: debes llamar a un servicio que guarde la transacción
-        // Asumiendo que tienes un servicioPago con un método para guardar
         try {
-            // servicePago.registrarTransaccion(email, idSubasta, costoTotal, datosTarjeta);
 
-            // 🌟 SIMULACIÓN: Creación de un objeto Pago para guardar en el repositorio
-            Pago pago = new Pago();
-            pago.setEmailUsuario(email);
-            pago.setIdSubasta(idSubasta);
-            pago.setCostoTotal(costoTotal);
-            // ... setear fecha, estado, etc.
+            // Guardamos: idSubasta, email, montoTotal, y el estado 2 (Pagado)
+            servicioPago.registrarTransaccion(idSubasta, email, costoTotal, 2);
 
-            // 🚨 Aquí guardarías el objeto 'pago' en tu Repositorio/Servicio
-            // servicioPago.guardarPago(pago);
+            // 💡 Aquí también iría la lógica para cambiar el estado de la Subasta (ej: a PAGADA)
 
         } catch (Exception e) {
-            // Manejo de errores de pago (ej. tarjeta rechazada)
+            // Manejo de errores de pago (ej. tarjeta rechazada o fallo de DB)
+            System.err.println("Error al procesar y guardar el pago: " + e.getMessage());
             model.addAttribute("error", "Error al procesar el pago: " + e.getMessage());
-            // Podrías devolver a la vista de pago con el error
-            // return "formPago";
             return "redirect:/pagoFallido";
         }
+
 
         // 3. **REDIRECCIÓN A CONFIRMACIÓN** (Paso 3)
         // Redirigimos a la página de éxito, a menudo pasando el ID de la subasta/transacción.
         return "redirect:/confirmacionPagoEnvio?idSubasta=" + idSubasta;
     }
+
+
+
 
 }
