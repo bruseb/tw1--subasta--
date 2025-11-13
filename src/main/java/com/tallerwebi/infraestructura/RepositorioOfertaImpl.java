@@ -73,6 +73,15 @@ public class RepositorioOfertaImpl implements RepositorioOferta {
     public void eliminarOferta(Oferta oferta){
         sessionFactory.getCurrentSession().delete(oferta);
     }
+    @Override
+    public Oferta obtenerMayorOfertaPorSubasta(Long idSubasta) {
+        String hql = "FROM Oferta o WHERE o.subasta.id = :idSubasta ORDER BY o.montoOfertado DESC";
+        Query<Oferta> query = sessionFactory.getCurrentSession().createQuery(hql, Oferta.class);
+        query.setParameter("idSubasta", idSubasta);
+        query.setMaxResults(1); // solo la más alta
+        return query.uniqueResult();
+    }
+
 
     @Override
     public Float obtenerOfertaMaxima(Long idSubasta){

@@ -118,6 +118,21 @@ public class ServicioOfertaImpl implements ServicioOferta {
         if (fechaAhora.compareTo(subasta.getFechaFin()) >= 0) {
             subasta.setEstadoSubasta(-1);
             repositorioSubasta.actualizar(subasta);
+            //Notificacion al ganador
+            Oferta ofertaGanadora = repositorioOferta.obtenerMayorOfertaPorSubasta(idSubasta);
+            if (ofertaGanadora != null) {
+                Usuario ganador = ofertaGanadora.getOfertadorID();
+                String mensaje = "¡Felicitaciones! Ganaste la subasta '" + subasta.getTitulo() + "'.";
+                servicioNotificacion.crearNotificacion(ganador, mensaje, subasta.getId());
+            }
+            //Notificacion a los perdedores
+            if (ofertaGanadora != null) {
+                List<Usuario> perdedores = repositorioOferta.obtenerOfertantesPorSubasta(subasta, ofertaGanadora.getOfertadorID());
+                for (Usuario perdedor : perdedores) {
+                    String mensaje = "Perdiste en la subasta '" + subasta.getTitulo() + "'.";
+                    servicioNotificacion.crearNotificacion(perdedor, mensaje, subasta.getId());
+                }
+            }
         }
     }
 
