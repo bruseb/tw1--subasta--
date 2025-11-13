@@ -1,3 +1,4 @@
+DELETE FROM Usuario;
 -- Usuario de prueba (ADMIN)
 INSERT INTO Usuario(id, email, password, rol, activo, nombre, apellido, dni,
                     pais, provincia, ciudad, direccion, cp, telefono)

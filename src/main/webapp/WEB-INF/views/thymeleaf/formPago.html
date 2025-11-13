@@ -191,18 +191,18 @@
         <div class="botones-container"> <!-- Botón pagar -->
 
 
-            <input type="hidden" name="emailUsuario" th:value="${usuario.email}" />
-            <input type="hidden" name="idSubastaPagada" th:value="${subasta.id}" />
-            <input type="hidden" name="montoTotalPagado" th:value="${costoTotal}" />
+            <input type="hidden" name="email" th:value="${usuario.email}" />
+            <input type="hidden" name="idSubasta" th:value="${subasta.id}" />
+            <input type="hidden" name="montoTotal" th:value="${costoTotal}" />
 
             <div class="d-flex justify-content-between mt-4">
-                <a th:href="@{/misSubastasGanadas}" class="mp-btnr">
+                <a th:href="@{/compras}" class="mp-btnr">
                     Atras
                 </a>
 
-                <a th:href="@{/confirmacionPagoEnvio/{idSubasta}(idSubasta=${subastaId})}" class="mp-btn">
+                <a th:href="@{/confirmacionPagoEnvio/{idSubasta}(idSubasta=${subasta.id})}" class="mp-btn">
                     <i class="bi bi-lock" aria-hidden="true"></i>
-                    Ir al pago
+                    confirmar pago
                 </a>
             </div>
         </div>

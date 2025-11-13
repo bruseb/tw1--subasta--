@@ -126,8 +126,5 @@ public class ServicioOfertaImpl implements ServicioOferta {
         return repositorioOferta.obtenerSubastasOfertadasPorUsuario(emailUsuario);
     }
 
-    @Override
-    public Oferta buscarOfertaGanadoraDeSubasta(Long idSubasta) {
-        return null;
-    }
+
 }

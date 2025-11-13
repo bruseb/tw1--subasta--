@@ -23,9 +23,9 @@
                     <div class="label">Formulario de pago</div>
                 </div>
             </li>
-            <li class="step is-current">
+            <li class="step is-done">
                 <div class="step-inner">
-                    <div class="circle">3</div>
+                    <div class="circle">✔</div>
                     <div class="label">Confirmación</div>
                 </div>
             </li>
@@ -38,14 +38,11 @@
                 </div>
 
                 <div class="confirmation-card bg-light">
-                    <div class="icon-success">
-                        <!-- Icono de chequeo de éxito -->
-                        &#10003;
-                    </div>
+
 
                     <h1 class="mb-3 text-success">¡Pago Confirmado!</h1>
                     <p class="lead">Tu compra de la subasta **<span th:text="${subasta.titulo}"></span>** ha sido procesada con éxito.</p>
-
+                    <p class="lead"> Estaremos enviando tu pedido en breve.</p>
                     <hr class="my-4">
                     <h4>Detalles de la Transacción</h4>
 
@@ -70,11 +67,19 @@
                         <span th:text="${#dates.format(pago.fecha, 'dd-MM-yyyy HH:mm')}"></span>
                     </div>
                     -->
+                    <br>
 
-                    <div class="mt-4">
-                        <a th:href="@{/compras}" class="btn btn-primary me-2">Ver mis Compras</a>
-                        <a th:href="@{/categorias}" class="btn btn-outline-secondary">Volver al Inicio</a>
+                    <div class="d-flex justify-content-between mt-4">
+                        <a th:href="@{/compras}" class="mp-btnr">
+                            Atras
+                        </a>
+
+                        <a th:href="@{/categorias}" class="mp-btn">
+                            <i class="bi bi-lock" aria-hidden="true"></i>
+                            Volver al Inicio
+                        </a>
                     </div>
+
 
                 </div>
 
