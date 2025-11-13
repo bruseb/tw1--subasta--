@@ -23,43 +23,49 @@
 <!-- Header -->
 <div th:replace="~{fragments/header :: userHeader}"></div>
 
-<div class="alert alert-warning">
-    Para poder ofertar en esta subasta, primero debe abonar el 10% del monto inicial (en caso de ganar la subasta el mismo será descontado del total).
-</div>
-
 <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
 <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-<form th:action="@{/pago-inicial}" method="post">
-    <input type="hidden" name="idSubasta" th:value="${subastaDet.id}" />
+<div class="container mt-3">
 
-    <div class="form-group">
-        <label>Monto a pagar:</label>
-        <input type="text" th:value="${#numbers.formatDecimal(montoInicial,2,2)}" readonly class="form-control"/>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>¡Importante!</strong> Para poder ofertar en esta subasta, primero debe abonar el 10% del monto inicial
+        (en caso de ganar la subasta el mismo será descontado del total).
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
-    <div class="form-group">
-        <label>Número de tarjeta</label>
-        <input type="text" name="numeroTarjeta" class="form-control" required
-               pattern="\d{16}" inputmode="numeric"
-               title="Debe ingresar 16 dígitos" placeholder="Ingrese los 16 dígitos de su tarjeta"/>
-    </div>
+    <form th:action="@{/pago-inicial}" method="post">
+        <input type="hidden" name="idSubasta" th:value="${subastaDet.id}" />
 
-    <div class="form-group">
-        <label>Fecha de vencimiento</label>
-        <input type="text" name="fechaVencimiento" placeholder="MM/AA" class="form-control" required
-               pattern="\d{2}/\d{2}" title="Formato MM/AA"/>
-    </div>
+        <div class="form-floating mb-2">
+            <input th:value="${#numbers.formatDecimal(montoInicial,2,2)}" type="text" class="form-control" id="monto" placeholder="Monto a pagar:" required readonly>
+            <label for="monto">Monto a pagar</label>
+        </div>
 
-    <div class="form-group">
-        <label>Código de seguridad (CVV)</label>
-        <input type="text" name="cvv" class="form-control" required
-               pattern="\d{3}" inputmode="numeric"
-               title="Debe ingresar 3 dígitos"/>
-    </div>
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" name="numeroTarjeta" id="numeroTarjeta" placeholder="Ingrese los 16 dígitos de su tarjeta" required
+                   pattern="\d{16}" inputmode="numeric"
+                   title="Debe ingresar 16 dígitos">
+            <label for="numeroTarjeta">Número de tarjeta</label>
+        </div>
 
-    <button type="submit" class="btn btn-primary">Pagar y habilitar oferta</button>
-</form>
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" name="fechaVencimiento" id="fechaVencimiento" placeholder="MM/AA" required
+                   pattern="\d{2}/\d{2}" title="Formato MM/AA">
+            <label for="fechaVencimiento">Fecha de vencimiento</label>
+        </div>
+
+        <div class="form-floating mb-2">
+            <input type="text" class="form-control" name="cvv" id="cvv" placeholder="CVV" required
+                   pattern="\d{3}" inputmode="numeric"
+                   title="Debe ingresar 3 dígitos">
+            <label for="cvv">Código de seguridad (CVV)</label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Pagar y habilitar oferta</button>
+    </form>
+
+</div>
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
