@@ -17,55 +17,78 @@
 
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/categorias.css}"/>
+    <link rel="stylesheet" th:href="@{/css/pagoInicial.css}"/>
 </head>
 <body>
 
 <!-- Header -->
 <div th:replace="~{fragments/header :: userHeader}"></div>
 
-<div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
-<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+<form th:action="@{/pago-inicial}" method="post" class="mp-form pago-inicial-form">
+    <input type="hidden" name="idSubasta" th:value="${subastaDet.id}" />
 
-<div class="container mt-3">
-
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>¡Importante!</strong> Para poder ofertar en esta subasta, primero debe abonar el 10% del monto inicial
-        (en caso de ganar la subasta el mismo será descontado del total).
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <!-- Monto a pagar -->
+    <div class="mp-field">
+        <label for="monto">Monto a pagar</label>
+        <div class="mp-input">
+            <i class="bi bi-cash-coin"></i>
+            <input th:value="${#numbers.formatDecimal(montoInicial,2,2)}"
+                   type="text" id="monto" name="monto" readonly required />
+        </div>
+        <p class="mp-hint">Corresponde al 10% del monto inicial de la subasta.</p>
     </div>
 
-    <form th:action="@{/pago-inicial}" method="post">
-        <input type="hidden" name="idSubasta" th:value="${subastaDet.id}" />
+    <!-- Número de tarjeta -->
+    <div class="mp-field">
+        <label for="numeroTarjeta">Número de tarjeta</label>
+        <div class="mp-input">
+            <i class="bi bi-credit-card"></i>
+            <input type="text" name="numeroTarjeta" id="numeroTarjeta"
+                   placeholder="0000 0000 0000 0000"
+                   required pattern="\d{16}" inputmode="numeric" maxlength="16" />
+        </div>
+        <p class="mp-hint">Debe ingresar los 16 dígitos de su tarjeta.</p>
+    </div>
 
-        <div class="form-floating mb-2">
-            <input th:value="${#numbers.formatDecimal(montoInicial,2,2)}" type="text" class="form-control" id="monto" placeholder="Monto a pagar:" required readonly>
-            <label for="monto">Monto a pagar</label>
+    <!-- Fecha vencimiento y CVV -->
+    <div class="mp-grid">
+        <div class="mp-field">
+            <label for="fechaVencimiento">Fecha de vencimiento (MM/AA)</label>
+            <div class="mp-input">
+                <i class="bi bi-calendar-event"></i>
+                <input type="text" name="fechaVencimiento" id="fechaVencimiento"
+                       placeholder="MM/AA" required pattern="\d{2}/\d{2}" maxlength="5" />
+            </div>
         </div>
 
-        <div class="form-floating mb-2">
-            <input type="text" class="form-control" name="numeroTarjeta" id="numeroTarjeta" placeholder="Ingrese los 16 dígitos de su tarjeta" required
-                   pattern="\d{16}" inputmode="numeric"
-                   title="Debe ingresar 16 dígitos">
-            <label for="numeroTarjeta">Número de tarjeta</label>
-        </div>
-
-        <div class="form-floating mb-2">
-            <input type="text" class="form-control" name="fechaVencimiento" id="fechaVencimiento" placeholder="MM/AA" required
-                   pattern="\d{2}/\d{2}" title="Formato MM/AA">
-            <label for="fechaVencimiento">Fecha de vencimiento</label>
-        </div>
-
-        <div class="form-floating mb-2">
-            <input type="text" class="form-control" name="cvv" id="cvv" placeholder="CVV" required
-                   pattern="\d{3}" inputmode="numeric"
-                   title="Debe ingresar 3 dígitos">
+        <div class="mp-field">
             <label for="cvv">Código de seguridad (CVV)</label>
+            <div class="mp-input">
+                <i class="bi bi-lock-fill"></i>
+                <input type="text" name="cvv" id="cvv" placeholder="CVV"
+                       required pattern="\d{3}" inputmode="numeric" maxlength="3" />
+            </div>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-primary">Pagar y habilitar oferta</button>
-    </form>
+    <!-- Botones -->
+    <div class="botones-container">
+        <!-- Botón cancelar -->
+        <a th:href="@{/ofertar/nuevaOferta(idSubasta=${subastaDet.id})}" class="mp-btnr">
+            <i class="bi bi-x-circle"></i> Cancelar
+        </a>
 
-</div>
+        <!-- Botón pagar -->
+        <button type="submit" class="mp-btn">
+            <i class="bi bi-lock"></i> Pagar y habilitar oferta
+        </button>
+    </div>
+
+    <p class="mp-security">
+        <i class="bi bi-shield-check"></i>
+        Tus datos se procesan de forma segura con estándares PCI-DSS.
+    </p>
+</form>
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer :: footer}"></div>
