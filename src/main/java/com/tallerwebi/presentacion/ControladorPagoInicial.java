@@ -59,7 +59,7 @@ public class ControladorPagoInicial {
         }
 
 
-        boolean pagoRegistrado = servicioPagoInicialSubasta.registrarPagoInicial(usuario, subasta);
+        boolean pagoRegistrado = servicioPagoInicialSubasta.registrarPagoInicial(usuario, subasta, numeroTarjeta);
 
         if (pagoRegistrado) {
             redirectAttrs.addFlashAttribute("mensaje", "Pago inicial registrado correctamente.");

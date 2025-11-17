@@ -21,19 +21,21 @@ public class ControladorPago {
     private final RepositorioOfertaImpl repositorioOferta;
     private final ServicioPago servicioPago;
     private final ServicioPerfil servicioPerfil;
+    private final ServicioPagoInicialSubasta servicioPagoInicialSubasta;
 
 
     @Autowired
     public ControladorPago(ServicioOferta servicioOferta,
                            RepositorioUsuario repositorioUsuario,
                            ServicioSubasta servicioSubasta,
-                           RepositorioOfertaImpl repositorioOferta, ServicioPago servicioPago, ServicioPerfil servicioPerfil) {
+                           RepositorioOfertaImpl repositorioOferta, ServicioPago servicioPago, ServicioPerfil servicioPerfil, ServicioPagoInicialSubasta servicioPagoInicialSubasta) {
         this.servicioOferta = servicioOferta;
         this.repositorioUsuario = repositorioUsuario;
         this.servicioSubasta = servicioSubasta;
         this.repositorioOferta = repositorioOferta;
         this.servicioPago = servicioPago;
         this.servicioPerfil = servicioPerfil;
+        this.servicioPagoInicialSubasta = servicioPagoInicialSubasta;
 
     }
 
@@ -60,6 +62,11 @@ public class ControladorPago {
 
         if (subasta == null) {
             return "redirect:/compras";
+        }
+
+        PagoInicialSubasta pagoIncial = servicioPagoInicialSubasta.buscarPagoConfirmado(usuario,subasta);
+        if(pagoIncial != null){
+            model.addAttribute("ultimosDigitosTarjeta", pagoIncial.getUltimosDigitosTarjeta());
         }
 
 
