@@ -31,6 +31,9 @@ public class PagoInicialSubasta {
     @Column(updatable = false)
     private LocalDateTime fechaPago;
 
+    @Column(name = "ultimos_digitos_tajeta", length = 4)
+    private String ultimosDigitosTarjeta;
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -48,4 +51,7 @@ public class PagoInicialSubasta {
 
     public LocalDateTime getFechaPago() { return fechaPago; }
     public void setFechaPago(LocalDateTime fechaPago) { this.fechaPago = fechaPago; }
+
+    public String getUltimosDigitosTarjeta() { return ultimosDigitosTarjeta; }
+    public void setUltimosDigitosTarjeta(String ultimosDigitosTarjeta) { this.ultimosDigitosTarjeta = ultimosDigitosTarjeta; }
 }

@@ -38,6 +38,17 @@
         <p class="mp-hint">Corresponde al 10% del monto inicial de la subasta.</p>
     </div>
 
+    <div class="mp-field">
+        <label for="cardName">Nombre y apellido del titular</label>
+        <div class="mp-input">
+            <i class="bi bi-person"></i>
+            <input id="cardName" name="cardName" type="text" autocomplete="cc-name" placeholder="Como figura en la tarjeta"
+                   required minlength="5" maxlength="60" />
+        </div>
+        <p class="mp-hint">Debe coincidir con el nombre impreso en la tarjeta.</p>
+        <p class="mp-error">Ingresá el nombre completo del titular (mínimo 5 caracteres).</p>
+    </div>
+
     <!-- Número de tarjeta -->
     <div class="mp-field">
         <label for="numeroTarjeta">Número de tarjeta</label>
