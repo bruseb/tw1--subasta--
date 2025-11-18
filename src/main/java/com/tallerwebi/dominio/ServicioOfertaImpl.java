@@ -101,6 +101,11 @@ public class ServicioOfertaImpl implements ServicioOferta {
         repositorioOferta.eliminarOferta(oferta);
         subasta.setPrecioActual(repositorioOferta.obtenerOfertaMaxima(subasta.getId()));
         repositorioSubasta.actualizar(subasta);
+
+        //NOTIFICACION
+        Oferta nuevaOfertaMaxima = repositorioOferta.obtenerMayorOfertaPorSubasta(subasta.getId());
+        servicioNotificacion.crearNotificacion(nuevaOfertaMaxima.getOfertadorID(),
+                "Se ha cancelado una oferta en la subasta '" + subasta.getTitulo() + "'. Ahora tu oferta es la mayor!",subasta.getId());
     }
 
     @Override
