@@ -23,13 +23,17 @@ public class ServicioSubastaImpl implements ServicioSubasta {
 
     private RepositorioSubasta repositorioSubasta;
     private RepositorioUsuario repositorioUsuario;
+    private RepositorioOferta repositorioOferta;
+    private ServicioNotificacion servicioNotificacion;
     private PerspectiveApi perspectiveApi;
 
     @Autowired
-    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta, RepositorioUsuario repositorioUsuario, RepositorioCategorias repositorioCategorias, PerspectiveApi perspectiveApi) {
+    public ServicioSubastaImpl(RepositorioSubasta repositorioSubasta, RepositorioUsuario repositorioUsuario, RepositorioOferta repositorioOferta, ServicioNotificacion servicioNotificacion, PerspectiveApi perspectiveApi) {
         this.repositorioSubasta     = repositorioSubasta;
         this.repositorioUsuario     = repositorioUsuario;
-        this.perspectiveApi = perspectiveApi;
+        this.repositorioOferta      = repositorioOferta;
+        this.servicioNotificacion   = servicioNotificacion;
+        this.perspectiveApi         = perspectiveApi;
     }
 
     @Override
@@ -155,7 +159,14 @@ public class ServicioSubastaImpl implements ServicioSubasta {
 
     @Override
     public void eliminarSubasta(Subasta subasta) {
+        //Estado Subasta = -2 => Subasta eliminada. No debe aparecer en las busquedas y se trata igual que si no existe en la DDBB
         subasta.setEstadoSubasta(-2);
+        //NOTIFICACION
+        List<Usuario> ofertantes = repositorioOferta.obtenerOfertantesPorSubasta(subasta, subasta.getCreador());
+        for (Usuario u : ofertantes) {
+            servicioNotificacion.crearNotificacion(u,"La subasta '" + subasta.getTitulo() + "' ha sido borrada. Tus ofertas fueron canceladas.", subasta.getId());
+        }
+        //Actualizar Subasta
         repositorioSubasta.actualizar(subasta);
     }
 
