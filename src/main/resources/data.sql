@@ -1,3 +1,9 @@
+-- DELETE FROM Pago;
+-- DELETE FROM pago_inicial_subasta;
+-- DELETE FROM Notificacion;
+-- DELETE FROM Oferta;
+-- DELETE FROM Imagen;
+-- DELETE FROM Subasta;
 DELETE FROM Usuario;
 -- Usuario de prueba (ADMIN)
 INSERT INTO Usuario(id, email, password, rol, activo, nombre, apellido, dni,
@@ -29,7 +35,35 @@ VALUES(null,
        'La Matanza',
        'Florencio Varela 1903',
        '1754',
-       44808900);
+       44808900),
+      (null,
+       'agustin.pucci.rubio@gmail.com',
+       'test',
+       'Usuario',
+       true,
+       'Agustin',
+       'Pucci',
+       '11222333',
+       'Argentina',
+       'Buenos Aires',
+       'La Matanza',
+       'Florencio Varela 1905',
+       '1754',
+       44808901),
+      (null,
+       'zzz@gmail.com',
+       'test',
+       'Usuario',
+       true,
+       'Hernan',
+       'Paisano',
+       '11222333',
+       'Argentina',
+       'Buenos Aires',
+       'La Matanza',
+       'Florencio Varela 1906',
+       '1754',
+       44808902);
 
 -- ======================
 -- Categorías principales
@@ -170,61 +204,61 @@ VALUES
  'Cámara Canon EOS R7',
  'Cámara mirrorless APS-C, 32.5 MP, ideal para deporte y naturaleza. Muy cuidada.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'USADO', 0.612, 8.6, 10.2, 13.2, 950000.00, 950000.00, '2025-11-15 14:00:00', DATE_ADD('2025-11-15 14:00:00', INTERVAL 72 HOUR), 10),
+ 'USADO', 0.612, 8.6, 10.2, 13.2, 950000.00, 950000.00, '2025-11-18 14:00:00', DATE_ADD('2025-11-18 14:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test_test@unlam.edu.ar'),
  'Nikon Z50 con lente 16-50mm',
  'Kit liviano para viaje, excelente autofocus y video 4K.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'NUEVO', 0.450, 6.0, 9.4, 12.7, 880000.00, 880000.00, '2025-11-15 15:00:00', DATE_ADD('2025-11-15 15:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 0.450, 6.0, 9.4, 12.7, 880000.00, 880000.00, '2025-11-18 15:00:00', DATE_ADD('2025-11-18 15:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Sony Alpha a6400 + 18-135mm',
  'Mirrorless ágil con enfoque al ojo, ideal para vlogging y fotografía urbana.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'USADO', 0.503, 7.3, 6.7, 12.0, 920000.00, 920000.00, '2025-11-15 16:00:00', DATE_ADD('2025-11-15 16:00:00', INTERVAL 72 HOUR), 10),
+ 'USADO', 0.503, 7.3, 6.7, 12.0, 920000.00, 920000.00, '2025-11-18 16:00:00', DATE_ADD('2025-11-18 16:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Fujifilm X-T30 II (cuerpo)',
  'Estética retro, simulaciones de película y excelente calidad de imagen.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'NUEVO', 0.383, 4.7, 8.3, 11.8, 760000.00, 760000.00, '2025-11-15 17:00:00', DATE_ADD('2025-11-15 17:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 0.383, 4.7, 8.3, 11.8, 760000.00, 760000.00, '2025-11-18 17:00:00', DATE_ADD('2025-11-18 17:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'GoPro HERO12 Black',
  'Acción 5.3K, estabilización HyperSmooth, ideal para deportes y viajes.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'NUEVO', 0.154, 3.4, 5.1, 7.2, 520000.00, 520000.00, '2025-11-15 18:00:00', DATE_ADD('2025-11-15 18:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 0.154, 3.4, 5.1, 7.2, 520000.00, 520000.00, '2025-11-18 18:00:00', DATE_ADD('2025-11-18 18:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Canon PowerShot G7 X Mark III',
  'Compacta premium con sensor 1”, excelente para creadores de contenido.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'USADO', 0.304, 4.1, 6.1, 10.5, 430000.00, 430000.00, '2025-11-15 19:00:00', DATE_ADD('2025-11-15 19:00:00', INTERVAL 72 HOUR), 10),
+ 'USADO', 0.304, 4.1, 6.1, 10.5, 430000.00, 430000.00, '2025-11-18 19:00:00', DATE_ADD('2025-11-18 19:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Panasonic Lumix G7 + 14-42mm',
  'Micro 4/3 con video 4K, ideal para aprender cine y fotografía.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'USADO', 0.410, 7.7, 8.6, 12.5, 360000.00, 360000.00, '2025-11-15 20:00:00', DATE_ADD('2025-11-15 20:00:00', INTERVAL 72 HOUR), 10),
+ 'USADO', 0.410, 7.7, 8.6, 12.5, 360000.00, 360000.00, '2025-11-18 20:00:00', DATE_ADD('2025-11-18 20:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Nikon D7500 (cuerpo)',
  'DSLR robusta, gran rango dinámico y ráfaga rápida. Perfecta para acción.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'USADO', 0.640, 7.2, 10.4, 13.5, 540000.00, 540000.00, '2025-11-15 21:00:00', DATE_ADD('2025-11-15 21:00:00', INTERVAL 72 HOUR), 10),
+ 'USADO', 0.640, 7.2, 10.4, 13.5, 540000.00, 540000.00, '2025-11-18 21:00:00', DATE_ADD('2025-11-18 21:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Insta360 X3',
  'Cámara 360° con estabilización FlowState, resistente al agua.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'NUEVO', 0.180, 3.3, 11.4, 4.6, 490000.00, 490000.00, '2025-11-15 22:00:00', DATE_ADD('2025-11-15 22:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 0.180, 3.3, 11.4, 4.6, 490000.00, 490000.00, '2025-11-18 22:00:00', DATE_ADD('2025-11-18 22:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'DJI Osmo Pocket 3',
  'Cámara compacta con gimbal integrado, video 4K y seguimiento de sujeto.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'camaras'),
- 'NUEVO', 0.179, 3.4, 13.9, 4.2, 610000.00, 610000.00, '2025-11-15 23:00:00', DATE_ADD('2025-11-15 23:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 0.179, 3.4, 13.9, 4.2, 610000.00, 610000.00, '2025-11-18 23:00:00', DATE_ADD('2025-11-18 23:00:00', INTERVAL 72 HOUR), 10),
 
 -- Electrónica - Smartphones (Cant: 6)
 
@@ -233,42 +267,42 @@ VALUES
  'Equipo en excelente estado, con caja y cargador original.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
  'USADO', 0.173, 0.76, 14.67, 7.15,
- 450000.00, 450000.00, '2025-11-15 09:00:00', DATE_ADD('2025-11-15 09:00:00', INTERVAL 72 HOUR), 10),
+ 450000.00, 450000.00, '2025-11-18 09:00:00', DATE_ADD('2025-11-18 09:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'iPhone 14 128GB',
  'Equipo en excelente estado, con caja y cargador original.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
  'USADO', 0.172, 0.78, 14.67, 7.15,
- 450000.00, 450000.00, '2025-11-15 09:00:00', DATE_ADD('2025-11-15 09:00:00', INTERVAL 72 HOUR), 10),
+ 450000.00, 450000.00, '2025-11-18 09:00:00', DATE_ADD('2025-11-18 09:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Samsung Galaxy S23 Ultra',
  'Celular de alta gama con cámara de 200MP, pantalla AMOLED y S-Pen incluido.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
  'NUEVO', 0.234, 0.89, 16.34, 7.81,
- 1200000.00, 1200000.00, '2025-11-15 10:00:00', DATE_ADD('2025-11-15 10:00:00', INTERVAL 72 HOUR), 10),
+ 1200000.00, 1200000.00, '2025-11-18 10:00:00', DATE_ADD('2025-11-18 10:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Xiaomi Redmi Note 13 Pro',
  'Smartphone con batería de larga duración, pantalla de 120Hz y cámara de 108MP.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
  'NUEVO', 0.188, 0.80, 16.11, 7.50,
- 380000.00, 380000.00, '2025-11-15 11:00:00', DATE_ADD('2025-11-15 11:00:00', INTERVAL 72 HOUR), 10),
+ 380000.00, 380000.00, '2025-11-18 11:00:00', DATE_ADD('2025-11-18 11:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Motorola Edge 40 Neo',
  'Celular con diseño delgado, carga rápida TurboPower y pantalla OLED curva.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
  'NUEVO', 0.170, 0.79, 15.96, 7.20,
- 420000.00, 420000.00, '2025-11-15 12:00:00', DATE_ADD('2025-11-15 12:00:00', INTERVAL 72 HOUR), 10),
+ 420000.00, 420000.00, '2025-11-18 12:00:00', DATE_ADD('2025-11-18 12:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Google Pixel 7',
  'Fotografía profesional con IA, Android puro y actualizaciones directas de Google.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'smartphones'),
  'USADO', 0.197, 0.87, 15.56, 7.32,
- 650000.00, 650000.00, '2025-11-15 13:00:00', DATE_ADD('2025-11-15 13:00:00', INTERVAL 72 HOUR), 10),
+ 650000.00, 650000.00, '2025-11-18 13:00:00', DATE_ADD('2025-11-18 13:00:00', INTERVAL 72 HOUR), 10),
 
 -- Bebés - Juguetes para bebés (Cant: 5)
 
@@ -276,31 +310,31 @@ VALUES
  'Gimnasio de actividades Fisher-Price',
  'Colorido gimnasio con sonidos, luces y juguetes colgantes para estimular al bebé.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'juguetes-para-bebes'),
- 'NUEVO', 1.8, 120.0, 45.0, 60.0, 85000.00, 85000.00, '2025-11-15 09:00:00', DATE_ADD('2025-11-15 09:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 1.8, 120.0, 45.0, 60.0, 85000.00, 85000.00, '2025-11-18 09:00:00', DATE_ADD('2025-11-18 09:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Sonajeros de silicona Chicco',
  'Set de sonajeros suaves y seguros para recién nacidos, fáciles de limpiar.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'juguetes-para-bebes'),
- 'NUEVO', 0.25, 20.0, 5.0, 5.0, 18000.00, 18000.00, '2025-11-15 10:00:00', DATE_ADD('2025-11-15 10:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 0.25, 20.0, 5.0, 5.0, 18000.00, 18000.00, '2025-11-18 10:00:00', DATE_ADD('2025-11-18 10:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Cubo didáctico madera Montessori',
  'Juguete educativo con figuras encastrables, colores y formas para estimular motricidad.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'juguetes-para-bebes'),
- 'NUEVO', 2.5, 40.0, 40.0, 34.0, 32000.00, 32000.00, '2025-11-15 11:00:00', DATE_ADD('2025-11-15 11:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 2.5, 40.0, 40.0, 34.0, 32000.00, 32000.00, '2025-11-18 11:00:00', DATE_ADD('2025-11-18 11:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Andador musical Infantil',
  'Andador con melodías, luces y actividades interactivas, ideal para primeros pasos.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'juguetes-para-bebes'),
- 'USADO', 4.0, 70.0, 60.0, 50.0, 60000.00, 60000.00, '2025-11-15 12:00:00', DATE_ADD('2025-11-15 12:00:00', INTERVAL 72 HOUR), 10),
+ 'USADO', 4.0, 70.0, 60.0, 50.0, 60000.00, 60000.00, '2025-11-18 12:00:00', DATE_ADD('2025-11-18 12:00:00', INTERVAL 72 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Pelota sensorial Fisher-Price',
  'Pelota de texturas suaves que estimula el tacto y la coordinación del bebé.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'juguetes-para-bebes'),
- 'NUEVO', 0.2, 17.0, 17.0, 17.0, 15000.00, 15000.00, '2025-11-15 13:00:00', DATE_ADD('2025-11-15 13:00:00', INTERVAL 72 HOUR), 10),
+ 'NUEVO', 0.2, 17.0, 17.0, 17.0, 15000.00, 15000.00, '2025-11-18 13:00:00', DATE_ADD('2025-11-18 13:00:00', INTERVAL 72 HOUR), 10),
 
 -- Electrónica - Equipos de audio (Cant: 5)
 
@@ -308,66 +342,66 @@ VALUES
  'Auriculares Sony WH-1000XM4',
  'Auriculares inalámbricos con cancelación de ruido, excelente autonomía.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-audio'),
- 'NUEVO', 0.254, 7.62, 18.4, 15.2, 250000.00, 250000.00, '2025-11-15 09:00:00', DATE_ADD('2025-11-15 09:00:00', INTERVAL 48 HOUR), 10),
+ 'NUEVO', 0.254, 7.62, 18.4, 15.2, 250000.00, 250000.00, '2025-11-18 09:00:00', DATE_ADD('2025-11-18 09:00:00', INTERVAL 48 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Parlante JBL Charge 5',
  'Parlante portátil resistente al agua con Bluetooth y batería de 20 horas de duración.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-audio'),
- 'NUEVO', 0.960, 9.4, 9.7, 22.3, 180000.00, 180000.00, '2025-11-15 10:00:00', DATE_ADD('2025-11-15 10:00:00', INTERVAL 48 HOUR), 10),
+ 'NUEVO', 0.960, 9.4, 9.7, 22.3, 180000.00, 180000.00, '2025-11-18 10:00:00', DATE_ADD('2025-11-18 10:00:00', INTERVAL 48 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Barra de sonido Samsung HW-Q700C',
  'Sistema de sonido envolvente con Dolby Atmos y subwoofer inalámbrico.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-audio'),
- 'NUEVO', 3.9, 11.5, 5.9, 110.0, 420000.00, 420000.00, '2025-11-15 11:00:00', DATE_ADD('2025-11-15 11:00:00', INTERVAL 48 HOUR), 10),
+ 'NUEVO', 3.9, 11.5, 5.9, 110.0, 420000.00, 420000.00, '2025-11-18 11:00:00', DATE_ADD('2025-11-18 11:00:00', INTERVAL 48 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Vinilo Bluetooth Audio-Technica AT-LP60XBT',
  'Tocadiscos automático con conexión inalámbrica y cápsula fonocaptora de alta fidelidad.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-audio'),
- 'NUEVO', 2.6, 37.33, 9.75, 35.95, 310000.00, 310000.00, '2025-11-15 12:00:00', DATE_ADD('2025-11-15 12:00:00', INTERVAL 48 HOUR), 10),
+ 'NUEVO', 2.6, 37.33, 9.75, 35.95, 310000.00, 310000.00, '2025-11-18 12:00:00', DATE_ADD('2025-11-18 12:00:00', INTERVAL 48 HOUR), 10),
 
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
  'Auriculares Bose QuietComfort 45',
  'Cancelación activa de ruido, modo ambiente y conectividad multipunto.',
  (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-audio'),
- 'USADO', 0.241, 7.62, 18.4, 15.2, 220000.00, 220000.00, '2025-11-15 13:00:00', DATE_ADD('2025-11-15 13:00:00', INTERVAL 48 HOUR), 10),
+ 'USADO', 0.241, 7.62, 18.4, 15.2, 220000.00, 220000.00, '2025-11-18 13:00:00', DATE_ADD('2025-11-18 13:00:00', INTERVAL 48 HOUR), 10),
 
 -- Electrónica - ordenadores
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
 'Notebook Lenovo IdeaPad 3',
 'Procesador Ryzen 5, 8GB RAM, SSD 512GB. Excelente estado.',
 (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'ordenadores'),
-'USADO', 1.43, 21.57, 1.99, 32.42, 320000.00, 320000.00, '2025-11-15 11:00:00', DATE_ADD('2025-11-15 11:00:00', INTERVAL 72 HOUR), 10),
+'USADO', 1.43, 21.57, 1.99, 32.42, 320000.00, 320000.00, '2025-11-18 11:00:00', DATE_ADD('2025-11-18 11:00:00', INTERVAL 72 HOUR), 10),
 
 -- Electrónica - equipos de video
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
 'Smart TV LG 55"',
 'Smart TV 4K UHD con control por voz. Poco uso.',
 (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'equipos-de-video'),
-'USADO', 12.5, 5.79, 70.9, 122.6, 400000.00, 400000.00, '2025-11-15 12:00:00', DATE_ADD('2025-11-15 12:00:00', INTERVAL 72 HOUR), 10),
+'USADO', 12.5, 5.79, 70.9, 122.6, 400000.00, 400000.00, '2025-11-18 12:00:00', DATE_ADD('2025-11-18 12:00:00', INTERVAL 72 HOUR), 10),
 
 -- Electrónica - tabletas
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
 'Tablet Samsung Galaxy Tab S7',
 'Pantalla de 11", 6 GB RAM, ideal para estudiar o ver series.',
 (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'tabletas'),
-'USADO', 0.498, 6.3, 16.53, 25.38, 180000.00, 180000.00, '2025-11-15 10:00:00', DATE_ADD('2025-11-15 10:00:00', INTERVAL 72 HOUR), 10),
+'USADO', 0.498, 6.3, 16.53, 25.38, 180000.00, 180000.00, '2025-11-18 10:00:00', DATE_ADD('2025-11-18 10:00:00', INTERVAL 72 HOUR), 10),
 
 -- Arte y coleccionables - arte
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
 'Cuadro óleo “Atardecer en el río”',
 'Pintura original sobre lienzo de 80x60 cm, firmada por artista local. Ideal para decoración moderna.',
 (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'arte'),
-'NUEVO', 1.2, 2.0, 60.0, 80.0, 180000.00, 180000.00, '2025-11-16 09:00:00', DATE_ADD('2025-11-16 09:00:00', INTERVAL 72 HOUR), 10),
+'NUEVO', 1.2, 2.0, 60.0, 80.0, 180000.00, 180000.00, '2025-11-18 09:00:00', DATE_ADD('2025-11-18 09:00:00', INTERVAL 72 HOUR), 10),
 
 -- Papelería - cuadernos
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
 'Set de cuadernos artesanales A5',
 'Cuadernos con tapa dura, papel reciclado y costura japonesa. Hechos a mano, únicos.',
 (SELECT s.id FROM subcategorias s WHERE s.nombreEnUrl = 'cuadernos-y-diarios'),
-'NUEVO', 0.3, 2.0, 21.5, 15.5, 24000.00, 24000.00, '2025-11-16 10:00:00', DATE_ADD('2025-11-16 10:00:00', INTERVAL 72 HOUR), 10),
+'NUEVO', 0.3, 2.0, 21.5, 15.5, 24000.00, 24000.00, '2025-11-18 10:00:00', DATE_ADD('2025-11-18 10:00:00', INTERVAL 72 HOUR), 10),
 
 -- Accesorios - relojes
 ((SELECT u.id FROM Usuario u WHERE u.email = 'test@unlam.edu.ar'),
@@ -378,7 +412,7 @@ FROM subcategorias s
        JOIN categorias c ON c.id = s.categoria_id
 WHERE s.nombreEnUrl = 'accesorios'
 AND c.nombreEnUrl = 'moda'),
-'USADO', 0.03, 0.8, 3.4, 3.8, 35000.00, 35000.00, '2025-11-16 11:00:00', DATE_ADD('2025-11-16 11:00:00', INTERVAL 72 HOUR), 10);
+'USADO', 0.03, 0.8, 3.4, 3.8, 35000.00, 35000.00, '2025-11-18 11:00:00', DATE_ADD('2025-11-18 11:00:00', INTERVAL 72 HOUR), 10);
 
 -- ======================
 -- Imágenes
