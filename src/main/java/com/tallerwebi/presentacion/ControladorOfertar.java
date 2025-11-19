@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -158,7 +159,8 @@ public class ControladorOfertar {
         }
 
         servicioSubasta.eliminarSubasta(subastaDet);
-        return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
+        //return "redirect:/ofertar/nuevaOferta?idSubasta=" + idSubasta;
+        return "confirmacion-eliminar-subasta";
     }
 
     @GetMapping("/eliminarOferta")
