@@ -10,6 +10,7 @@ const valorTiempoSubasta = document.querySelector("#tiempoSubasta");
 const valorFechaFin = document.querySelector("#fechaFin");
 const valorMontoActual = document.querySelector("#precioActual");
 const tableListaOfertas = document.querySelector("#listaOfertas");
+const carouselImagenes = document.querySelector("#galeriaSubasta");
 
 const ES_PROPIETARIO = input_ES_PROPIETARIO.value;
 const usuarioActual = inputUsuarioActual.value;
@@ -28,6 +29,8 @@ if(ES_PROPIETARIO === 'true'){
     buttonEliminarSubasta.setAttribute("onclick","if(confirm('¿Estas seguro de eliminar la subasta?\\nESTA ACCION ES IRREVERSIBLE')) {\nwindow.location.replace('eliminarSubasta?idSubasta=" + valorIdSubasta.value + "');\n}");
 }
 
+//LLamada para eliminar imagenes que no existen del carrousel
+checkImagenes();
 //Llamada inicial, para que no tarde
 callOfertas();
 
@@ -183,4 +186,24 @@ function checkCancelarOferta(){
         buttonCancelarOferta.disabled = true;
         clearInterval(invervalCheckCancelarOferta);
     }
+}
+
+function checkImagenes(){
+    const tablaImagenes = carouselImagenes.children[0].children;
+
+    for(let i = 0; i < tablaImagenes.length; i++){
+        if(!callImagenes(tablaImagenes[i].children[0].src)){
+            tablaImagenes[i].remove();
+            i = i - 1;
+        }
+    }
+}
+
+function callImagenes(urlImagen){
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', urlImagen, false);
+    http.send();
+
+    return http.status !== 404;
 }
